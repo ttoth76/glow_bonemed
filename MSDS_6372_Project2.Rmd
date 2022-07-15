@@ -82,3 +82,6 @@ bonemed_df_sample = sample_n(bonemed_df, 5)
 knitr::kable(bonemed_df_sample, "html")
 ```
 
+```{r}
+print('test github')
+```
