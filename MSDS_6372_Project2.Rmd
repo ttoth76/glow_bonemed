@@ -2,7 +2,7 @@
 title: "MSDS_6372_Project2"
 author: "Tamas Toth"
 date: "`r Sys.Date()`"
-output: html_document
+output:
   #html_document:
     #theme: cerulean
     #highlight: textmate
@@ -73,6 +73,20 @@ library(ggplot2)
 options(scipen = 100, digits = 4)
 ```
 
+## The Global Longitudinal Study of Osteoporosis in Women
+### Objective: Assessing risk factors and predicting if a woman with osteoperosis will have a bone fracture within the first year after joining the study.
+#### The study has enrolled over 60,000 women aged 55 and older in ten countries. The major goals of the study are to use the data to provide insights into the management of fracture risk, patient experience with prevention and treatment of fractures and distribution of risk factors among older women on an international scale over the follow up period. The outcome variable is any fracture in the ﬁrst year of follow up. www.outcomes-umassmed.org/glow
+
+## Objective 1 methodology:
+
+1. Understand the data
+2. EDA
+3. Feature Selection (Penalized Logistic Regression, Stepwise/forward/backward, Manual)
+4. Split the data to Training and Test set
+5. Fit Logistic Regression model
+6. Interpret the model, including hypothesis testing and confidence intervals
+7. Conclusion
+
 #### Read the data
 ```{r,fig.align='center',out.extra='angle=90', message = FALSE}
 #Read the data
@@ -80,8 +94,437 @@ bonemed_df = glow_bonemed
 attach(bonemed_df)
 bonemed_df_sample = sample_n(bonemed_df, 5)
 knitr::kable(bonemed_df_sample, "html")
+dim(bonemed_df)
+```
+
+### Data Description
+* __sub_id__: Identification Code (1 - n)
+
+* __site_id__: Study Site (1 - 6)
+
+* __phy_id__: Physician ID code (128 unique codes)
+
+* __priorfrac__: History of Prior Fracture (1: No, 2: Yes)
+
+* __age__: Age at Enrollment (Years)
+
+* __weight__: Weight at enrollment (Kilograms)
+
+* __height__: Height at enrollment (Centimeters)
+
+* __bmi__: Body Mass Index (Kg/m^2)
+
+* __premeno__: Menopause before age 45 (1: No, 2: Yes)
+
+* __momfrac__: Mother had hip fracture (1: No, 2: Yes)
+
+* __armassist__: Arms are needed to stand from a chair (1: No, 2: Yes)
+
+* __smoke__: Former or current smoker (1: No, 2: Yes)
+
+* __raterisk__: Self-reported risk of fracture (1: Less than others of the same age, 2: Same as others of the same age, 3: Greater than others of the same age)
+
+* __fracscore__: Fracture Risk Score (Composite Risk Score)
+
+* __fracture__: Any fracture in first year (1: No, 2: Yes)
+
+* __bonemed__: Bone medications at enrollment (1: No, 2: Yes)
+
+* __bonemed_fu__: Bone medications at follow-up (1: No, 2: Yes)
+
+* __bonetreat__: Bone medications both at enrollment and follow-up (1: No, 2: Yes)
+
+
+```{r}
+#set random seed
+set.seed(329)
+```
+
+#### Address the missing values in each column (NA as well as empty strings).
+```{r}
+# Address the missing values in each column (NA as well as empty strings).
+missing_df = as.data.frame(sapply(bonemed_df, function(x) sum(is.na(x))))
+colnames(missing_df) = c("missing values")
+knitr::kable(missing_df, "html")
+empty_string_df = as.data.frame(sapply(bonemed_df, function(x) sum(x == "")))
+colnames(empty_string_df) = c("empty string")
+knitr::kable(empty_string_df, "html")
+```
+
+```{r, warning=FALSE}
+# Function to Identify different characteristics of the data frame 
+# Getting a concise summary of the dataframe: str()
+# Listing the column labels of the dataframe: colnames()
+# Size of the dataset: dim()
+# # Verify if there is any negative values in the dataset
+dfinfo = function(df_name)
+  {
+  df_structure = str(df_name)
+  df_colnames = colnames(df_name)
+  df_dimensions = dim(df_name)
+  
+  num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
+  df_neg = print(paste("Negative values in the variable:",  
+                       sapply(bonemed_df[,num_cols], function(x) sum(x < 0))))
+  
+  outparam = list(df_structure, df_colnames, df_dimensions, df_neg)
+  return (outparam)
+}
+```
+```{r}
+dfinfo(bonemed_df)
+```
+
+### Observations:
+* The data set is comprised of 500 observations and 18 variables
+* There are numerical and categorical variables in the data set
+* There are no missing values or empty strings in the data set
+* No negative values in the data set
+* ??????No duplicated records
+* 'fracture' is the dependent variable
+
+
+#####################################################################################
+#                                Exploratory Data Analysis                          #
+#####################################################################################
+```{r pair plots, fig.align='center',out.extra='angle=90', message = FALSE}
+num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
+pair_plot = c(num_cols, 'fracture')
+pair_plot = pair_plot[-1]
+ggpairs(bonemed_df[,pair_plot],aes(color=fracture, alpha = 0.5))
+```
+
+### Observations:
+* Height for fracture 'No' and 'Yes' levels seem to be normally distributed.
+* Weight and bmi are strongly positively linearly correlated for both factor levels.
+* Age and fracscore are strongly positively linearly correlated for both factor levels.
+* There are more "No" fracture in the first year observations than "Yes"
+
+
+```{r}
+# Summary statistics
+t(aggregate(.~ fracture,data=bonemed_df,summary))
+```
+
+### Observations:
+* The minimum age for "No" fracture in the first year is 55. The minimum age for "Yes" fracture in the first year is 56.
+* The maximum age for "No" fracture in the first year is 99. The maximum age for "Yes" fracture in the first year is 89.
+* The median age for "No" fracture in the first year is 66. The median age for "Yes" fracture in the first year is 72.
+* The mean age for "No" fracture in the first year is 67.49. The mean age for "Yes" fracture in the first year is 71.79.
+* Age is a likely is good predictor of fracture in the first year since there is a observable difference in median and mean age of having a fracture. 
+
+* The minimum weight for "No" fracture in the first year is 39.9. The minimum weight for "Yes" fracture in the first year is 45.8.
+* The maximum weight for "No" fracture in the first year is 127. The maximum weight for "Yes" fracture in the first year is 124.7.
+* The median weight for "No" fracture in the first year is 68. The median weight for "Yes" fracture in the first year is 68.
+* The mean weight for "No" fracture in the first year is 72.17. The mean weight for "Yes" fracture in the first year is 70.79.
+* Weight does not seem to be a significant variable for predicting fracture in the first year as the median and mean weight values are very similar to the factor levels.
+
+* The minimum height for "No" fracture in the first year is 142. The minimum height for "Yes" fracture in the first year is 134.
+* The maximum height for "No" fracture in the first year is 199. The maximum height for "Yes" fracture in the first year is 178.
+* The median height for "No" fracture in the first year is 162. The median height for "Yes" fracture in the first year is 160.
+* The mean height for "No" fracture in the first year is 161.9. The mean height for "Yes" fracture in the first year is 159.9.
+* Height seems to be a good predictor for fracture in the first year.
+
+* The minimum bmi for "No" fracture in the first year is 14.88. The minimum bmi for "Yes" fracture in the first year is 17.04.
+* The maximum bmi for "No" fracture in the first year is 49.08 The maximum bmi for "Yes" fracture in the first year is 44.04.
+* The median bmi for "No" fracture in the first year is 26.37. The median bmi for "Yes" fracture in the first year is 26.43.
+* The mean bmi for "No" fracture in the first year is 27.50. The mean bmi for "Yes" fracture in the first year is 27.71.
+* BMI does not seem to be a significant predictor for fracture in the first year.
+
+* The minimum Fracture Risk Score for "No" fracture in the first year is 0. The minimum Fracture Risk Score for "Yes" fracture in the first year is 0.
+* The maximum Fracture Risk Score for "No" fracture in the first year is 11. The maximum Fracture Risk Score for "Yes" fracture in the first year is 9.
+* The median Fracture Risk Score for "No" fracture in the first year is 3. The median Fracture Risk Score for "Yes" fracture in the first year is 5.
+* The mean Fracture Risk Score for "No" fracture in the first year is 3.317. The mean Fracture Risk Score for "Yes" fracture in the first year is 4.840.
+* Fracture Risk Score seems to be a significant predictor for fracture in the first year.
+
+#####################################################################################
+#                               Categorical data plots                              #
+#####################################################################################
+```{r,fig.align='center',out.extra='angle=90', fig.dim = c(8, 6)}
+
+cat_cols = bonemed_df %>% dplyr::select(where(is.factor)) %>% colnames()
+
+# Plot all categorical variables
+for (c in cat_cols)
+{
+  cat_plot = bonemed_df %>% ggplot(aes(x= .data[[c]], group = 1)) + 
+    geom_bar(aes(y = ..prop.., fill = factor(..x..)), stat="count") +
+    geom_text(aes( label = scales::percent(..prop..),
+                   y= ..prop.. ), stat= "count", vjust = -.5) +
+    labs(y = "Percent") +
+    scale_y_continuous(labels = scales::percent) + theme(legend.position = "none") +
+    ggtitle(paste(c, "Categorical Analysis")) + 
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    theme(axis.text.x = element_text(vjust = 0.5, hjust=1)) # +
+    egg::ggarrange(cat_plot, ncol=2) 
+}
+```
+
+### Observations:
+* 75% of the observations have no prior history of fracture. 25% of the observations have prior history of fracture.
+* 81% of the observations have no menopause before age 45. 19% of the observations have menopause before age 45.
+* 87% of the subjects' mother had no hip fracture. 13% of the subjects' mother had hip fracture.
+* 62% of the subjects do not need arms to stand from a chair. 38% of the subjects need arms to stand from a chair.
+* 93% of the subjects don't smoke. 7% of the subjects smoke are former or current smoker.
+* 33.4% of the subjects reported less risk of fractures than others of the same age. 37.2% of the subjects reported the same risk of fractures than others of the same age. 29.4% of the subjects reported greater risk of fractures than others of the same age.
+* 75% of the patients do not have any fractures in first year. 25% of the patients have any fractures in first year.
+* 74% of the subjects have enrolled to Bone medications. 26% of the subjects have not enrolled to Bone medications.
+* 72% of the subjects did not require bone medications at follow-up. 28% of the subjects required bone medications at follow-up.
+* 76% of the patients did not receive bone medications at either enrollment or follow-up. 24% of the patients received bone medications both at enrollment and follow-up.
+
+
+
+#####################################################################################
+#                     Bi-variate analysis with Fracture variable                    #
+#####################################################################################
+```{r,fig.align='center',out.extra='angle=90'}
+
+num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
+bivar_plot = num_cols[c(-1, -2, -3)]
+
+
+for (i in bivar_plot)
+{
+multibox = bonemed_df %>%
+  ggplot(aes(x=fracture, y = .data[[i]])) +
+  geom_boxplot(fill = "sandybrown", color = "black") + 
+  xlab("Fracture") +
+  ylab(i) + stat_summary(fun=mean, geom="point", shape=20, size=7, color="red", fill="red") +
+  ggtitle(paste(i, "vs Fracture bi-variate analysis")) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_brewer(palette = "Oranges")  
+egg::ggarrange(multibox, ncol=2)
+}
+```
+
+### Observations:
+* We can see an increasing in median and mean age for those who had any fractures in the first year.
+* Median and mean weight for both fracture levels are very similar.
+* The median and mean height are lower for those who had fracture in the first year. This is likely because the bone density is reduced and the subjects shrunk.
+* Median and mean BMI is very similar for both factor levels.
+* The mean and median fracture risk score is higher for those who had any fracture in the first year.
+
+
+#####################################################################################
+#                                       Loess plots                                 #
+#####################################################################################
+```{r, Loess plot}
+bonemed_df$fracture.num<-ifelse(bonemed_df$fracture=="Yes",1,0)
+
+num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
+loess_plot = num_cols[c(-1, -2, -3, -9)]
+
+for (i in loess_plot)
+{
+loess = bonemed_df %>% 
+ggplot(aes(x=.data[[i]],y=fracture.num))+
+geom_point()+
+geom_smooth(formula = y ~ x, method="loess")+
+theme(plot.title = element_text(hjust = 0.5)) +
+ggtitle(paste(i, "vs fracture loess smoothing"))
+egg::ggarrange(loess, ncol=2)
+}
+```
+
+### Observations:
+* The Loess plots show the 'age', 'height' and 'fracscore' have an  S curve like logistic model.
+
+
+#####################################################################################
+#                                   Feature Selection                               #
+#####################################################################################
+
+## Manual selection
+```{r, feature selection manual selection}
+# Fit each variable separately and check the p-value for significance
+
+# priorfrac
+simple.log.priorfrac<-glm(fracture~priorfrac,family="binomial",data=bonemed_df)
+simple.log.priorfrac.sum = summary(simple.log.priorfrac)
+
+# age
+simple.log.age<-glm(fracture~age,family="binomial",data=bonemed_df)
+simple.log.age.sum = summary(simple.log.age)
+
+# weight
+simple.log.weight<-glm(fracture~weight,family="binomial",data=bonemed_df)
+simple.log.weight.sum = summary(simple.log.weight)
+
+# height
+simple.log.height<-glm(fracture~height,family="binomial",data=bonemed_df)
+simple.log.height.sum = summary(simple.log.height)
+
+# bmi
+simple.log.bmi<-glm(fracture~bmi,family="binomial",data=bonemed_df)
+simple.log.bmi.sum = summary(simple.log.bmi)
+
+# premeno
+simple.log.premeno<-glm(fracture~premeno,family="binomial",data=bonemed_df)
+simple.log.premeno.sum = summary(simple.log.premeno)
+
+# momfrac
+simple.log.momfrac<-glm(fracture~momfrac,family="binomial",data=bonemed_df)
+simple.log.momfrac.sum = summary(simple.log.momfrac)
+
+# armassist
+simple.log.armassist<-glm(fracture~armassist,family="binomial",data=bonemed_df)
+simple.log.armassist.sum = summary(simple.log.armassist)
+
+# smoke
+simple.log.smoke<-glm(fracture~smoke,family="binomial",data=bonemed_df)
+simple.log.smoke.sum = summary(simple.log.smoke)
+
+# raterisk
+simple.log.raterisk<-glm(fracture~raterisk,family="binomial",data=bonemed_df)
+simple.log.raterisk.sum = summary(simple.log.raterisk)
+
+# fracscore
+simple.log.fracscore<-glm(fracture~fracscore,family="binomial",data=bonemed_df)
+simple.log.fracscore.sum = summary(simple.log.fracscore)
+
+# bonemed
+simple.log.bonemed<-glm(fracture~bonemed,family="binomial",data=bonemed_df)
+simple.log.bonemed.sum = summary(simple.log.bonemed)
+
+# bonemed_fu
+simple.log.bonemed_fu<-glm(fracture~bonemed_fu,family="binomial",data=bonemed_df)
+simple.log.bonemed_fu.sum = summary(simple.log.bonemed_fu)
+
+# bonetreat
+simple.log.bonetreat<-glm(fracture~bonetreat,family="binomial",data=bonemed_df)
+simple.log.bonetreat.sum = summary(simple.log.bonetreat)
+```
+
+
+```{r, print result of manual selection}
+# priorfrac
+simple.log.priorfrac.sum$coefficients
+
+# age
+simple.log.age.sum$coefficients
+
+# weight
+simple.log.weight.sum$coefficients
+
+# height
+simple.log.height.sum$coefficients
+
+# bmi
+simple.log.bmi.sum$coefficients
+
+# premeno
+simple.log.premeno.sum$coefficients
+
+# momfrac
+simple.log.momfrac.sum$coefficients
+
+# armassist
+simple.log.armassist.sum$coefficients
+
+# smoke
+simple.log.smoke.sum$coefficients
+
+# raterisk
+simple.log.raterisk.sum$coefficients
+
+# fracscore
+simple.log.fracscore.sum$coefficients
+
+# bonemed
+simple.log.bonemed.sum$coefficients
+
+# bonemed_fu
+simple.log.bonemed_fu.sum$coefficients
+
+# bonetreat
+simple.log.bonetreat.sum$coefficients
+```
+
+### Observations:
+* We can see that the following variables are statistically significant since p-value < 0.05:
+ 1. priorfracYes
+ 2. age
+ 3. height
+ 4. momfracYes
+ 5. armassistYes
+ 6. rateriskGreater
+ 7. fracscore
+ 8. bonemedYes
+ 9. bonemed_fuYes
+ 10. bonetreatYes
+ 
+ This result is in-line with what we have observed through EDA for the continuous variables. 
+ Next, let's fit all the variables and observe the effect and see how it is changing the significance of the predictors.
+ 
+```{r, all variables manual}
+multi_var.log<-glm(fracture~priorfrac+age+weight+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
+                     bonemed_fu+bonetreat,family="binomial",data=bonemed_df)
+multi_var.log.sum = summary(multi_var.log)
+multi_var.log.sum$coefficients
+```
+
+
+### Check VIF
+```{r, vif orig}
+vif(multi_var.log)
+```
+
+### Remove the multicollinearity
+```{r, all variables manual wo multicollinearity}
+multi_var.log.vif<-glm(fracture~priorfrac+age+weight+height+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
+                     bonemed_fu+bonetreat,family="binomial",data=bonemed_df)
+multi_var.log.vif.sum = summary(multi_var.log.vif)
+multi_var.log.vif.sum$coefficients
+
+```
+
+### re-Check VIF
+```{r, vif}
+vif(multi_var.log.vif)
+```
+
+
+### Observations:
+* Fitting all variables to the logistic regression model, it shows that only 'bonmed', 'bonemed_fu' and 'bonetreat' are statistically significant. 
+* We observed multicollinearity between 'weight' and 'bmi'. We removed the 'bmi' variable and re-run the logistic regression model.
+* As a result the following variables are statistically significant:
+1. height
+2. bonemed
+3. bonemed_fu
+4. bonetreat
+
+Let's test other feature selection methods as well.
+
+## Stepwise selection
+
+```{r, stepwise}
+bonemed_df.step = bonemed_df[,c('priorfrac', 'age', 'weight', 'height', 'bmi', 'premeno', 'momfrac', 'armassist', 'smoke', 'raterisk', 'fracscore', 
+                                'bonemed', 'bonemed_fu', 'bonetreat', 'fracture')]
+step.full.log = glm(fracture~.,family="binomial",data=bonemed_df.step)
+step.log = step.full.log %>% stepAIC(trace=FALSE)
 ```
 
 ```{r}
-print('test github')
+summary(step.log)
+exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
+vif(step.log)
 ```
+
+## Obseravtions:
+* Running a stepwise selection to identify the most important predictors the 
+
+
+#####################################################################################
+#                                       Prediction                                  #
+#####################################################################################
+#####################################################################################
+#                    Split the Data to Train and Test sets (85%-15%)               #
+#####################################################################################
+```{r train test set}
+index<-sample(1:dim(bonemed_df)[1],round(dim(bonemed_df)[1]*0.85),replace=F)
+train = bonemed_df[index,]
+test = bonemed_df[-index,]
+```
+
+
+
