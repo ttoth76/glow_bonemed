@@ -957,6 +957,7 @@ confusionMatrix(table(class.LogReg.Interaction.train,train$fracture))
 cross.table.interaction.train = table(class.LogReg.Interaction.train,train$fracture)
 MCR_interaction.train = (cross.table.interaction.train[2]+cross.table.interaction.train[3])/dim(train)[1]
 print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_interaction.train))
+# to be worked on
 ```
 
 
