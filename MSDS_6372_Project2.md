@@ -1,7 +1,7 @@
 MSDS_6372_Project2
 ================
 Tamas Toth
-2022-07-22
+2022-07-25
 
 #### Loading the necessary R libraries for the analysis
 
@@ -24,6 +24,7 @@ library(aplore3)
 # Other useful libraries
 library(dplyr)
 library(ggplot2)
+library(gplots)
 
 #library(ggpubr)
 #library(tidyr)
@@ -140,93 +141,37 @@ bonetreat
 <tbody>
 <tr>
 <td style="text-align:right;">
-422
+198
 </td>
 <td style="text-align:right;">
-2
+1
 </td>
 <td style="text-align:right;">
-64
+21
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+79.4
+</td>
+<td style="text-align:right;">
+168
+</td>
+<td style="text-align:right;">
+28.13
 </td>
 <td style="text-align:left;">
 Yes
-</td>
-<td style="text-align:right;">
-67
-</td>
-<td style="text-align:right;">
-71.7
-</td>
-<td style="text-align:right;">
-160
-</td>
-<td style="text-align:right;">
-28.01
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Greater
-</td>
-<td style="text-align:right;">
-3
 </td>
 <td style="text-align:left;">
 Yes
 </td>
 <td style="text-align:left;">
 No
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-No
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-354
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-82
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:right;">
-76
-</td>
-<td style="text-align:right;">
-88.5
-</td>
-<td style="text-align:right;">
-166
-</td>
-<td style="text-align:right;">
-32.12
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Yes
 </td>
 <td style="text-align:left;">
 No
@@ -235,7 +180,7 @@ No
 Less
 </td>
 <td style="text-align:right;">
-7
+2
 </td>
 <td style="text-align:left;">
 No
@@ -252,34 +197,31 @@ No
 </tr>
 <tr>
 <td style="text-align:right;">
-306
+74
 </td>
 <td style="text-align:right;">
-4
+2
 </td>
 <td style="text-align:right;">
-282
+63
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-62
+63
 </td>
 <td style="text-align:right;">
-70.3
+63.5
 </td>
 <td style="text-align:right;">
-159
+165
 </td>
 <td style="text-align:right;">
-27.81
+23.32
 </td>
 <td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -288,7 +230,10 @@ No
 No
 </td>
 <td style="text-align:left;">
-Same
+No
+</td>
+<td style="text-align:left;">
+Less
 </td>
 <td style="text-align:right;">
 1
@@ -308,90 +253,146 @@ No
 </tr>
 <tr>
 <td style="text-align:right;">
-303
+62
 </td>
 <td style="text-align:right;">
 5
 </td>
 <td style="text-align:right;">
-296
+287
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-80
+60
 </td>
 <td style="text-align:right;">
-59.0
-</td>
-<td style="text-align:right;">
-158
-</td>
-<td style="text-align:right;">
-23.63
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Same
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-91
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-141
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:right;">
-87
-</td>
-<td style="text-align:right;">
-61.2
+80.7
 </td>
 <td style="text-align:right;">
 160
 </td>
 <td style="text-align:right;">
-23.91
+31.52
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Less
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+282
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+137
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+61.2
+</td>
+<td style="text-align:right;">
+168
+</td>
+<td style="text-align:right;">
+21.68
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Greater
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+152
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+292
+</td>
+<td style="text-align:left;">
 Yes
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:right;">
+87.5
+</td>
+<td style="text-align:right;">
+167
+</td>
+<td style="text-align:right;">
+31.37
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+No
 </td>
 <td style="text-align:left;">
 Yes
@@ -403,19 +404,19 @@ No
 Greater
 </td>
 <td style="text-align:right;">
-10
+4
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -1192,13 +1193,41 @@ egg::ggarrange(multibox, ncol=2)
 
 ##################################################################################### 
 
+# Correlation plot
+
+##################################################################################### 
+
+``` r
+corr_df = bonemed_df[,c('age', 'weight', 'height', 'bmi', 'fracscore')]
+cont_var.cor = cor(corr_df)
+heatmap.2(cont_var.cor,col=redgreen(75), 
+          density.info="none", trace="none", dendrogram=c("row"), 
+          symm=F,symkey=T,symbreaks=T, scale="none")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/correlation%20plot-1.png)<!-- -->
+
+### Observations:
+
+-   weight and bmi are more similar to each other therefore they would
+    form a cluster
+-   height, weight and bmi are also similar but more distant from each
+    other. Still can form a cluster.
+-   age and fracscore are also similar to each other and can form a
+    cluster
+
+``` r
+# Label encoding Yes=1; No=0
+bonemed_df$fracture.num<-ifelse(bonemed_df$fracture=="Yes",1,0)
+```
+
+##################################################################################### 
+
 # Loess plots
 
 ##################################################################################### 
 
 ``` r
-bonemed_df$fracture.num<-ifelse(bonemed_df$fracture=="Yes",1,0)
-
 num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
 loess_plot = num_cols[c(-1, -2, -3, -9)]
 
@@ -1218,8 +1247,63 @@ egg::ggarrange(loess, ncol=2)
 
 ### Observations:
 
--   The Loess plots show the ‘age’, ‘height’ and ‘fracscore’ have an S
-    curve like logistic model.
+-   The Loess plots show the ‘height’ has an S curve like logistic
+    model. The curve is trending down.
+-   The other continuous predictors don’t seem to be important
+    predicting fracture in the first year.
+
+##################################################################################### 
+
+# Loess plots to investigate interactions
+
+##################################################################################### 
+
+``` r
+num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
+loess_plot = num_cols[c(-1, -2, -3, -9)]
+
+for (j in cat_cols)
+{
+  for (i in loess_plot)
+  {
+  plot1 = ggplot(bonemed_df,aes(x=.data[[i]],y=fracture.num,colour=.data[[j]]))+geom_point()+
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ggtitle(paste(i, "&", j, " interaction with fracture"))+
+  geom_smooth(formula = y ~ x, method="loess",size=1,span=1.5)+facet_wrap(~.data[[j]])
+  ylim(-.2,1.2)
+  show(plot1)
+  }
+}
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-1.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-2.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-3.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-4.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-5.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-6.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-7.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-8.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-9.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-10.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-11.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-12.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-13.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-14.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-15.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-16.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-17.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-18.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-19.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-20.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-21.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-22.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-23.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-24.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-25.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-26.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-27.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-28.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-29.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-30.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-31.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-32.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-33.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-34.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-35.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-36.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-37.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-38.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-39.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-40.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-41.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-42.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-43.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-44.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-45.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-46.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-47.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-48.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-49.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/Loess%20plot%20interaction-50.png)<!-- -->
+
+## Observations:
+
+-   There is a interaction with weight and priorfrac
+-   There is a interaction with bmi and priorfrac
+-   There is a interaction with fracscore and priorfrac
+-   There is a interaction with weight and raterisk
+-   There is a interaction with bmi and raterisk
+-   There is a interaction with weight and bonemed
+-   There is a interaction with bmi and bonemed
+-   There is a interaction with weight and bonemed_fu
+-   There is a interaction with bmi and bonemed_fu
+-   There is a interaction with weight and bonetreat
+-   There is a interaction with bmi and bonetreat
+
+##################################################################################### 
+
+# Split the Data to Train and Test sets (85%-15%)
+
+##################################################################################### 
+
+``` r
+bonmed_df_split = bonemed_df[,-c(1, 2, 3)]
+index<-sample(1:dim(bonmed_df_split)[1],round(dim(bonmed_df_split)[1]*0.85),replace=F)
+train = bonmed_df_split[index,]
+test = bonmed_df_split[-index,]
+```
 
 ##################################################################################### 
 
@@ -1227,65 +1311,65 @@ egg::ggarrange(loess, ncol=2)
 
 ##################################################################################### 
 
-## Manual selection
+## Manual / Intuition selection
 
 ``` r
 # Fit each variable separately and check the p-value for significance
 
 # priorfrac
-simple.log.priorfrac<-glm(fracture~priorfrac,family="binomial",data=bonemed_df)
+simple.log.priorfrac<-glm(fracture~priorfrac,family=binomial(link='logit'),data=train)
 simple.log.priorfrac.sum = summary(simple.log.priorfrac)
 
 # age
-simple.log.age<-glm(fracture~age,family="binomial",data=bonemed_df)
+simple.log.age<-glm(fracture~age,family=binomial(link='logit'),data=train)
 simple.log.age.sum = summary(simple.log.age)
 
 # weight
-simple.log.weight<-glm(fracture~weight,family="binomial",data=bonemed_df)
+simple.log.weight<-glm(fracture~weight,family=binomial(link='logit'),data=train)
 simple.log.weight.sum = summary(simple.log.weight)
 
 # height
-simple.log.height<-glm(fracture~height,family="binomial",data=bonemed_df)
+simple.log.height<-glm(fracture~height,family=binomial(link='logit'),data=train)
 simple.log.height.sum = summary(simple.log.height)
 
 # bmi
-simple.log.bmi<-glm(fracture~bmi,family="binomial",data=bonemed_df)
+simple.log.bmi<-glm(fracture~bmi,family=binomial(link='logit'),data=train)
 simple.log.bmi.sum = summary(simple.log.bmi)
 
 # premeno
-simple.log.premeno<-glm(fracture~premeno,family="binomial",data=bonemed_df)
+simple.log.premeno<-glm(fracture~premeno,family=binomial(link='logit'),data=train)
 simple.log.premeno.sum = summary(simple.log.premeno)
 
 # momfrac
-simple.log.momfrac<-glm(fracture~momfrac,family="binomial",data=bonemed_df)
+simple.log.momfrac<-glm(fracture~momfrac,family=binomial(link='logit'),data=train)
 simple.log.momfrac.sum = summary(simple.log.momfrac)
 
 # armassist
-simple.log.armassist<-glm(fracture~armassist,family="binomial",data=bonemed_df)
+simple.log.armassist<-glm(fracture~armassist,family=binomial(link='logit'),data=train)
 simple.log.armassist.sum = summary(simple.log.armassist)
 
 # smoke
-simple.log.smoke<-glm(fracture~smoke,family="binomial",data=bonemed_df)
+simple.log.smoke<-glm(fracture~smoke,family=binomial(link='logit'),data=train)
 simple.log.smoke.sum = summary(simple.log.smoke)
 
 # raterisk
-simple.log.raterisk<-glm(fracture~raterisk,family="binomial",data=bonemed_df)
+simple.log.raterisk<-glm(fracture~raterisk,family=binomial(link='logit'),data=train)
 simple.log.raterisk.sum = summary(simple.log.raterisk)
 
 # fracscore
-simple.log.fracscore<-glm(fracture~fracscore,family="binomial",data=bonemed_df)
+simple.log.fracscore<-glm(fracture~fracscore,family=binomial(link='logit'),data=train)
 simple.log.fracscore.sum = summary(simple.log.fracscore)
 
 # bonemed
-simple.log.bonemed<-glm(fracture~bonemed,family="binomial",data=bonemed_df)
+simple.log.bonemed<-glm(fracture~bonemed,family=binomial(link='logit'),data=train)
 simple.log.bonemed.sum = summary(simple.log.bonemed)
 
 # bonemed_fu
-simple.log.bonemed_fu<-glm(fracture~bonemed_fu,family="binomial",data=bonemed_df)
+simple.log.bonemed_fu<-glm(fracture~bonemed_fu,family=binomial(link='logit'),data=train)
 simple.log.bonemed_fu.sum = summary(simple.log.bonemed_fu)
 
 # bonetreat
-simple.log.bonetreat<-glm(fracture~bonetreat,family="binomial",data=bonemed_df)
+simple.log.bonetreat<-glm(fracture~bonetreat,family=binomial(link='logit'),data=train)
 simple.log.bonetreat.sum = summary(simple.log.bonetreat)
 ```
 
@@ -1294,18 +1378,18 @@ simple.log.bonetreat.sum = summary(simple.log.bonetreat)
 simple.log.priorfrac.sum$coefficients
 ```
 
-    ##              Estimate Std. Error z value                         Pr(>|z|)
-    ## (Intercept)    -1.417     0.1305 -10.859 0.000000000000000000000000001816
-    ## priorfracYes    1.064     0.2231   4.769 0.000001853248040966234079623943
+    ##              Estimate Std. Error z value                      Pr(>|z|)
+    ## (Intercept)    -1.426     0.1414 -10.081 0.000000000000000000000006714
+    ## priorfracYes    1.060     0.2437   4.349 0.000013666179481153440988849
 
 ``` r
 # age
 simple.log.age.sum$coefficients
 ```
 
-    ##             Estimate Std. Error z value       Pr(>|z|)
-    ## (Intercept) -4.77885    0.82722  -5.777 0.000000007604
-    ## age          0.05289    0.01163   4.548 0.000005418063
+    ##             Estimate Std. Error z value    Pr(>|z|)
+    ## (Intercept) -4.05002    0.89623  -4.519 0.000006215
+    ## age          0.04231    0.01267   3.340 0.000838153
 
 ``` r
 # weight
@@ -1313,8 +1397,8 @@ simple.log.weight.sum$coefficients
 ```
 
     ##              Estimate Std. Error z value Pr(>|z|)
-    ## (Intercept) -0.727190   0.467776 -1.5546   0.1200
-    ## weight      -0.005197   0.006415 -0.8101   0.4179
+    ## (Intercept) -0.683674   0.509143 -1.3428   0.1793
+    ## weight      -0.006016   0.006976 -0.8623   0.3885
 
 ``` r
 # height
@@ -1322,8 +1406,8 @@ simple.log.height.sum$coefficients
 ```
 
     ##             Estimate Std. Error z value Pr(>|z|)
-    ## (Intercept)  7.21229    2.74378   2.629 0.008574
-    ## height      -0.05167    0.01709  -3.022 0.002509
+    ## (Intercept)  4.71146    2.99392   1.574  0.11556
+    ## height      -0.03618    0.01862  -1.943  0.05201
 
 ``` r
 # bmi
@@ -1331,90 +1415,90 @@ simple.log.bmi.sum$coefficients
 ```
 
     ##              Estimate Std. Error z value Pr(>|z|)
-    ## (Intercept) -1.257545    0.48636  -2.586  0.00972
-    ## bmi          0.005758    0.01719   0.335  0.73760
+    ## (Intercept) -1.028066    0.53698 -1.9145  0.05555
+    ## bmi         -0.003128    0.01905 -0.1642  0.86959
 
 ``` r
 # premeno
 simple.log.premeno.sum$coefficients
 ```
 
-    ##             Estimate Std. Error z value                    Pr(>|z|)
-    ## (Intercept) -1.10856     0.1153 -9.6123 0.0000000000000000000007091
-    ## premenoYes   0.05077     0.2592  0.1959 0.8447084924818586415540267
+    ##             Estimate Std. Error z value                  Pr(>|z|)
+    ## (Intercept)  -1.1585     0.1274 -9.0960 0.00000000000000000009368
+    ## premenoYes    0.2094     0.2721  0.7698 0.44142454587949042643658
 
 ``` r
 # momfrac
 simple.log.momfrac.sum$coefficients
 ```
 
-    ##             Estimate Std. Error z value                        Pr(>|z|)
-    ## (Intercept)  -1.1960     0.1136 -10.532 0.00000000000000000000000006124
-    ## momfracYes    0.6605     0.2810   2.351 0.01873927195290219296919254077
+    ##             Estimate Std. Error z value                    Pr(>|z|)
+    ## (Intercept)  -1.1901     0.1224  -9.720 0.0000000000000000000002478
+    ## momfracYes    0.5541     0.3162   1.753 0.0796758824434630613664510
 
 ``` r
 # armassist
 simple.log.armassist.sum$coefficients
 ```
 
-    ##              Estimate Std. Error z value                     Pr(>|z|)
-    ## (Intercept)   -1.3943     0.1419  -9.828 0.00000000000000000000008553
-    ## armassistYes   0.7091     0.2098   3.381 0.00072314553119062177817533
+    ##              Estimate Std. Error z value                  Pr(>|z|)
+    ## (Intercept)   -1.4100     0.1547  -9.116 0.00000000000000000007797
+    ## armassistYes   0.7075     0.2283   3.098 0.00194505752636372152529
 
 ``` r
 # smoke
 simple.log.smoke.sum$coefficients
 ```
 
-    ##             Estimate Std. Error  z value                      Pr(>|z|)
-    ## (Intercept)  -1.0786     0.1066 -10.1218 0.000000000000000000000004424
-    ## smokeYes     -0.3077     0.4358  -0.7059 0.480224577679933761764630162
+    ##             Estimate Std. Error z value                   Pr(>|z|)
+    ## (Intercept)  -1.1054     0.1165 -9.4848 0.000000000000000000002429
+    ## smokeYes     -0.1268     0.4451 -0.2848 0.775814948711020968552532
 
 ``` r
 # raterisk
 simple.log.raterisk.sum$coefficients
 ```
 
-    ##                 Estimate Std. Error z value            Pr(>|z|)
-    ## (Intercept)      -1.6023     0.2071  -7.735 0.00000000000001034
-    ## rateriskSame      0.5462     0.2664   2.050 0.04035609748515017
-    ## rateriskGreater   0.9091     0.2711   3.353 0.00079977006892584
+    ##                 Estimate Std. Error z value         Pr(>|z|)
+    ## (Intercept)      -1.6603     0.2275  -7.299 0.00000000000029
+    ## rateriskSame      0.5443     0.2944   1.849 0.06449595109024
+    ## rateriskGreater   1.0256     0.2941   3.487 0.00048859486001
 
 ``` r
 # fracscore
 simple.log.fracscore.sum$coefficients
 ```
 
-    ##             Estimate Std. Error z value                    Pr(>|z|)
-    ## (Intercept)  -2.0988     0.2176  -9.646 0.0000000000000000000005135
-    ## fracscore     0.2466     0.0433   5.696 0.0000000122467960824948465
+    ##             Estimate Std. Error z value               Pr(>|z|)
+    ## (Intercept)  -2.0098    0.23573  -8.526 0.00000000000000001518
+    ## fracscore     0.2237    0.04786   4.674 0.00000294956575793599
 
 ``` r
 # bonemed
 simple.log.bonemed.sum$coefficients
 ```
 
-    ##             Estimate Std. Error z value                      Pr(>|z|)
-    ## (Intercept)  -1.3073     0.1268 -10.308 0.000000000000000000000000645
-    ## bonemedYes    0.7171     0.2233   3.211 0.001321957055338154104345838
+    ##             Estimate Std. Error z value                  Pr(>|z|)
+    ## (Intercept)  -1.2609     0.1354  -9.312 0.00000000000000000001254
+    ## bonemedYes    0.5258     0.2462   2.136 0.03269847370748939913154
 
 ``` r
 # bonemed_fu
 simple.log.bonemed_fu.sum$coefficients
 ```
 
-    ##               Estimate Std. Error z value                        Pr(>|z|)
-    ## (Intercept)    -1.3898     0.1317 -10.551 0.00000000000000000000000005015
-    ## bonemed_fuYes   0.9057     0.2187   4.141 0.00003463169646216865871137663
+    ##               Estimate Std. Error z value                   Pr(>|z|)
+    ## (Intercept)    -1.3383     0.1404  -9.529 0.000000000000000000001584
+    ## bonemed_fuYes   0.7211     0.2393   3.013 0.002584333250422946558211
 
 ``` r
 # bonetreat
 simple.log.bonetreat.sum$coefficients
 ```
 
-    ##              Estimate Std. Error z value                      Pr(>|z|)
-    ## (Intercept)   -1.2511     0.1230 -10.170 0.000000000000000000000002686
-    ## bonetreatYes   0.5833     0.2301   2.535 0.011256740718135330170390773
+    ##              Estimate Std. Error z value                  Pr(>|z|)
+    ## (Intercept)   -1.2119     0.1315  -9.214 0.00000000000000000003148
+    ## bonetreatYes   0.3936     0.2556   1.540 0.12358095157835313759875
 
 ### Observations:
 
@@ -1424,8 +1508,8 @@ simple.log.bonetreat.sum$coefficients
 1.  priorfracYes
 2.  age
 3.  height
-4.  momfracYes
-5.  armassistYes
+4.  armassistYes
+5.  rateriskSame
 6.  rateriskGreater
 7.  fracscore
 8.  bonemedYes
@@ -1436,30 +1520,32 @@ This result is in-line with what we have observed through EDA for the
 continuous variables. Next, let’s fit all the variables and observe the
 effect and see how it is changing the significance of the predictors.
 
+## Fit all variables at the same time to check effects
+
 ``` r
 multi_var.log<-glm(fracture~priorfrac+age+weight+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
-                     bonemed_fu+bonetreat,family="binomial",data=bonemed_df)
+                     bonemed_fu+bonetreat,family=binomial(link='logit'),data=train)
 multi_var.log.sum = summary(multi_var.log)
 multi_var.log.sum$coefficients
 ```
 
-    ##                  Estimate Std. Error z value Pr(>|z|)
-    ## (Intercept)     -17.07822   12.80864 -1.3333 0.182422
-    ## priorfracYes      0.52585    0.39600  1.3279 0.184203
-    ## age               0.01618    0.05629  0.2875 0.773714
-    ## weight           -0.13254    0.08907 -1.4881 0.136733
-    ## height            0.08019    0.08120  0.9875 0.323396
-    ## bmi               0.36724    0.23143  1.5868 0.112547
-    ## premenoYes        0.19494    0.29255  0.6663 0.505196
-    ## momfracYes        0.61382    0.42858  1.4322 0.152082
-    ## armassistYes      0.16779    0.61066  0.2748 0.783491
-    ## smokeYes         -0.27693    0.54660 -0.5066 0.612408
-    ## rateriskSame      0.36390    0.28982  1.2556 0.209261
-    ## rateriskGreater   0.53726    0.31964  1.6808 0.092795
-    ## fracscore         0.09721    0.28046  0.3466 0.728890
-    ## bonemedYes        1.50963    0.65911  2.2904 0.021997
-    ## bonemed_fuYes     1.61953    0.50153  3.2292 0.001242
-    ## bonetreatYes     -2.66789    0.83779 -3.1844 0.001450
+    ##                   Estimate Std. Error  z value Pr(>|z|)
+    ## (Intercept)     -18.133928   13.63463 -1.32999 0.183522
+    ## priorfracYes      0.693635    0.43776  1.58451 0.113078
+    ## age               0.024911    0.06172  0.40360 0.686508
+    ## weight           -0.137226    0.09619 -1.42657 0.153703
+    ## height            0.087262    0.08622  1.01210 0.311488
+    ## bmi               0.362430    0.25094  1.44428 0.148661
+    ## premenoYes        0.253407    0.30653  0.82669 0.408416
+    ## momfracYes        0.607017    0.46222  1.31327 0.189093
+    ## armassistYes      0.436793    0.66987  0.65205 0.514366
+    ## smokeYes         -0.183912    0.58058 -0.31677 0.751416
+    ## rateriskSame      0.363463    0.31503  1.15373 0.248609
+    ## rateriskGreater   0.674468    0.33738  1.99911 0.045597
+    ## fracscore         0.008364    0.30805  0.02715 0.978340
+    ## bonemedYes        1.332603    0.68927  1.93336 0.053192
+    ## bonemed_fuYes     1.292946    0.52379  2.46845 0.013570
+    ## bonetreatYes     -2.399374    0.87892 -2.72990 0.006335
 
 ### Check VIF
 
@@ -1468,46 +1554,46 @@ vif(multi_var.log)
 ```
 
     ##               GVIF Df GVIF^(1/(2*Df))
-    ## priorfrac    2.775  1           1.666
-    ## age         20.655  1           4.545
-    ## weight     171.941  1          13.113
-    ## height      20.675  1           4.547
-    ## bmi        160.101  1          12.653
-    ## premeno      1.122  1           1.059
-    ## momfrac      1.946  1           1.395
-    ## armassist    7.285  1           2.699
-    ## smoke        1.420  1           1.192
-    ## raterisk     1.264  2           1.060
-    ## fracscore   38.318  1           6.190
-    ## bonemed      7.565  1           2.750
-    ## bonemed_fu   4.548  1           2.133
-    ## bonetreat   11.563  1           3.400
+    ## priorfrac    2.909  1           1.705
+    ## age         21.094  1           4.593
+    ## weight     170.899  1          13.073
+    ## height      20.555  1           4.534
+    ## bmi        157.762  1          12.560
+    ## premeno      1.132  1           1.064
+    ## momfrac      1.845  1           1.358
+    ## armassist    7.611  1           2.759
+    ## smoke        1.516  1           1.231
+    ## raterisk     1.247  2           1.057
+    ## fracscore   38.554  1           6.209
+    ## bonemed      6.926  1           2.632
+    ## bonemed_fu   4.188  1           2.047
+    ## bonetreat   10.521  1           3.244
 
 ### Remove the multicollinearity
 
 ``` r
 multi_var.log.vif<-glm(fracture~priorfrac+age+weight+height+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
-                     bonemed_fu+bonetreat,family="binomial",data=bonemed_df)
+                     bonemed_fu+bonetreat,family=binomial(link='logit'),data=train)
 multi_var.log.vif.sum = summary(multi_var.log.vif)
 multi_var.log.vif.sum$coefficients
 ```
 
-    ##                  Estimate Std. Error  z value Pr(>|z|)
-    ## (Intercept)      2.373360   4.109464  0.57754 0.563578
-    ## priorfracYes     0.602625   0.391256  1.54023 0.123504
-    ## age              0.035406   0.054942  0.64443 0.519297
-    ## weight           0.007889   0.009061  0.87063 0.383956
-    ## height          -0.046700   0.019497 -2.39525 0.016609
-    ## premenoYes       0.238615   0.290430  0.82159 0.411309
-    ## momfracYes       0.725737   0.423586  1.71332 0.086654
-    ## armassistYes     0.373010   0.595385  0.62650 0.530986
-    ## smokeYes        -0.201905   0.545194 -0.37034 0.711132
-    ## rateriskSame     0.346782   0.288845  1.20058 0.229914
-    ## rateriskGreater  0.527148   0.318587  1.65464 0.097997
-    ## fracscore       -0.004079   0.272392 -0.01498 0.988052
-    ## bonemedYes       1.518333   0.656173  2.31392 0.020672
-    ## bonemed_fuYes    1.602526   0.503243  3.18440 0.001451
-    ## bonetreatYes    -2.656385   0.836010 -3.17745 0.001486
+    ##                 Estimate Std. Error  z value Pr(>|z|)
+    ## (Intercept)      0.61028   4.423815  0.13795 0.890278
+    ## priorfracYes     0.76995   0.432076  1.78198 0.074752
+    ## age              0.04351   0.060262  0.72198 0.470306
+    ## weight           0.00061   0.009787  0.06233 0.950303
+    ## height          -0.03463   0.021349 -1.62233 0.104733
+    ## premenoYes       0.29569   0.304591  0.97078 0.331660
+    ## momfracYes       0.70836   0.457781  1.54737 0.121774
+    ## armassistYes     0.62487   0.654863  0.95419 0.339985
+    ## smokeYes        -0.10380   0.577891 -0.17963 0.857447
+    ## rateriskSame     0.34465   0.314249  1.09673 0.272759
+    ## rateriskGreater  0.65612   0.335660  1.95471 0.050617
+    ## fracscore       -0.09076   0.299061 -0.30347 0.761531
+    ## bonemedYes       1.34997   0.684311  1.97275 0.048524
+    ## bonemed_fuYes    1.28949   0.524784  2.45717 0.014003
+    ## bonetreatYes    -2.41404   0.875252 -2.75811 0.005814
 
 ### re-Check VIF
 
@@ -1516,19 +1602,19 @@ vif(multi_var.log.vif)
 ```
 
     ##              GVIF Df GVIF^(1/(2*Df))
-    ## priorfrac   2.723  1           1.650
-    ## age        19.836  1           4.454
-    ## weight      1.854  1           1.362
-    ## height      1.198  1           1.095
-    ## premeno     1.111  1           1.054
-    ## momfrac     1.889  1           1.375
-    ## armassist   6.983  1           2.643
-    ## smoke       1.416  1           1.190
-    ## raterisk    1.259  2           1.059
-    ## fracscore  36.353  1           6.029
-    ## bonemed     7.547  1           2.747
-    ## bonemed_fu  4.603  1           2.145
-    ## bonetreat  11.588  1           3.404
+    ## priorfrac   2.850  1           1.688
+    ## age        20.252  1           4.500
+    ## weight      1.842  1           1.357
+    ## height      1.222  1           1.106
+    ## premeno     1.122  1           1.059
+    ## momfrac     1.795  1           1.340
+    ## armassist   7.322  1           2.706
+    ## smoke       1.506  1           1.227
+    ## raterisk    1.241  2           1.055
+    ## fracscore  36.550  1           6.046
+    ## bonemed     6.860  1           2.619
+    ## bonemed_fu  4.219  1           2.054
+    ## bonetreat  10.474  1           3.236
 
 ### Observations:
 
@@ -1549,9 +1635,9 @@ Let’s test other feature selection methods as well.
 ## Stepwise selection
 
 ``` r
-bonemed_df.step = bonemed_df[,c('priorfrac', 'age', 'weight', 'height', 'bmi', 'premeno', 'momfrac', 'armassist', 'smoke', 'raterisk', 'fracscore', 
+bonemed_df.step = train[,c('priorfrac', 'age', 'weight', 'height', 'bmi', 'premeno', 'momfrac', 'armassist', 'smoke', 'raterisk', 'fracscore', 
                                 'bonemed', 'bonemed_fu', 'bonetreat', 'fracture')]
-step.full.log = glm(fracture~.,family="binomial",data=bonemed_df.step)
+step.full.log = glm(fracture~.,family=binomial(link='logit'),data=bonemed_df.step)
 step.log = step.full.log %>% stepAIC(trace=FALSE)
 ```
 
@@ -1561,33 +1647,36 @@ summary(step.log)
 
     ## 
     ## Call:
-    ## glm(formula = fracture ~ priorfrac + weight + bmi + momfrac + 
-    ##     fracscore + bonemed + bonemed_fu + bonetreat, family = "binomial", 
-    ##     data = bonemed_df.step)
+    ## glm(formula = fracture ~ priorfrac + age + weight + bmi + momfrac + 
+    ##     armassist + raterisk + bonemed + bonemed_fu + bonetreat, 
+    ##     family = binomial(link = "logit"), data = bonemed_df.step)
     ## 
     ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -1.6420  -0.7361  -0.5341  -0.0395   2.2592  
+    ##    Min      1Q  Median      3Q     Max  
+    ## -1.526  -0.726  -0.555  -0.346   2.254  
     ## 
     ## Coefficients:
-    ##               Estimate Std. Error z value  Pr(>|z|)    
-    ## (Intercept)    -3.1001     0.6378   -4.86 0.0000012 ***
-    ## priorfracYes    0.4979     0.2686    1.85   0.06374 .  
-    ## weight         -0.0451     0.0200   -2.26   0.02396 *  
-    ## bmi             0.1460     0.0539    2.71   0.00671 ** 
-    ## momfracYes      0.6270     0.3145    1.99   0.04620 *  
-    ## fracscore       0.1626     0.0529    3.07   0.00212 ** 
-    ## bonemedYes      1.4823     0.6614    2.24   0.02502 *  
-    ## bonemed_fuYes   1.7362     0.4878    3.56   0.00037 ***
-    ## bonetreatYes   -2.6247     0.8368   -3.14   0.00171 ** 
+    ##                 Estimate Std. Error z value Pr(>|z|)   
+    ## (Intercept)      -3.9663     1.4369   -2.76   0.0058 **
+    ## priorfracYes      0.6735     0.2721    2.48   0.0133 * 
+    ## age               0.0238     0.0155    1.54   0.1245   
+    ## weight           -0.0442     0.0223   -1.98   0.0479 * 
+    ## bmi               0.1217     0.0606    2.01   0.0444 * 
+    ## momfracYes        0.6283     0.3486    1.80   0.0715 . 
+    ## armassistYes      0.4734     0.2741    1.73   0.0842 . 
+    ## rateriskSame      0.3758     0.3123    1.20   0.2289   
+    ## rateriskGreater   0.6845     0.3360    2.04   0.0416 * 
+    ## bonemedYes        1.3057     0.6881    1.90   0.0578 . 
+    ## bonemed_fuYes     1.2774     0.5208    2.45   0.0142 * 
+    ## bonetreatYes     -2.3827     0.8787   -2.71   0.0067 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for binomial family taken to be 1)
     ## 
-    ##     Null deviance: 562.34  on 499  degrees of freedom
-    ## Residual deviance: 493.78  on 491  degrees of freedom
-    ## AIC: 511.8
+    ##     Null deviance: 475.22  on 424  degrees of freedom
+    ## Residual deviance: 423.79  on 413  degrees of freedom
+    ## AIC: 447.8
     ## 
     ## Number of Fisher Scoring iterations: 4
 
@@ -1595,45 +1684,899 @@ summary(step.log)
 exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
 ```
 
-    ##               Odds ratio   2.5 %  97.5 %
-    ## (Intercept)      0.04505 0.01291  0.1572
-    ## priorfracYes     1.64526 0.97194  2.7850
-    ## weight           0.95594 0.91927  0.9941
-    ## bmi              1.15721 1.04128  1.2860
-    ## momfracYes       1.87192 1.01062  3.4673
-    ## fracscore        1.17658 1.06067  1.3052
-    ## bonemedYes       4.40320 1.20438 16.0980
-    ## bonemed_fuYes    5.67572 2.18154 14.7665
-    ## bonetreatYes     0.07246 0.01406  0.3736
+    ##                 Odds ratio    2.5 %  97.5 %
+    ## (Intercept)        0.01894 0.001133  0.3167
+    ## priorfracYes       1.96112 1.150618  3.3425
+    ## age                1.02410 0.993453  1.0557
+    ## weight             0.95677 0.915787  0.9996
+    ## bmi                1.12946 1.003051  1.2718
+    ## momfracYes         1.87435 0.946554  3.7116
+    ## armassistYes       1.60538 0.938085  2.7473
+    ## rateriskSame       1.45613 0.789516  2.6856
+    ## rateriskGreater    1.98272 1.026292  3.8305
+    ## bonemedYes         3.69013 0.957843 14.2164
+    ## bonemed_fuYes      3.58715 1.292440  9.9561
+    ## bonetreatYes       0.09230 0.016492  0.5166
 
 ``` r
 vif(step.log)
 ```
 
-    ##  priorfrac     weight        bmi    momfrac  fracscore    bonemed bonemed_fu 
-    ##      1.294      9.063      8.874      1.058      1.369      7.698      4.355 
-    ##  bonetreat 
-    ##     11.668
+    ##              GVIF Df GVIF^(1/(2*Df))
+    ## priorfrac   1.129  1           1.062
+    ## age         1.351  1           1.162
+    ## weight      9.658  1           3.108
+    ## bmi         9.252  1           3.042
+    ## momfrac     1.042  1           1.021
+    ## armassist   1.282  1           1.132
+    ## raterisk    1.229  2           1.053
+    ## bonemed     6.924  1           2.631
+    ## bonemed_fu  4.155  1           2.038
+    ## bonetreat  10.550  1           3.248
 
 ## Obseravtions:
 
--   Running a stepwise selection to identify the most important
-    predictors the
+-   Running a stepwise selection to identify the predictors the process
+    is selecting:
+-   priorfrac
+-   age
+-   weight
+-   bmi
+-   momfrac
+-   armassist
+-   raterisk
+-   bonemed
+-   bonemed_fu
+-   bonetreat
+
+## PCA
+
+``` r
+# Let's use PCA to see if the continuous variables separate or not
+
+num_cols = train %>% dplyr::select(where(is.numeric)) %>% colnames()
+pca_var = num_cols[c(-6)]
+pca_df = train[pca_var]
+
+pc.result=prcomp(pca_df,scale.=TRUE)
+pc.scores=pc.result$x
+pc.scores=data.frame(pc.scores)
+pc.scores$fracture=train$fracture
+
+#plot the first few pc's
+ggplot(data = pc.scores, aes(x = PC1, y = PC2)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC2 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-1.png)<!-- -->
+
+``` r
+# Let's check lower PCs
+ggplot(data = pc.scores, aes(x = PC1, y = PC3)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC3 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-2.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC1, y = PC4)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC4 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-3.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC1, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC5 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-4.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC2, y = PC3)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC2 and PC3 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-5.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC2, y = PC4)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC2 and PC4 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-6.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC2, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC2 and PC5 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-7.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC3, y = PC4)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC3 and PC4 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-8.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC3, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC3 and PC5 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-9.png)<!-- -->
+
+``` r
+ggplot(data = pc.scores, aes(x = PC4, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC4 and PC5 on Fracture")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-10.png)<!-- -->
+
+``` r
+par(mfrow=c(1,2))
+eigenvals = (pc.result$sdev)^2
+plot(1:5,eigenvals/sum(eigenvals),type="l",main="Scree Plot",ylab="Prop. Var. Explained")
+cumulative.prop = cumsum(eigenvals/sum(eigenvals))
+plot(1:5,cumulative.prop,type="l",main="Cumulative proportion",ylim=c(0,1))
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/PCA-11.png)<!-- -->
+
+``` r
+for (i in colnames(pc.scores))
+{
+loess_pca = pc.scores %>% 
+ggplot(aes(x=.data[[i]],y=train$fracture.num))+
+geom_point()+
+geom_smooth(formula = y ~ x, method="loess")+
+theme(plot.title = element_text(hjust = 0.5)) +
+ggtitle(paste(i, " test"))
+egg::ggarrange(loess_pca, ncol=2)
+}
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-1.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-2.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-3.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-4.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-5.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-6.png)<!-- -->
+
+## Observations:
+
+-   The levels in the PCA graph are completely intermixed. There is no
+    obvious separation in the PCA.
+-   The Scree Plot shows that if we include PC1 that will explain \~50%
+    of the variation of the dataset
+-   The cumulative proportion plot helps us see that PC1, PC2, PC3
+    combined explains the variation \~98% but if we add PC4 than 100% of
+    the variation is explained.
+-   This lets us conclude that we need ‘age’, ‘weight’, ‘height’ and
+    ‘bmi’ to explain 100% of the variation in the data.
+-   The loess plot of PCA shows that PC3 is the only continous variable
+    which could be important for predicting fracture in the first year.
+
+## Penalized logistic regression (LASSO)
+
+``` r
+# Dummy code categorical predictor variables
+x = model.matrix(fracture~., train)[,-c(1,17)]
+
+# Convert the outcome (class) to a numerical variable
+y <- train$fracture.num
+```
+
+``` r
+grid=10^seq(10,-2, length =100)
+lasso.mod = glmnet(x, y, family = binomial(link='logit'), alpha=1, lambda=grid)
+cv.out=cv.glmnet(x,y,family = "binomial", alpha=1)
+plot(cv.out)
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/lasso%20feature%20selection-1.png)<!-- -->
+
+``` r
+bestlambda = cv.out$lambda.min
+coef(lasso.mod,s=bestlambda)
+```
+
+    ## 16 x 1 sparse Matrix of class "dgCMatrix"
+    ##                        s1
+    ## (Intercept)     -1.391038
+    ## priorfracYes     0.385785
+    ## age              .       
+    ## weight           .       
+    ## height          -0.002597
+    ## bmi              .       
+    ## premenoYes       .       
+    ## momfracYes       0.049417
+    ## armassistYes     0.027311
+    ## smokeYes         .       
+    ## rateriskSame     .       
+    ## rateriskGreater  0.254864
+    ## fracscore        0.111860
+    ## bonemedYes       .       
+    ## bonemed_fuYes    0.169981
+    ## bonetreatYes     .
+
+``` r
+# Final LASSO model
+lasso.mod.final=glmnet(x,y,family = binomial(link='logit'), alpha=1, type.measure = "class", lambda=bestlambda)
+```
 
 ##################################################################################### 
 
-# Prediction
-
-##################################################################################### 
-
-##################################################################################### 
-
-# Split the Data to Train and Test sets (85%-15%)
+# Predictions
 
 ##################################################################################### 
 
 ``` r
-index<-sample(1:dim(bonemed_df)[1],round(dim(bonemed_df)[1]*0.85),replace=F)
-train = bonemed_df[index,]
-test = bonemed_df[-index,]
+# VIF score function
+vif_score = function(model_name)
+{
+  vif_values = vif(model_name)[,3]
+  barplot(vif_values, main = 'VIF Values', horiz = TRUE, col="blue", xlim = c(0,12))
+  abline(v=10, col="red")
+  return (vif_values)
+}
 ```
+
+``` r
+y.test = model.matrix(fracture~., test)[,-c(1,17)]
+```
+
+##################################################################################### 
+
+# LASSO
+
+##################################################################################### 
+
+``` r
+cutoff.lasso<-0.43
+# Predicting on the final LASSO model TRAINing data
+lasso.mod.final.pred.train <- predict(lasso.mod.final, newx = x, type = "response")
+
+# Confusion matrix
+class.lasso.final.train<-factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for LASSO
+print("Confusion matrix for LASSO TRAINING with 0.5 cutoff")
+```
+
+    ## [1] "Confusion matrix for LASSO TRAINING with 0.5 cutoff"
+
+``` r
+confusionMatrix(table(class.lasso.final.train,train$fracture))
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                        
+    ## class.lasso.final.train  No Yes
+    ##                     No  309  95
+    ##                     Yes  11  10
+    ##                                               
+    ##                Accuracy : 0.751               
+    ##                  95% CI : (0.707, 0.791)      
+    ##     No Information Rate : 0.753               
+    ##     P-Value [Acc > NIR] : 0.571               
+    ##                                               
+    ##                   Kappa : 0.083               
+    ##                                               
+    ##  Mcnemar's Test P-Value : 0.000000000000000753
+    ##                                               
+    ##             Sensitivity : 0.9656              
+    ##             Specificity : 0.0952              
+    ##          Pos Pred Value : 0.7649              
+    ##          Neg Pred Value : 0.4762              
+    ##              Prevalence : 0.7529              
+    ##          Detection Rate : 0.7271              
+    ##    Detection Prevalence : 0.9506              
+    ##       Balanced Accuracy : 0.5304              
+    ##                                               
+    ##        'Positive' Class : No                  
+    ## 
+
+``` r
+################ Misclassification rate train ######################################
+#cross.table.lasso.train = table(table(class.lasso.final.train,train$fracture))
+#MCR_lasso.train = (cross.table.lasso.train[2]+cross.table.lasso.train[3])/dim(train)[1]
+misClasificError.lasso.train = mean(class.lasso.final.train != train$fracture)
+print(paste('Misclassification Rate for lasso on training set: ', misClasificError.lasso.train))
+```
+
+    ## [1] "Misclassification Rate for lasso on training set:  0.249411764705882"
+
+``` r
+#####################################################################################################
+# Predicting on the final LASSO model TEST data
+lasso.mod.final.pred.test <- predict(lasso.mod.final, newx = y.test, type = "response")
+
+# Confusion matrix
+class.lasso.final.test<-factor(ifelse(lasso.mod.final.pred.test>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for LASSO
+print("Confusion matrix for LASSO TEST with 0.5 cutoff")
+```
+
+    ## [1] "Confusion matrix for LASSO TEST with 0.5 cutoff"
+
+``` r
+confusionMatrix(table(class.lasso.final.test,test$fracture))
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                       
+    ## class.lasso.final.test No Yes
+    ##                    No  53  19
+    ##                    Yes  2   1
+    ##                                         
+    ##                Accuracy : 0.72          
+    ##                  95% CI : (0.604, 0.818)
+    ##     No Information Rate : 0.733         
+    ##     P-Value [Acc > NIR] : 0.65856       
+    ##                                         
+    ##                   Kappa : 0.019         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.00048       
+    ##                                         
+    ##             Sensitivity : 0.964         
+    ##             Specificity : 0.050         
+    ##          Pos Pred Value : 0.736         
+    ##          Neg Pred Value : 0.333         
+    ##              Prevalence : 0.733         
+    ##          Detection Rate : 0.707         
+    ##    Detection Prevalence : 0.960         
+    ##       Balanced Accuracy : 0.507         
+    ##                                         
+    ##        'Positive' Class : No            
+    ## 
+
+``` r
+################ Misclassification rate test ######################################
+#cross.table.lasso.test = table(class.lasso.final.test,test$fracture)
+#MCR_lasso.test = (cross.table.lasso.test[2]+cross.table.lasso.test[3])/dim(test)[1]
+#print(paste('Misclassification Rate for LASSO selection on test set: ', MCR_lasso.test))
+misClasificError.lasso.test = mean(class.lasso.final.test != test$fracture)
+print(paste('Misclassification Rate for lasso on test set: ', misClasificError.lasso.test))
+```
+
+    ## [1] "Misclassification Rate for lasso on test set:  0.28"
+
+``` r
+################ LASSO ROC Curve ######################################
+library(ROCR)
+lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
+roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
+plot(roc.lasso.test,colorize = TRUE)
+abline(a=0, b= 1)
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/LASSO%20Predict-1.png)<!-- -->
+
+## Assumprions
+
+``` r
+# Checking logistic regression model assumptions
+
+# The Observations are Independent
+# We can assume that the observations are not coming from repeated measures
+
+#There is No Multicollinearity Among Explanatory Variables
+### Visualize VIF
+#vif_score(lasso.mod)
+
+
+# There are No Extreme Outliers (cooks D)
+#influenceIndexPlot(lasso.mod)
+
+# There is a Linear Relationship Between Explanatory Variables and the Logit of the Response Variable
+
+# Influential point analysis and residual plots
+#residualPlots(lasso.mod)
+#influenceIndexPlot(lasso.mod)
+#influencePlot(lasso.mod)
+```
+
+## Observations:
+
+## All assumptions are met:
+
+-   **The Response Variable is Binary**: ‘Fracture’ as a response
+    variable is a factor with binary levels (Yes/No)
+-   **Independence**: We can assume that the observations are
+    independent
+-   **Multicolliearity**: The is no multicollinearity among the
+    explanatory variables (VIF values show no multicollinearity)
+-   **Outliers**: The largest Cooks D value is 0.015 which indicates
+    that there is no extreme outlier
+-   **The Sample Size is Sufficiently Large**: ?
+
+## Model scoring
+
+``` r
+## Add misclassification rate
+```
+
+##################################################################################### 
+
+# Stepwise
+
+##################################################################################### 
+
+``` r
+cutoff.step = 0.42
+# Predicting on the final Stepwise model TRAINing data
+stepwise.mod.final.pred.train <- predict(step.log, newdata = train, type = "response")
+
+# Confusion matrix
+class.stepwise.final.train<-factor(ifelse(stepwise.mod.final.pred.train>cutoff.step,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for Stepwise
+print("Confusion matrix for Stepwise TRAINING with 0.5 cutoff")
+```
+
+    ## [1] "Confusion matrix for Stepwise TRAINING with 0.5 cutoff"
+
+``` r
+confusionMatrix(table(class.stepwise.final.train,train$fracture))
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                           
+    ## class.stepwise.final.train  No Yes
+    ##                        No  293  73
+    ##                        Yes  27  32
+    ##                                         
+    ##                Accuracy : 0.765         
+    ##                  95% CI : (0.721, 0.804)
+    ##     No Information Rate : 0.753         
+    ##     P-Value [Acc > NIR] : 0.309         
+    ##                                         
+    ##                   Kappa : 0.258         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.0000068     
+    ##                                         
+    ##             Sensitivity : 0.916         
+    ##             Specificity : 0.305         
+    ##          Pos Pred Value : 0.801         
+    ##          Neg Pred Value : 0.542         
+    ##              Prevalence : 0.753         
+    ##          Detection Rate : 0.689         
+    ##    Detection Prevalence : 0.861         
+    ##       Balanced Accuracy : 0.610         
+    ##                                         
+    ##        'Positive' Class : No            
+    ## 
+
+``` r
+################ Misclassification rate train ######################################
+#cross.table.stepwise.train = table(class.stepwise.final.train,train$fracture)
+#MCR_stepwise.train = (cross.table.stepwise.train[2]+cross.table.stepwise.train[3])/dim(train)[1]
+#print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_stepwise.train))
+
+misClasificError.stepwise.train = mean(class.stepwise.final.train != train$fracture)
+print(paste('Misclassification Rate for stepwise on train set: ', misClasificError.stepwise.train))
+```
+
+    ## [1] "Misclassification Rate for stepwise on train set:  0.235294117647059"
+
+``` r
+#####################################################################################################
+# Predicting on the final Stepwise model TEST data
+stepwise.mod.final.pred.test <- predict(step.log, newdata = test, type = "response")
+
+# Confusion matrix
+class.stepwise.final.test<-factor(ifelse(stepwise.mod.final.pred.test>cutoff.step,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for Stepwise
+print("Confusion matrix for Stepwise TEST with 0.5 cutoff")
+```
+
+    ## [1] "Confusion matrix for Stepwise TEST with 0.5 cutoff"
+
+``` r
+confusionMatrix(table(class.stepwise.final.test,test$fracture))
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                          
+    ## class.stepwise.final.test No Yes
+    ##                       No  52   9
+    ##                       Yes  3  11
+    ##                                         
+    ##                Accuracy : 0.84          
+    ##                  95% CI : (0.737, 0.914)
+    ##     No Information Rate : 0.733         
+    ##     P-Value [Acc > NIR] : 0.0211        
+    ##                                         
+    ##                   Kappa : 0.548         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.1489        
+    ##                                         
+    ##             Sensitivity : 0.945         
+    ##             Specificity : 0.550         
+    ##          Pos Pred Value : 0.852         
+    ##          Neg Pred Value : 0.786         
+    ##              Prevalence : 0.733         
+    ##          Detection Rate : 0.693         
+    ##    Detection Prevalence : 0.813         
+    ##       Balanced Accuracy : 0.748         
+    ##                                         
+    ##        'Positive' Class : No            
+    ## 
+
+``` r
+################ Misclassification rate test ######################################
+#cross.table.stepwise.test = table(class.stepwise.final.test,test$fracture)
+#MCR_stepwise.test = (cross.table.stepwise.test[2]+cross.table.stepwise.test[3])/dim(test)[1]
+#print(paste('Misclassification Rate for stepwise selection on test set: ', MCR_stepwise.test))
+
+misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
+print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
+```
+
+    ## [1] "Misclassification Rate for stepwise on test set:  0.16"
+
+``` r
+# ODD ratios for interpretation
+summary(step.log)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = fracture ~ priorfrac + age + weight + bmi + momfrac + 
+    ##     armassist + raterisk + bonemed + bonemed_fu + bonetreat, 
+    ##     family = binomial(link = "logit"), data = bonemed_df.step)
+    ## 
+    ## Deviance Residuals: 
+    ##    Min      1Q  Median      3Q     Max  
+    ## -1.526  -0.726  -0.555  -0.346   2.254  
+    ## 
+    ## Coefficients:
+    ##                 Estimate Std. Error z value Pr(>|z|)   
+    ## (Intercept)      -3.9663     1.4369   -2.76   0.0058 **
+    ## priorfracYes      0.6735     0.2721    2.48   0.0133 * 
+    ## age               0.0238     0.0155    1.54   0.1245   
+    ## weight           -0.0442     0.0223   -1.98   0.0479 * 
+    ## bmi               0.1217     0.0606    2.01   0.0444 * 
+    ## momfracYes        0.6283     0.3486    1.80   0.0715 . 
+    ## armassistYes      0.4734     0.2741    1.73   0.0842 . 
+    ## rateriskSame      0.3758     0.3123    1.20   0.2289   
+    ## rateriskGreater   0.6845     0.3360    2.04   0.0416 * 
+    ## bonemedYes        1.3057     0.6881    1.90   0.0578 . 
+    ## bonemed_fuYes     1.2774     0.5208    2.45   0.0142 * 
+    ## bonetreatYes     -2.3827     0.8787   -2.71   0.0067 **
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 475.22  on 424  degrees of freedom
+    ## Residual deviance: 423.79  on 413  degrees of freedom
+    ## AIC: 447.8
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
+exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
+```
+
+    ##                 Odds ratio    2.5 %  97.5 %
+    ## (Intercept)        0.01894 0.001133  0.3167
+    ## priorfracYes       1.96112 1.150618  3.3425
+    ## age                1.02410 0.993453  1.0557
+    ## weight             0.95677 0.915787  0.9996
+    ## bmi                1.12946 1.003051  1.2718
+    ## momfracYes         1.87435 0.946554  3.7116
+    ## armassistYes       1.60538 0.938085  2.7473
+    ## rateriskSame       1.45613 0.789516  2.6856
+    ## rateriskGreater    1.98272 1.026292  3.8305
+    ## bonemedYes         3.69013 0.957843 14.2164
+    ## bonemed_fuYes      3.58715 1.292440  9.9561
+    ## bonetreatYes       0.09230 0.016492  0.5166
+
+``` r
+################ Stepwise ROC Curve ######################################
+library(ROCR)
+stepwise.roc.test = prediction(stepwise.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
+roc.stepwise.test = performance(stepwise.roc.test, measure = "tpr", x.measure = "fpr")
+plot(roc.stepwise.test,colorize = TRUE)
+abline(a=0, b= 1)
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/Stepwise%20Predict-1.png)<!-- -->
+
+##################################################################################### 
+
+# Manual/Intuition
+
+##################################################################################### 
+
+``` r
+# 5-fold cross validation
+cv <- trainControl(
+  method = "repeatedcv", 
+  number = 5,
+  repeats = 10,
+  savePredictions = TRUE,
+  summaryFunction=mnLogLoss,
+  classProbs = TRUE
+)
+
+MLogReg = train(
+  fracture ~ age + height + bmi + priorfrac,
+  data = train,
+  method = "glm",
+  family = "binomial",
+  trControl = cv,
+  metric = "logLoss")
+
+### Visualize VIF
+MLogReg_VIF = vif(MLogReg$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/manual%20selection%20prediction-1.png)<!-- -->
+
+``` r
+### Hypothesis testing
+summary(MLogReg$finalModel)
+```
+
+    ## 
+    ## Call:
+    ## NULL
+    ## 
+    ## Deviance Residuals: 
+    ##    Min      1Q  Median      3Q     Max  
+    ## -1.272  -0.723  -0.622  -0.477   2.063  
+    ## 
+    ## Coefficients:
+    ##              Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept)    0.1120     3.4043    0.03  0.97376    
+    ## age            0.0301     0.0140    2.16  0.03086 *  
+    ## height        -0.0242     0.0190   -1.27  0.20418    
+    ## bmi            0.0116     0.0203    0.57  0.56767    
+    ## priorfracYes   0.8789     0.2546    3.45  0.00056 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 475.22  on 424  degrees of freedom
+    ## Residual deviance: 449.62  on 420  degrees of freedom
+    ## AIC: 459.6
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
+anova(MLogReg$finalModel, test="Chisq")
+```
+
+    ## Analysis of Deviance Table
+    ## 
+    ## Model: binomial, link: logit
+    ## 
+    ## Response: .outcome
+    ## 
+    ## Terms added sequentially (first to last)
+    ## 
+    ## 
+    ##              Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
+    ## NULL                           424        475             
+    ## age           1    11.30       423        464  0.00078 ***
+    ## height        1     2.13       422        462  0.14471    
+    ## bmi           1     0.53       421        461  0.46852    
+    ## priorfracYes  1    11.65       420        450  0.00064 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+library(ResourceSelection) 
+```
+
+    ## ResourceSelection 0.3-5   2019-07-22
+
+``` r
+hoslem.test(MLogReg$finalModel$y,fitted(MLogReg))
+```
+
+    ## 
+    ##  Hosmer and Lemeshow goodness of fit (GOF) test
+    ## 
+    ## data:  MLogReg$finalModel$y, fitted(MLogReg)
+    ## X-squared = 12, df = 8, p-value = 0.1
+
+``` r
+# Predicting
+MLogReg.pred.train = predict(MLogReg, train)
+MLogReg.pred.test = predict(MLogReg, test)
+
+#Confusion Matrix for manual
+confusionMatrix(table(MLogReg.pred.train,train$fracture))
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                   
+    ## MLogReg.pred.train  No Yes
+    ##                No  311  98
+    ##                Yes   9   7
+    ##                                              
+    ##                Accuracy : 0.748              
+    ##                  95% CI : (0.704, 0.789)     
+    ##     No Information Rate : 0.753              
+    ##     P-Value [Acc > NIR] : 0.614              
+    ##                                              
+    ##                   Kappa : 0.054              
+    ##                                              
+    ##  Mcnemar's Test P-Value : <0.0000000000000002
+    ##                                              
+    ##             Sensitivity : 0.9719             
+    ##             Specificity : 0.0667             
+    ##          Pos Pred Value : 0.7604             
+    ##          Neg Pred Value : 0.4375             
+    ##              Prevalence : 0.7529             
+    ##          Detection Rate : 0.7318             
+    ##    Detection Prevalence : 0.9624             
+    ##       Balanced Accuracy : 0.5193             
+    ##                                              
+    ##        'Positive' Class : No                 
+    ## 
+
+``` r
+confusionMatrix(table(MLogReg.pred.test,test$fracture))
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                  
+    ## MLogReg.pred.test No Yes
+    ##               No  54  16
+    ##               Yes  1   4
+    ##                                         
+    ##                Accuracy : 0.773         
+    ##                  95% CI : (0.662, 0.862)
+    ##     No Information Rate : 0.733         
+    ##     P-Value [Acc > NIR] : 0.260910      
+    ##                                         
+    ##                   Kappa : 0.239         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.000685      
+    ##                                         
+    ##             Sensitivity : 0.982         
+    ##             Specificity : 0.200         
+    ##          Pos Pred Value : 0.771         
+    ##          Neg Pred Value : 0.800         
+    ##              Prevalence : 0.733         
+    ##          Detection Rate : 0.720         
+    ##    Detection Prevalence : 0.933         
+    ##       Balanced Accuracy : 0.591         
+    ##                                         
+    ##        'Positive' Class : No            
+    ## 
+
+``` r
+################ Misclassification rate train ######################################
+cross.table.manual.train = table(MLogReg.pred.train,train$fracture)
+MCR_manual.train = (cross.table.manual.train[2]+cross.table.manual.train[3])/dim(train)[1]
+print(paste('Misclassification Rate for manual selection on training set: ', MCR_manual.train))
+```
+
+    ## [1] "Misclassification Rate for manual selection on training set:  0.251764705882353"
+
+``` r
+################ Misclassification rate test ######################################
+cross.table.manual.test = table(MLogReg.pred.test,test$fracture)
+MCR_manual.test = (cross.table.manual.test[2]+cross.table.manual.test[3])/dim(test)[1]
+print(paste('Misclassification Rate for manual selection on test set: ', MCR_manual.test))
+```
+
+    ## [1] "Misclassification Rate for manual selection on test set:  0.226666666666667"
+
+``` r
+################ Manual ROC Curve ######################################
+#library(ROCR)
+#manual.roc.test = prediction(as.numeric(MLogReg.pred.test), as.numeric(test$fracture), label.ordering=c("No","Yes"))
+#roc.manual.test = performance(manual.roc.test, measure = "tpr", x.measure = "fpr")
+#plot(roc.manual.test,colorize = TRUE)
+#abline(a=0, b= 1)
+```
+
+##################################################################################### 
+
+# Objective II
+
+##################################################################################### 
+
+``` r
+cutoff.manual = 0.5
+LogReg.Interaction<-glm(fracture~age + height + bmi + priorfrac, family=binomial(link='logit'))
+LogReg.Interaction.pred.train <- predict(LogReg.Interaction, newdata = train, type = "response")
+
+Anova(LogReg.Interaction,type=3)
+```
+
+    ## Analysis of Deviance Table (Type III tests)
+    ## 
+    ## Response: fracture
+    ##           LR Chisq Df Pr(>Chisq)    
+    ## age          10.19  1     0.0014 ** 
+    ## height        4.28  1     0.0386 *  
+    ## bmi           1.30  1     0.2543    
+    ## priorfrac    11.50  1     0.0007 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+# Confusion matrix
+class.LogReg.Interaction.train<-factor(ifelse(LogReg.Interaction.pred.train>cutoff.manual,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for interaction
+print("Confusion matrix for Interaction TRAINING with 0.5 cutoff")
+```
+
+    ## [1] "Confusion matrix for Interaction TRAINING with 0.5 cutoff"
+
+``` r
+confusionMatrix(table(class.LogReg.Interaction.train,train$fracture))
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                               
+    ## class.LogReg.Interaction.train  No Yes
+    ##                            No  305  96
+    ##                            Yes  15   9
+    ##                                             
+    ##                Accuracy : 0.739             
+    ##                  95% CI : (0.694, 0.78)     
+    ##     No Information Rate : 0.753             
+    ##     P-Value [Acc > NIR] : 0.769             
+    ##                                             
+    ##                   Kappa : 0.052             
+    ##                                             
+    ##  Mcnemar's Test P-Value : 0.0000000000000312
+    ##                                             
+    ##             Sensitivity : 0.9531            
+    ##             Specificity : 0.0857            
+    ##          Pos Pred Value : 0.7606            
+    ##          Neg Pred Value : 0.3750            
+    ##              Prevalence : 0.7529            
+    ##          Detection Rate : 0.7176            
+    ##    Detection Prevalence : 0.9435            
+    ##       Balanced Accuracy : 0.5194            
+    ##                                             
+    ##        'Positive' Class : No                
+    ## 
+
+``` r
+################ Misclassification rate train ######################################
+cross.table.interaction.train = table(class.LogReg.Interaction.train,train$fracture)
+MCR_interaction.train = (cross.table.interaction.train[2]+cross.table.interaction.train[3])/dim(train)[1]
+print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_interaction.train))
+```
+
+    ## [1] "Misclassification Rate for stepwise selection on training set:  0.261176470588235"

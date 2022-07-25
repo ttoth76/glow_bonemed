@@ -48,6 +48,7 @@ library(aplore3)
 # Other useful libraries
 library(dplyr)
 library(ggplot2)
+library(gplots)
 
 #library(ggpubr)
 #library(tidyr)
@@ -306,11 +307,32 @@ egg::ggarrange(multibox, ncol=2)
 
 
 #####################################################################################
+#                                     Correlation plot                              #
+#####################################################################################
+```{r correlation plot}
+corr_df = bonemed_df[,c('age', 'weight', 'height', 'bmi', 'fracscore')]
+cont_var.cor = cor(corr_df)
+heatmap.2(cont_var.cor,col=redgreen(75), 
+          density.info="none", trace="none", dendrogram=c("row"), 
+          symm=F,symkey=T,symbreaks=T, scale="none")
+```
+
+### Observations:
+* weight and bmi are more similar to each other therefore they would form a cluster
+* height, weight and bmi are also similar but more distant from each other. Still can form a cluster.
+* age and fracscore are also similar to each other and can form a cluster
+
+
+```{r}
+# Label encoding Yes=1; No=0
+bonemed_df$fracture.num<-ifelse(bonemed_df$fracture=="Yes",1,0)
+```
+
+
+#####################################################################################
 #                                       Loess plots                                 #
 #####################################################################################
 ```{r, Loess plot}
-bonemed_df$fracture.num<-ifelse(bonemed_df$fracture=="Yes",1,0)
-
 num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
 loess_plot = num_cols[c(-1, -2, -3, -9)]
 
@@ -327,71 +349,117 @@ egg::ggarrange(loess, ncol=2)
 ```
 
 ### Observations:
-* The Loess plots show the 'age', 'height' and 'fracscore' have an  S curve like logistic model.
+* The Loess plots show the 'height' has an  S curve like logistic model. The curve is trending down.
+* The other continuous predictors don't seem to be important predicting fracture in the first year.
 
+
+#####################################################################################
+#                   Loess plots to investigate interactions                         #
+#####################################################################################
+```{r, Loess plot interaction}
+num_cols = bonemed_df %>% dplyr::select(where(is.numeric)) %>% colnames()
+loess_plot = num_cols[c(-1, -2, -3, -9)]
+
+for (j in cat_cols)
+{
+  for (i in loess_plot)
+  {
+  plot1 = ggplot(bonemed_df,aes(x=.data[[i]],y=fracture.num,colour=.data[[j]]))+geom_point()+
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ggtitle(paste(i, "&", j, " interaction with fracture"))+
+  geom_smooth(formula = y ~ x, method="loess",size=1,span=1.5)+facet_wrap(~.data[[j]])
+  ylim(-.2,1.2)
+  show(plot1)
+  }
+}
+```
+
+## Observations:
+* There is a interaction with weight and priorfrac
+* There is a interaction with bmi and priorfrac
+* There is a interaction with fracscore and priorfrac
+* There is a interaction with weight and raterisk
+* There is a interaction with bmi and raterisk
+* There is a interaction with weight and bonemed
+* There is a interaction with bmi and bonemed
+* There is a interaction with weight and bonemed_fu
+* There is a interaction with bmi and bonemed_fu
+* There is a interaction with weight and bonetreat
+* There is a interaction with bmi and bonetreat
+
+
+#####################################################################################
+#                    Split the Data to Train and Test sets (85%-15%)               #
+#####################################################################################
+```{r train test set}
+bonmed_df_split = bonemed_df[,-c(1, 2, 3)]
+index<-sample(1:dim(bonmed_df_split)[1],round(dim(bonmed_df_split)[1]*0.85),replace=F)
+train = bonmed_df_split[index,]
+test = bonmed_df_split[-index,]
+```
 
 #####################################################################################
 #                                   Feature Selection                               #
 #####################################################################################
 
-## Manual selection
+## Manual / Intuition selection
 ```{r, feature selection manual selection}
 # Fit each variable separately and check the p-value for significance
 
 # priorfrac
-simple.log.priorfrac<-glm(fracture~priorfrac,family="binomial",data=bonemed_df)
+simple.log.priorfrac<-glm(fracture~priorfrac,family=binomial(link='logit'),data=train)
 simple.log.priorfrac.sum = summary(simple.log.priorfrac)
 
 # age
-simple.log.age<-glm(fracture~age,family="binomial",data=bonemed_df)
+simple.log.age<-glm(fracture~age,family=binomial(link='logit'),data=train)
 simple.log.age.sum = summary(simple.log.age)
 
 # weight
-simple.log.weight<-glm(fracture~weight,family="binomial",data=bonemed_df)
+simple.log.weight<-glm(fracture~weight,family=binomial(link='logit'),data=train)
 simple.log.weight.sum = summary(simple.log.weight)
 
 # height
-simple.log.height<-glm(fracture~height,family="binomial",data=bonemed_df)
+simple.log.height<-glm(fracture~height,family=binomial(link='logit'),data=train)
 simple.log.height.sum = summary(simple.log.height)
 
 # bmi
-simple.log.bmi<-glm(fracture~bmi,family="binomial",data=bonemed_df)
+simple.log.bmi<-glm(fracture~bmi,family=binomial(link='logit'),data=train)
 simple.log.bmi.sum = summary(simple.log.bmi)
 
 # premeno
-simple.log.premeno<-glm(fracture~premeno,family="binomial",data=bonemed_df)
+simple.log.premeno<-glm(fracture~premeno,family=binomial(link='logit'),data=train)
 simple.log.premeno.sum = summary(simple.log.premeno)
 
 # momfrac
-simple.log.momfrac<-glm(fracture~momfrac,family="binomial",data=bonemed_df)
+simple.log.momfrac<-glm(fracture~momfrac,family=binomial(link='logit'),data=train)
 simple.log.momfrac.sum = summary(simple.log.momfrac)
 
 # armassist
-simple.log.armassist<-glm(fracture~armassist,family="binomial",data=bonemed_df)
+simple.log.armassist<-glm(fracture~armassist,family=binomial(link='logit'),data=train)
 simple.log.armassist.sum = summary(simple.log.armassist)
 
 # smoke
-simple.log.smoke<-glm(fracture~smoke,family="binomial",data=bonemed_df)
+simple.log.smoke<-glm(fracture~smoke,family=binomial(link='logit'),data=train)
 simple.log.smoke.sum = summary(simple.log.smoke)
 
 # raterisk
-simple.log.raterisk<-glm(fracture~raterisk,family="binomial",data=bonemed_df)
+simple.log.raterisk<-glm(fracture~raterisk,family=binomial(link='logit'),data=train)
 simple.log.raterisk.sum = summary(simple.log.raterisk)
 
 # fracscore
-simple.log.fracscore<-glm(fracture~fracscore,family="binomial",data=bonemed_df)
+simple.log.fracscore<-glm(fracture~fracscore,family=binomial(link='logit'),data=train)
 simple.log.fracscore.sum = summary(simple.log.fracscore)
 
 # bonemed
-simple.log.bonemed<-glm(fracture~bonemed,family="binomial",data=bonemed_df)
+simple.log.bonemed<-glm(fracture~bonemed,family=binomial(link='logit'),data=train)
 simple.log.bonemed.sum = summary(simple.log.bonemed)
 
 # bonemed_fu
-simple.log.bonemed_fu<-glm(fracture~bonemed_fu,family="binomial",data=bonemed_df)
+simple.log.bonemed_fu<-glm(fracture~bonemed_fu,family=binomial(link='logit'),data=train)
 simple.log.bonemed_fu.sum = summary(simple.log.bonemed_fu)
 
 # bonetreat
-simple.log.bonetreat<-glm(fracture~bonetreat,family="binomial",data=bonemed_df)
+simple.log.bonetreat<-glm(fracture~bonetreat,family=binomial(link='logit'),data=train)
 simple.log.bonetreat.sum = summary(simple.log.bonetreat)
 ```
 
@@ -445,8 +513,8 @@ simple.log.bonetreat.sum$coefficients
  1. priorfracYes
  2. age
  3. height
- 4. momfracYes
- 5. armassistYes
+ 4. armassistYes
+ 5. rateriskSame
  6. rateriskGreater
  7. fracscore
  8. bonemedYes
@@ -455,10 +523,12 @@ simple.log.bonetreat.sum$coefficients
  
  This result is in-line with what we have observed through EDA for the continuous variables. 
  Next, let's fit all the variables and observe the effect and see how it is changing the significance of the predictors.
- 
+
+
+## Fit all variables at the same time to check effects 
 ```{r, all variables manual}
 multi_var.log<-glm(fracture~priorfrac+age+weight+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
-                     bonemed_fu+bonetreat,family="binomial",data=bonemed_df)
+                     bonemed_fu+bonetreat,family=binomial(link='logit'),data=train)
 multi_var.log.sum = summary(multi_var.log)
 multi_var.log.sum$coefficients
 ```
@@ -469,13 +539,13 @@ multi_var.log.sum$coefficients
 vif(multi_var.log)
 ```
 
+
 ### Remove the multicollinearity
 ```{r, all variables manual wo multicollinearity}
 multi_var.log.vif<-glm(fracture~priorfrac+age+weight+height+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
-                     bonemed_fu+bonetreat,family="binomial",data=bonemed_df)
+                     bonemed_fu+bonetreat,family=binomial(link='logit'),data=train)
 multi_var.log.vif.sum = summary(multi_var.log.vif)
 multi_var.log.vif.sum$coefficients
-
 ```
 
 ### re-Check VIF
@@ -498,9 +568,9 @@ Let's test other feature selection methods as well.
 ## Stepwise selection
 
 ```{r, stepwise}
-bonemed_df.step = bonemed_df[,c('priorfrac', 'age', 'weight', 'height', 'bmi', 'premeno', 'momfrac', 'armassist', 'smoke', 'raterisk', 'fracscore', 
+bonemed_df.step = train[,c('priorfrac', 'age', 'weight', 'height', 'bmi', 'premeno', 'momfrac', 'armassist', 'smoke', 'raterisk', 'fracscore', 
                                 'bonemed', 'bonemed_fu', 'bonetreat', 'fracture')]
-step.full.log = glm(fracture~.,family="binomial",data=bonemed_df.step)
+step.full.log = glm(fracture~.,family=binomial(link='logit'),data=bonemed_df.step)
 step.log = step.full.log %>% stepAIC(trace=FALSE)
 ```
 
@@ -511,19 +581,382 @@ vif(step.log)
 ```
 
 ## Obseravtions:
-* Running a stepwise selection to identify the most important predictors the 
+* Running a stepwise selection to identify the predictors the process is selecting:
+* priorfrac
+* age
+* weight
+* bmi
+* momfrac
+* armassist
+* raterisk
+* bonemed
+* bonemed_fu
+* bonetreat
+
+## PCA
+```{r, PCA}
+# Let's use PCA to see if the continuous variables separate or not
+
+num_cols = train %>% dplyr::select(where(is.numeric)) %>% colnames()
+pca_var = num_cols[c(-6)]
+pca_df = train[pca_var]
+
+pc.result=prcomp(pca_df,scale.=TRUE)
+pc.scores=pc.result$x
+pc.scores=data.frame(pc.scores)
+pc.scores$fracture=train$fracture
+
+#plot the first few pc's
+ggplot(data = pc.scores, aes(x = PC1, y = PC2)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC2 on Fracture")
+
+# Let's check lower PCs
+ggplot(data = pc.scores, aes(x = PC1, y = PC3)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC3 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC1, y = PC4)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC4 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC1, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC1 and PC5 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC2, y = PC3)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC2 and PC3 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC2, y = PC4)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC2 and PC4 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC2, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC2 and PC5 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC3, y = PC4)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC3 and PC4 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC3, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC3 and PC5 on Fracture")
+
+ggplot(data = pc.scores, aes(x = PC4, y = PC5)) +
+  geom_point(aes(col=fracture), size=1)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle("PC4 and PC5 on Fracture")
+
+par(mfrow=c(1,2))
+eigenvals = (pc.result$sdev)^2
+plot(1:5,eigenvals/sum(eigenvals),type="l",main="Scree Plot",ylab="Prop. Var. Explained")
+cumulative.prop = cumsum(eigenvals/sum(eigenvals))
+plot(1:5,cumulative.prop,type="l",main="Cumulative proportion",ylim=c(0,1))
+```
+
+```{r, loess for PCI}
+for (i in colnames(pc.scores))
+{
+loess_pca = pc.scores %>% 
+ggplot(aes(x=.data[[i]],y=train$fracture.num))+
+geom_point()+
+geom_smooth(formula = y ~ x, method="loess")+
+theme(plot.title = element_text(hjust = 0.5)) +
+ggtitle(paste(i, " test"))
+egg::ggarrange(loess_pca, ncol=2)
+}
+```
+
+
+## Observations:
+* The levels in the PCA graph are completely intermixed. There is no obvious separation in the PCA.
+* The Scree Plot shows that if we include PC1 that will explain ~50% of the variation of the dataset
+* The cumulative proportion plot helps us see that PC1, PC2, PC3 combined explains the variation ~98% but if we add PC4 than 100% of the variation is explained.
+* This lets us conclude that we need 'age', 'weight', 'height' and 'bmi' to explain 100% of the variation in the data.
+* The loess plot of PCA shows that PC3 is the only continous variable which could be important for predicting fracture in the first year.
+
+
+## Penalized logistic regression (LASSO)
+```{r, data prep for penalized logistic regression}
+# Dummy code categorical predictor variables
+x = model.matrix(fracture~., train)[,-c(1,17)]
+
+# Convert the outcome (class) to a numerical variable
+y <- train$fracture.num
+```
+
+```{r, lasso feature selection}
+grid=10^seq(10,-2, length =100)
+lasso.mod = glmnet(x, y, family = binomial(link='logit'), alpha=1, lambda=grid)
+cv.out=cv.glmnet(x,y,family = "binomial", alpha=1)
+plot(cv.out)
+
+bestlambda = cv.out$lambda.min
+coef(lasso.mod,s=bestlambda)
+
+# Final LASSO model
+lasso.mod.final=glmnet(x,y,family = binomial(link='logit'), alpha=1, type.measure = "class", lambda=bestlambda)
+```
 
 
 #####################################################################################
-#                                       Prediction                                  #
+#                                       Predictions                                 #
 #####################################################################################
+
+```{r, vif function}
+# VIF score function
+vif_score = function(model_name)
+{
+  vif_values = vif(model_name)[,3]
+  barplot(vif_values, main = 'VIF Values', horiz = TRUE, col="blue", xlim = c(0,12))
+  abline(v=10, col="red")
+  return (vif_values)
+}
+```
+
+```{r, y.test}
+y.test = model.matrix(fracture~., test)[,-c(1,17)]
+```
 #####################################################################################
-#                    Split the Data to Train and Test sets (85%-15%)               #
+#                                       LASSO                                       #
 #####################################################################################
-```{r train test set}
-index<-sample(1:dim(bonemed_df)[1],round(dim(bonemed_df)[1]*0.85),replace=F)
-train = bonemed_df[index,]
-test = bonemed_df[-index,]
+```{r, LASSO Predict}
+cutoff.lasso<-0.43
+# Predicting on the final LASSO model TRAINing data
+lasso.mod.final.pred.train <- predict(lasso.mod.final, newx = x, type = "response")
+
+# Confusion matrix
+class.lasso.final.train<-factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for LASSO
+print("Confusion matrix for LASSO TRAINING with 0.5 cutoff")
+confusionMatrix(table(class.lasso.final.train,train$fracture))
+
+################ Misclassification rate train ######################################
+#cross.table.lasso.train = table(table(class.lasso.final.train,train$fracture))
+#MCR_lasso.train = (cross.table.lasso.train[2]+cross.table.lasso.train[3])/dim(train)[1]
+misClasificError.lasso.train = mean(class.lasso.final.train != train$fracture)
+print(paste('Misclassification Rate for lasso on training set: ', misClasificError.lasso.train))
+#####################################################################################################
+# Predicting on the final LASSO model TEST data
+lasso.mod.final.pred.test <- predict(lasso.mod.final, newx = y.test, type = "response")
+
+# Confusion matrix
+class.lasso.final.test<-factor(ifelse(lasso.mod.final.pred.test>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for LASSO
+print("Confusion matrix for LASSO TEST with 0.5 cutoff")
+confusionMatrix(table(class.lasso.final.test,test$fracture))
+
+################ Misclassification rate test ######################################
+#cross.table.lasso.test = table(class.lasso.final.test,test$fracture)
+#MCR_lasso.test = (cross.table.lasso.test[2]+cross.table.lasso.test[3])/dim(test)[1]
+#print(paste('Misclassification Rate for LASSO selection on test set: ', MCR_lasso.test))
+misClasificError.lasso.test = mean(class.lasso.final.test != test$fracture)
+print(paste('Misclassification Rate for lasso on test set: ', misClasificError.lasso.test))
+
+################ LASSO ROC Curve ######################################
+library(ROCR)
+lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
+roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
+plot(roc.lasso.test,colorize = TRUE)
+abline(a=0, b= 1)
+```
+
+## Assumprions
+```{r, fit after feature selection2}
+# Checking logistic regression model assumptions
+
+# The Observations are Independent
+# We can assume that the observations are not coming from repeated measures
+
+#There is No Multicollinearity Among Explanatory Variables
+### Visualize VIF
+#vif_score(lasso.mod)
+
+
+# There are No Extreme Outliers (cooks D)
+#influenceIndexPlot(lasso.mod)
+
+# There is a Linear Relationship Between Explanatory Variables and the Logit of the Response Variable
+
+# Influential point analysis and residual plots
+#residualPlots(lasso.mod)
+#influenceIndexPlot(lasso.mod)
+#influencePlot(lasso.mod)
+```
+
+
+## Observations:
+## All assumptions are met:
+* __The Response Variable is Binary__: 'Fracture' as a response variable is a factor with binary levels (Yes/No)
+* __Independence__: We can assume that the observations are independent
+* __Multicolliearity__: The is no multicollinearity among the explanatory variables (VIF values show no multicollinearity)
+* __Outliers__: The largest Cooks D value is 0.015 which indicates that there is no extreme outlier
+* __The Sample Size is Sufficiently Large__: ?
+
+
+## Model scoring
+```{r model scoring lasso}
+## Add misclassification rate
+```
+
+#####################################################################################
+#                                       Stepwise                                    #
+#####################################################################################
+```{r, Stepwise Predict}
+cutoff.step = 0.42
+# Predicting on the final Stepwise model TRAINing data
+stepwise.mod.final.pred.train <- predict(step.log, newdata = train, type = "response")
+
+# Confusion matrix
+class.stepwise.final.train<-factor(ifelse(stepwise.mod.final.pred.train>cutoff.step,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for Stepwise
+print("Confusion matrix for Stepwise TRAINING with 0.5 cutoff")
+confusionMatrix(table(class.stepwise.final.train,train$fracture))
+
+################ Misclassification rate train ######################################
+#cross.table.stepwise.train = table(class.stepwise.final.train,train$fracture)
+#MCR_stepwise.train = (cross.table.stepwise.train[2]+cross.table.stepwise.train[3])/dim(train)[1]
+#print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_stepwise.train))
+
+misClasificError.stepwise.train = mean(class.stepwise.final.train != train$fracture)
+print(paste('Misclassification Rate for stepwise on train set: ', misClasificError.stepwise.train))
+
+#####################################################################################################
+# Predicting on the final Stepwise model TEST data
+stepwise.mod.final.pred.test <- predict(step.log, newdata = test, type = "response")
+
+# Confusion matrix
+class.stepwise.final.test<-factor(ifelse(stepwise.mod.final.pred.test>cutoff.step,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for Stepwise
+print("Confusion matrix for Stepwise TEST with 0.5 cutoff")
+confusionMatrix(table(class.stepwise.final.test,test$fracture))
+
+
+################ Misclassification rate test ######################################
+#cross.table.stepwise.test = table(class.stepwise.final.test,test$fracture)
+#MCR_stepwise.test = (cross.table.stepwise.test[2]+cross.table.stepwise.test[3])/dim(test)[1]
+#print(paste('Misclassification Rate for stepwise selection on test set: ', MCR_stepwise.test))
+
+misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
+print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
+
+
+# ODD ratios for interpretation
+summary(step.log)
+exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
+
+
+################ Stepwise ROC Curve ######################################
+library(ROCR)
+stepwise.roc.test = prediction(stepwise.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
+roc.stepwise.test = performance(stepwise.roc.test, measure = "tpr", x.measure = "fpr")
+plot(roc.stepwise.test,colorize = TRUE)
+abline(a=0, b= 1)
+```
+
+
+#####################################################################################
+#                                       Manual/Intuition                            #
+#####################################################################################
+
+```{r, manual selection prediction}
+# 5-fold cross validation
+cv <- trainControl(
+  method = "repeatedcv", 
+  number = 5,
+  repeats = 10,
+  savePredictions = TRUE,
+  summaryFunction=mnLogLoss,
+  classProbs = TRUE
+)
+
+MLogReg = train(
+  fracture ~ age + height + bmi + priorfrac,
+  data = train,
+  method = "glm",
+  family = "binomial",
+  trControl = cv,
+  metric = "logLoss")
+
+### Visualize VIF
+MLogReg_VIF = vif(MLogReg$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+
+### Hypothesis testing
+summary(MLogReg$finalModel)
+
+anova(MLogReg$finalModel, test="Chisq")
+
+library(ResourceSelection) 
+hoslem.test(MLogReg$finalModel$y,fitted(MLogReg))
+
+# Predicting
+MLogReg.pred.train = predict(MLogReg, train)
+MLogReg.pred.test = predict(MLogReg, test)
+
+#Confusion Matrix for manual
+confusionMatrix(table(MLogReg.pred.train,train$fracture))
+confusionMatrix(table(MLogReg.pred.test,test$fracture))
+
+################ Misclassification rate train ######################################
+cross.table.manual.train = table(MLogReg.pred.train,train$fracture)
+MCR_manual.train = (cross.table.manual.train[2]+cross.table.manual.train[3])/dim(train)[1]
+print(paste('Misclassification Rate for manual selection on training set: ', MCR_manual.train))
+
+
+
+################ Misclassification rate test ######################################
+cross.table.manual.test = table(MLogReg.pred.test,test$fracture)
+MCR_manual.test = (cross.table.manual.test[2]+cross.table.manual.test[3])/dim(test)[1]
+print(paste('Misclassification Rate for manual selection on test set: ', MCR_manual.test))
+
+################ Manual ROC Curve ######################################
+#library(ROCR)
+#manual.roc.test = prediction(as.numeric(MLogReg.pred.test), as.numeric(test$fracture), label.ordering=c("No","Yes"))
+#roc.manual.test = performance(manual.roc.test, measure = "tpr", x.measure = "fpr")
+#plot(roc.manual.test,colorize = TRUE)
+#abline(a=0, b= 1)
+```
+
+
+#####################################################################################
+#                                       Objective II                                #
+#####################################################################################
+
+```{r, interaction}
+cutoff.manual = 0.5
+LogReg.Interaction<-glm(fracture~age + height + bmi + priorfrac, family=binomial(link='logit'))
+LogReg.Interaction.pred.train <- predict(LogReg.Interaction, newdata = train, type = "response")
+
+Anova(LogReg.Interaction,type=3)
+
+# Confusion matrix
+class.LogReg.Interaction.train<-factor(ifelse(LogReg.Interaction.pred.train>cutoff.manual,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for interaction
+print("Confusion matrix for Interaction TRAINING with 0.5 cutoff")
+confusionMatrix(table(class.LogReg.Interaction.train,train$fracture))
+
+################ Misclassification rate train ######################################
+cross.table.interaction.train = table(class.LogReg.Interaction.train,train$fracture)
+MCR_interaction.train = (cross.table.interaction.train[2]+cross.table.interaction.train[3])/dim(train)[1]
+print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_interaction.train))
 ```
 
 
