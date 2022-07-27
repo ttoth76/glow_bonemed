@@ -1,7 +1,7 @@
 MSDS_6372_Project2
 ================
 Tamas Toth
-2022-07-25
+2022-07-26
 
 #### Loading the necessary R libraries for the analysis
 
@@ -18,6 +18,7 @@ library(car)
 library(caret)
 library(glmnet)
 library(ROCR)
+library(pROC)
 #Dasta set
 library(aplore3)
 
@@ -30,7 +31,7 @@ library(gplots)
 #library(tidyr)
 #library(plyr)
 #library(ggthemes)
-#library(e1071)
+library(e1071)
 #library(class)
 #library(stringr)
 #library(sjPlot)
@@ -141,34 +142,34 @@ bonetreat
 <tbody>
 <tr>
 <td style="text-align:right;">
-198
+196
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-21
+38
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-60
+67
 </td>
 <td style="text-align:right;">
-79.4
+66.7
 </td>
 <td style="text-align:right;">
-168
+155
 </td>
 <td style="text-align:right;">
-28.13
+27.76
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
 No
@@ -197,84 +198,28 @@ No
 </tr>
 <tr>
 <td style="text-align:right;">
-74
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-63
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:right;">
-63
-</td>
-<td style="text-align:right;">
-63.5
-</td>
-<td style="text-align:right;">
-165
-</td>
-<td style="text-align:right;">
-23.32
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Less
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-62
+408
 </td>
 <td style="text-align:right;">
 5
 </td>
 <td style="text-align:right;">
-287
+296
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:right;">
-60
+89
 </td>
 <td style="text-align:right;">
-80.7
+59.9
 </td>
 <td style="text-align:right;">
 160
 </td>
 <td style="text-align:right;">
-31.52
+23.40
 </td>
 <td style="text-align:left;">
 No
@@ -283,7 +228,7 @@ No
 No
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -292,107 +237,163 @@ No
 Less
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-282
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-137
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:right;">
-58
-</td>
-<td style="text-align:right;">
-61.2
-</td>
-<td style="text-align:right;">
-168
-</td>
-<td style="text-align:right;">
-21.68
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Greater
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-152
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-292
+9
 </td>
 <td style="text-align:left;">
 Yes
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+484
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+305
+</td>
+<td style="text-align:left;">
+No
 </td>
 <td style="text-align:right;">
 61
 </td>
 <td style="text-align:right;">
-87.5
+85.7
 </td>
 <td style="text-align:right;">
-167
+162
 </td>
 <td style="text-align:right;">
-31.37
+32.66
 </td>
 <td style="text-align:left;">
 Yes
 </td>
 <td style="text-align:left;">
 No
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Same
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+477
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+301
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+86
+</td>
+<td style="text-align:right;">
+64.4
+</td>
+<td style="text-align:right;">
+158
+</td>
+<td style="text-align:right;">
+25.80
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Same
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+91
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+141
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+87
+</td>
+<td style="text-align:right;">
+61.2
+</td>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+23.91
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Yes
 </td>
 <td style="text-align:left;">
 Yes
@@ -404,19 +405,19 @@ No
 Greater
 </td>
 <td style="text-align:right;">
-4
+10
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -1547,88 +1548,11 @@ multi_var.log.sum$coefficients
     ## bonemed_fuYes     1.292946    0.52379  2.46845 0.013570
     ## bonetreatYes     -2.399374    0.87892 -2.72990 0.006335
 
-### Check VIF
-
-``` r
-vif(multi_var.log)
-```
-
-    ##               GVIF Df GVIF^(1/(2*Df))
-    ## priorfrac    2.909  1           1.705
-    ## age         21.094  1           4.593
-    ## weight     170.899  1          13.073
-    ## height      20.555  1           4.534
-    ## bmi        157.762  1          12.560
-    ## premeno      1.132  1           1.064
-    ## momfrac      1.845  1           1.358
-    ## armassist    7.611  1           2.759
-    ## smoke        1.516  1           1.231
-    ## raterisk     1.247  2           1.057
-    ## fracscore   38.554  1           6.209
-    ## bonemed      6.926  1           2.632
-    ## bonemed_fu   4.188  1           2.047
-    ## bonetreat   10.521  1           3.244
-
-### Remove the multicollinearity
-
-``` r
-multi_var.log.vif<-glm(fracture~priorfrac+age+weight+height+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
-                     bonemed_fu+bonetreat,family=binomial(link='logit'),data=train)
-multi_var.log.vif.sum = summary(multi_var.log.vif)
-multi_var.log.vif.sum$coefficients
-```
-
-    ##                 Estimate Std. Error  z value Pr(>|z|)
-    ## (Intercept)      0.61028   4.423815  0.13795 0.890278
-    ## priorfracYes     0.76995   0.432076  1.78198 0.074752
-    ## age              0.04351   0.060262  0.72198 0.470306
-    ## weight           0.00061   0.009787  0.06233 0.950303
-    ## height          -0.03463   0.021349 -1.62233 0.104733
-    ## premenoYes       0.29569   0.304591  0.97078 0.331660
-    ## momfracYes       0.70836   0.457781  1.54737 0.121774
-    ## armassistYes     0.62487   0.654863  0.95419 0.339985
-    ## smokeYes        -0.10380   0.577891 -0.17963 0.857447
-    ## rateriskSame     0.34465   0.314249  1.09673 0.272759
-    ## rateriskGreater  0.65612   0.335660  1.95471 0.050617
-    ## fracscore       -0.09076   0.299061 -0.30347 0.761531
-    ## bonemedYes       1.34997   0.684311  1.97275 0.048524
-    ## bonemed_fuYes    1.28949   0.524784  2.45717 0.014003
-    ## bonetreatYes    -2.41404   0.875252 -2.75811 0.005814
-
-### re-Check VIF
-
-``` r
-vif(multi_var.log.vif)
-```
-
-    ##              GVIF Df GVIF^(1/(2*Df))
-    ## priorfrac   2.850  1           1.688
-    ## age        20.252  1           4.500
-    ## weight      1.842  1           1.357
-    ## height      1.222  1           1.106
-    ## premeno     1.122  1           1.059
-    ## momfrac     1.795  1           1.340
-    ## armassist   7.322  1           2.706
-    ## smoke       1.506  1           1.227
-    ## raterisk    1.241  2           1.055
-    ## fracscore  36.550  1           6.046
-    ## bonemed     6.860  1           2.619
-    ## bonemed_fu  4.219  1           2.054
-    ## bonetreat  10.474  1           3.236
-
 ### Observations:
 
 -   Fitting all variables to the logistic regression model, it shows
-    that only ‘bonmed’, ‘bonemed_fu’ and ‘bonetreat’ are statistically
-    significant.
--   We observed multicollinearity between ‘weight’ and ‘bmi’. We removed
-    the ‘bmi’ variable and re-run the logistic regression model.
--   As a result the following variables are statistically significant:
-
-1.  height
-2.  bonemed
-3.  bonemed_fu
-4.  bonetreat
+    that only ‘rateriskGreater’, ‘bonmed’, ‘bonemed_fu’ and ‘bonetreat’
+    are statistically significant.
 
 Let’s test other feature selection methods as well.
 
@@ -1884,42 +1808,79 @@ y <- train$fracture.num
 ```
 
 ``` r
-grid=10^seq(10,-2, length =100)
-lasso.mod = glmnet(x, y, family = binomial(link='logit'), alpha=1, lambda=grid)
-cv.out=cv.glmnet(x,y,family = "binomial", alpha=1)
-plot(cv.out)
+# 5-fold cross validation
+cv.lasso <- trainControl(
+  method = "repeatedcv", 
+  number = 5,
+  repeats = 10,
+  savePredictions = TRUE,
+  summaryFunction=mnLogLoss,
+  classProbs = TRUE
+)
+
+lasso.logreg.mod = train(
+  fracture ~  priorfrac+age+weight+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+bonemed_fu+bonetreat,
+  data = train,
+  method = "glmnet",
+  family = "binomial",
+  trControl = cv.lasso,
+  metric = "logLoss")
+
+plot(lasso.logreg.mod)
 ```
 
 ![](MSDS_6372_Project2_files/figure-gfm/lasso%20feature%20selection-1.png)<!-- -->
 
 ``` r
-bestlambda = cv.out$lambda.min
-coef(lasso.mod,s=bestlambda)
+coef(lasso.logreg.mod$finalModel,lasso.logreg.mod$finalModel$lambdaOpt)
 ```
 
     ## 16 x 1 sparse Matrix of class "dgCMatrix"
     ##                        s1
-    ## (Intercept)     -1.391038
-    ## priorfracYes     0.385785
-    ## age              .       
+    ## (Intercept)      0.732224
+    ## priorfracYes     0.557229
+    ## age              0.012451
     ## weight           .       
-    ## height          -0.002597
-    ## bmi              .       
-    ## premenoYes       .       
-    ## momfracYes       0.049417
-    ## armassistYes     0.027311
-    ## smokeYes         .       
-    ## rateriskSame     .       
-    ## rateriskGreater  0.254864
-    ## fracscore        0.111860
-    ## bonemedYes       .       
-    ## bonemed_fuYes    0.169981
-    ## bonetreatYes     .
+    ## height          -0.024412
+    ## bmi              0.007827
+    ## premenoYes       0.220002
+    ## momfracYes       0.454743
+    ## armassistYes     0.286040
+    ## smokeYes        -0.188766
+    ## rateriskSame     0.229086
+    ## rateriskGreater  0.538811
+    ## fracscore        0.066865
+    ## bonemedYes       0.281776
+    ## bonemed_fuYes    0.634608
+    ## bonetreatYes    -0.664698
 
 ``` r
-# Final LASSO model
-lasso.mod.final=glmnet(x,y,family = binomial(link='logit'), alpha=1, type.measure = "class", lambda=bestlambda)
+# Final LASSO model refit with glm
+lasso.mod.final=glm(fracture ~  priorfrac+age+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+bonemed_fu+bonetreat, 
+                    family = binomial(link='logit'), data = train)
+
+# ODD ratios for interpretation
+exp(cbind("Odds ratio" = coef(lasso.mod.final), confint.default(lasso.mod.final, level = 0.95)))
 ```
+
+    ##                 Odds ratio     2.5 %    97.5 %
+    ## (Intercept)        1.60328 0.0003268 7866.2868
+    ## priorfracYes       2.11474 0.9041502    4.9462
+    ## age                1.04180 0.9250458    1.1733
+    ## height             0.96697 0.9279790    1.0076
+    ## bmi                1.00532 0.9560903    1.0571
+    ## premenoYes         1.34561 0.7408388    2.4441
+    ## momfracYes         2.00296 0.8144679    4.9257
+    ## armassistYes       1.78151 0.4875957    6.5090
+    ## smokeYes           0.89045 0.2867205    2.7654
+    ## rateriskSame       1.40975 0.7615568    2.6097
+    ## rateriskGreater    1.93647 1.0026499    3.7400
+    ## fracscore          0.92898 0.5141892    1.6784
+    ## bonemedYes         3.84105 1.0055283   14.6726
+    ## bonemed_fuYes      3.63421 1.2991604   10.1662
+    ## bonetreatYes       0.09057 0.0163061    0.5031
+
+## Observations and interpretations of the LASSO coeffficients:
 
 ##################################################################################### 
 
@@ -1949,49 +1910,97 @@ y.test = model.matrix(fracture~., test)[,-c(1,17)]
 ##################################################################################### 
 
 ``` r
-cutoff.lasso<-0.43
 # Predicting on the final LASSO model TRAINing data
-lasso.mod.final.pred.train <- predict(lasso.mod.final, newx = x, type = "response")
+lasso.mod.final.pred.train <- predict(lasso.mod.final, newdata = train, type = "response")
 
-# Confusion matrix
-class.lasso.final.train<-factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
+# Predicting on the final LASSO model TEST data
+lasso.mod.final.pred.test <- predict(lasso.mod.final, newdata = test, type = "response")
 
-#Confusion Matrix for LASSO
-print("Confusion matrix for LASSO TRAINING with 0.5 cutoff")
+################ LASSO ROC Curve ######################################
+
+lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
+roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
+plot(roc.lasso.test,colorize = TRUE)
+abline(a=0, b= 1)
 ```
 
-    ## [1] "Confusion matrix for LASSO TRAINING with 0.5 cutoff"
+![](MSDS_6372_Project2_files/figure-gfm/LASSO%20Predict-1.png)<!-- -->
 
 ``` r
-confusionMatrix(table(class.lasso.final.train,train$fracture))
+AUC = auc(test$fracture, lasso.mod.final.pred.test)
+```
+
+    ## Setting levels: control = No, case = Yes
+
+    ## Setting direction: controls < cases
+
+``` r
+print(paste("Area Under the Cuve: ", AUC))
+```
+
+    ## [1] "Area Under the Cuve:  0.83"
+
+``` r
+#alternative approach
+lasso.roc<-roc(response=test$fracture,predictor=lasso.mod.final.pred.test,levels=c("No","Yes"))
+```
+
+    ## Setting direction: controls < cases
+
+``` r
+plot(lasso.roc,print.thres="best") #This graph is nice because the x axis is plotted in terms of specificity rather than FPR
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/LASSO%20Predict-2.png)<!-- -->
+
+``` r
+auc(lasso.roc)
+```
+
+    ## Area under the curve: 0.83
+
+``` r
+cutoff.lasso = 0.212
+
+# Confusion matrix train
+class.lasso.final.train = factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for LASSO
+print("Confusion matrix for LASSO TRAINING")
+```
+
+    ## [1] "Confusion matrix for LASSO TRAINING"
+
+``` r
+confusionMatrix(table(class.lasso.final.train,train$fracture), positive = "Yes")
 ```
 
     ## Confusion Matrix and Statistics
     ## 
     ##                        
     ## class.lasso.final.train  No Yes
-    ##                     No  309  95
-    ##                     Yes  11  10
-    ##                                               
-    ##                Accuracy : 0.751               
-    ##                  95% CI : (0.707, 0.791)      
-    ##     No Information Rate : 0.753               
-    ##     P-Value [Acc > NIR] : 0.571               
-    ##                                               
-    ##                   Kappa : 0.083               
-    ##                                               
-    ##  Mcnemar's Test P-Value : 0.000000000000000753
-    ##                                               
-    ##             Sensitivity : 0.9656              
-    ##             Specificity : 0.0952              
-    ##          Pos Pred Value : 0.7649              
-    ##          Neg Pred Value : 0.4762              
-    ##              Prevalence : 0.7529              
-    ##          Detection Rate : 0.7271              
-    ##    Detection Prevalence : 0.9506              
-    ##       Balanced Accuracy : 0.5304              
-    ##                                               
-    ##        'Positive' Class : No                  
+    ##                     No  191  38
+    ##                     Yes 129  67
+    ##                                          
+    ##                Accuracy : 0.607          
+    ##                  95% CI : (0.559, 0.654) 
+    ##     No Information Rate : 0.753          
+    ##     P-Value [Acc > NIR] : 1              
+    ##                                          
+    ##                   Kappa : 0.182          
+    ##                                          
+    ##  Mcnemar's Test P-Value : 0.0000000000033
+    ##                                          
+    ##             Sensitivity : 0.638          
+    ##             Specificity : 0.597          
+    ##          Pos Pred Value : 0.342          
+    ##          Neg Pred Value : 0.834          
+    ##              Prevalence : 0.247          
+    ##          Detection Rate : 0.158          
+    ##    Detection Prevalence : 0.461          
+    ##       Balanced Accuracy : 0.617          
+    ##                                          
+    ##        'Positive' Class : Yes            
     ## 
 
 ``` r
@@ -2002,14 +2011,12 @@ misClasificError.lasso.train = mean(class.lasso.final.train != train$fracture)
 print(paste('Misclassification Rate for lasso on training set: ', misClasificError.lasso.train))
 ```
 
-    ## [1] "Misclassification Rate for lasso on training set:  0.249411764705882"
+    ## [1] "Misclassification Rate for lasso on training set:  0.392941176470588"
 
 ``` r
 #####################################################################################################
-# Predicting on the final LASSO model TEST data
-lasso.mod.final.pred.test <- predict(lasso.mod.final, newx = y.test, type = "response")
 
-# Confusion matrix
+# Confusion matrix test
 class.lasso.final.test<-factor(ifelse(lasso.mod.final.pred.test>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
 
 #Confusion Matrix for LASSO
@@ -2019,35 +2026,35 @@ print("Confusion matrix for LASSO TEST with 0.5 cutoff")
     ## [1] "Confusion matrix for LASSO TEST with 0.5 cutoff"
 
 ``` r
-confusionMatrix(table(class.lasso.final.test,test$fracture))
+confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")
 ```
 
     ## Confusion Matrix and Statistics
     ## 
     ##                       
     ## class.lasso.final.test No Yes
-    ##                    No  53  19
-    ##                    Yes  2   1
+    ##                    No  38   3
+    ##                    Yes 17  17
     ##                                         
-    ##                Accuracy : 0.72          
-    ##                  95% CI : (0.604, 0.818)
+    ##                Accuracy : 0.733         
+    ##                  95% CI : (0.619, 0.829)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.65856       
+    ##     P-Value [Acc > NIR] : 0.55981       
     ##                                         
-    ##                   Kappa : 0.019         
+    ##                   Kappa : 0.442         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.00048       
+    ##  Mcnemar's Test P-Value : 0.00365       
     ##                                         
-    ##             Sensitivity : 0.964         
-    ##             Specificity : 0.050         
-    ##          Pos Pred Value : 0.736         
-    ##          Neg Pred Value : 0.333         
-    ##              Prevalence : 0.733         
-    ##          Detection Rate : 0.707         
-    ##    Detection Prevalence : 0.960         
-    ##       Balanced Accuracy : 0.507         
+    ##             Sensitivity : 0.850         
+    ##             Specificity : 0.691         
+    ##          Pos Pred Value : 0.500         
+    ##          Neg Pred Value : 0.927         
+    ##              Prevalence : 0.267         
+    ##          Detection Rate : 0.227         
+    ##    Detection Prevalence : 0.453         
+    ##       Balanced Accuracy : 0.770         
     ##                                         
-    ##        'Positive' Class : No            
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
@@ -2059,18 +2066,7 @@ misClasificError.lasso.test = mean(class.lasso.final.test != test$fracture)
 print(paste('Misclassification Rate for lasso on test set: ', misClasificError.lasso.test))
 ```
 
-    ## [1] "Misclassification Rate for lasso on test set:  0.28"
-
-``` r
-################ LASSO ROC Curve ######################################
-library(ROCR)
-lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
-roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
-plot(roc.lasso.test,colorize = TRUE)
-abline(a=0, b= 1)
-```
-
-![](MSDS_6372_Project2_files/figure-gfm/LASSO%20Predict-1.png)<!-- -->
+    ## [1] "Misclassification Rate for lasso on test set:  0.266666666666667"
 
 ## Assumprions
 
@@ -2102,13 +2098,25 @@ abline(a=0, b= 1)
 
 -   **The Response Variable is Binary**: ‘Fracture’ as a response
     variable is a factor with binary levels (Yes/No)
+
 -   **Independence**: We can assume that the observations are
     independent
+
 -   **Multicolliearity**: The is no multicollinearity among the
     explanatory variables (VIF values show no multicollinearity)
+
 -   **Outliers**: The largest Cooks D value is 0.015 which indicates
     that there is no extreme outlier
+
 -   **The Sample Size is Sufficiently Large**: ?
+
+-   Sensitivity: The probability that the model predicts a positive
+    outcome for an observation when indeed the outcome is positive. This
+    is also called the “true positive rate.”
+
+-   Specificity: The probability that the model predicts a negative
+    outcome for an observation when indeed the outcome is negative. This
+    is also called the “true negative rate.”
 
 ## Model scoring
 
@@ -2123,67 +2131,95 @@ abline(a=0, b= 1)
 ##################################################################################### 
 
 ``` r
-cutoff.step = 0.42
 # Predicting on the final Stepwise model TRAINing data
 stepwise.mod.final.pred.train <- predict(step.log, newdata = train, type = "response")
 
-# Confusion matrix
+# Predicting on the final Stepwise model TEST data
+stepwise.mod.final.pred.test <- predict(step.log, newdata = test, type = "response")
+
+################ Stepwise ROC Curve ######################################
+library(ROCR)
+stepwise.roc.test = prediction(stepwise.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
+roc.stepwise.test = performance(stepwise.roc.test, measure = "tpr", x.measure = "fpr")
+plot(roc.stepwise.test,colorize = TRUE)
+abline(a=0, b= 1)
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/Stepwise%20Predict-1.png)<!-- -->
+
+``` r
+AUC = auc(test$fracture, stepwise.mod.final.pred.test)
+```
+
+    ## Setting levels: control = No, case = Yes
+
+    ## Setting direction: controls < cases
+
+``` r
+print(paste("Area Under the Cuve: ", AUC))
+```
+
+    ## [1] "Area Under the Cuve:  0.83"
+
+``` r
+#alternative approach
+step.roc<-roc(response=test$fracture,predictor=stepwise.mod.final.pred.test,levels=c("No","Yes"))
+```
+
+    ## Setting direction: controls < cases
+
+``` r
+plot(step.roc,print.thres="best") #This graph is nice because the x axis is plotted in terms of specificity rather than FPR
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/Stepwise%20Predict-2.png)<!-- -->
+
+``` r
+cutoff.step = 0.159
+
+# Confusion matrix stepwise train
 class.stepwise.final.train<-factor(ifelse(stepwise.mod.final.pred.train>cutoff.step,"Yes","No"),levels=c("No","Yes"))
 
-#Confusion Matrix for Stepwise
+#Confusion Matrix for Stepwise train
 print("Confusion matrix for Stepwise TRAINING with 0.5 cutoff")
 ```
 
     ## [1] "Confusion matrix for Stepwise TRAINING with 0.5 cutoff"
 
 ``` r
-confusionMatrix(table(class.stepwise.final.train,train$fracture))
+confusionMatrix(table(class.stepwise.final.train,train$fracture), positive = "Yes")
 ```
 
     ## Confusion Matrix and Statistics
     ## 
     ##                           
     ## class.stepwise.final.train  No Yes
-    ##                        No  293  73
-    ##                        Yes  27  32
-    ##                                         
-    ##                Accuracy : 0.765         
-    ##                  95% CI : (0.721, 0.804)
-    ##     No Information Rate : 0.753         
-    ##     P-Value [Acc > NIR] : 0.309         
-    ##                                         
-    ##                   Kappa : 0.258         
-    ##                                         
-    ##  Mcnemar's Test P-Value : 0.0000068     
-    ##                                         
-    ##             Sensitivity : 0.916         
-    ##             Specificity : 0.305         
-    ##          Pos Pred Value : 0.801         
-    ##          Neg Pred Value : 0.542         
-    ##              Prevalence : 0.753         
-    ##          Detection Rate : 0.689         
-    ##    Detection Prevalence : 0.861         
-    ##       Balanced Accuracy : 0.610         
-    ##                                         
-    ##        'Positive' Class : No            
+    ##                        No  134  15
+    ##                        Yes 186  90
+    ##                                              
+    ##                Accuracy : 0.527              
+    ##                  95% CI : (0.478, 0.575)     
+    ##     No Information Rate : 0.753              
+    ##     P-Value [Acc > NIR] : 1                  
+    ##                                              
+    ##                   Kappa : 0.178              
+    ##                                              
+    ##  Mcnemar's Test P-Value : <0.0000000000000002
+    ##                                              
+    ##             Sensitivity : 0.857              
+    ##             Specificity : 0.419              
+    ##          Pos Pred Value : 0.326              
+    ##          Neg Pred Value : 0.899              
+    ##              Prevalence : 0.247              
+    ##          Detection Rate : 0.212              
+    ##    Detection Prevalence : 0.649              
+    ##       Balanced Accuracy : 0.638              
+    ##                                              
+    ##        'Positive' Class : Yes                
     ## 
 
 ``` r
-################ Misclassification rate train ######################################
-#cross.table.stepwise.train = table(class.stepwise.final.train,train$fracture)
-#MCR_stepwise.train = (cross.table.stepwise.train[2]+cross.table.stepwise.train[3])/dim(train)[1]
-#print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_stepwise.train))
-
-misClasificError.stepwise.train = mean(class.stepwise.final.train != train$fracture)
-print(paste('Misclassification Rate for stepwise on train set: ', misClasificError.stepwise.train))
-```
-
-    ## [1] "Misclassification Rate for stepwise on train set:  0.235294117647059"
-
-``` r
 #####################################################################################################
-# Predicting on the final Stepwise model TEST data
-stepwise.mod.final.pred.test <- predict(step.log, newdata = test, type = "response")
 
 # Confusion matrix
 class.stepwise.final.test<-factor(ifelse(stepwise.mod.final.pred.test>cutoff.step,"Yes","No"),levels=c("No","Yes"))
@@ -2195,50 +2231,42 @@ print("Confusion matrix for Stepwise TEST with 0.5 cutoff")
     ## [1] "Confusion matrix for Stepwise TEST with 0.5 cutoff"
 
 ``` r
-confusionMatrix(table(class.stepwise.final.test,test$fracture))
+confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")
 ```
 
     ## Confusion Matrix and Statistics
     ## 
     ##                          
     ## class.stepwise.final.test No Yes
-    ##                       No  52   9
-    ##                       Yes  3  11
+    ##                       No  31   0
+    ##                       Yes 24  20
     ##                                         
-    ##                Accuracy : 0.84          
-    ##                  95% CI : (0.737, 0.914)
+    ##                Accuracy : 0.68          
+    ##                  95% CI : (0.562, 0.783)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.0211        
+    ##     P-Value [Acc > NIR] : 0.879         
     ##                                         
-    ##                   Kappa : 0.548         
+    ##                   Kappa : 0.408         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.1489        
+    ##  Mcnemar's Test P-Value : 0.00000267    
     ##                                         
-    ##             Sensitivity : 0.945         
-    ##             Specificity : 0.550         
-    ##          Pos Pred Value : 0.852         
-    ##          Neg Pred Value : 0.786         
-    ##              Prevalence : 0.733         
-    ##          Detection Rate : 0.693         
-    ##    Detection Prevalence : 0.813         
-    ##       Balanced Accuracy : 0.748         
+    ##             Sensitivity : 1.000         
+    ##             Specificity : 0.564         
+    ##          Pos Pred Value : 0.455         
+    ##          Neg Pred Value : 1.000         
+    ##              Prevalence : 0.267         
+    ##          Detection Rate : 0.267         
+    ##    Detection Prevalence : 0.587         
+    ##       Balanced Accuracy : 0.782         
     ##                                         
-    ##        'Positive' Class : No            
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
-################ Misclassification rate test ######################################
-#cross.table.stepwise.test = table(class.stepwise.final.test,test$fracture)
-#MCR_stepwise.test = (cross.table.stepwise.test[2]+cross.table.stepwise.test[3])/dim(test)[1]
-#print(paste('Misclassification Rate for stepwise selection on test set: ', MCR_stepwise.test))
+#misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
+#print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
 
-misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
-print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
-```
 
-    ## [1] "Misclassification Rate for stepwise on test set:  0.16"
-
-``` r
 # ODD ratios for interpretation
 summary(step.log)
 ```
@@ -2296,17 +2324,6 @@ exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)
     ## bonemed_fuYes      3.58715 1.292440  9.9561
     ## bonetreatYes       0.09230 0.016492  0.5166
 
-``` r
-################ Stepwise ROC Curve ######################################
-library(ROCR)
-stepwise.roc.test = prediction(stepwise.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
-roc.stepwise.test = performance(stepwise.roc.test, measure = "tpr", x.measure = "fpr")
-plot(roc.stepwise.test,colorize = TRUE)
-abline(a=0, b= 1)
-```
-
-![](MSDS_6372_Project2_files/figure-gfm/Stepwise%20Predict-1.png)<!-- -->
-
 ##################################################################################### 
 
 # Manual/Intuition
@@ -2325,7 +2342,7 @@ cv <- trainControl(
 )
 
 MLogReg = train(
-  fracture ~ age + height + bmi + priorfrac,
+  fracture ~  age + weight + height + bonemed + bonemed_fu + bonetreat,
   data = train,
   method = "glm",
   family = "binomial",
@@ -2351,23 +2368,25 @@ summary(MLogReg$finalModel)
     ## 
     ## Deviance Residuals: 
     ##    Min      1Q  Median      3Q     Max  
-    ## -1.272  -0.723  -0.622  -0.477   2.063  
+    ## -1.451  -0.759  -0.624  -0.458   2.110  
     ## 
     ## Coefficients:
-    ##              Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept)    0.1120     3.4043    0.03  0.97376    
-    ## age            0.0301     0.0140    2.16  0.03086 *  
-    ## height        -0.0242     0.0190   -1.27  0.20418    
-    ## bmi            0.0116     0.0203    0.57  0.56767    
-    ## priorfracYes   0.8789     0.2546    3.45  0.00056 ***
+    ##               Estimate Std. Error z value Pr(>|z|)   
+    ## (Intercept)    0.80546    3.36183    0.24   0.8106   
+    ## age            0.03588    0.01374    2.61   0.0090 **
+    ## weight         0.00725    0.00817    0.89   0.3749   
+    ## height        -0.03215    0.02039   -1.58   0.1148   
+    ## bonemedYes     1.28921    0.66315    1.94   0.0519 . 
+    ## bonemed_fuYes  1.59615    0.49369    3.23   0.0012 **
+    ## bonetreatYes  -2.41454    0.84734   -2.85   0.0044 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for binomial family taken to be 1)
     ## 
     ##     Null deviance: 475.22  on 424  degrees of freedom
-    ## Residual deviance: 449.62  on 420  degrees of freedom
-    ## AIC: 459.6
+    ## Residual deviance: 447.10  on 418  degrees of freedom
+    ## AIC: 461.1
     ## 
     ## Number of Fisher Scoring iterations: 4
 
@@ -2384,12 +2403,14 @@ anova(MLogReg$finalModel, test="Chisq")
     ## Terms added sequentially (first to last)
     ## 
     ## 
-    ##              Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
-    ## NULL                           424        475             
-    ## age           1    11.30       423        464  0.00078 ***
-    ## height        1     2.13       422        462  0.14471    
-    ## bmi           1     0.53       421        461  0.46852    
-    ## priorfracYes  1    11.65       420        450  0.00064 ***
+    ##               Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
+    ## NULL                            424        475             
+    ## age            1    11.30       423        464  0.00078 ***
+    ## weight         1     0.01       422        464  0.90908    
+    ## height         1     2.52       421        461  0.11273    
+    ## bonemedYes     1     2.49       420        459  0.11437    
+    ## bonemed_fuYes  1     3.98       419        455  0.04594 *  
+    ## bonetreatYes   1     7.82       418        447  0.00518 ** 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2407,103 +2428,111 @@ hoslem.test(MLogReg$finalModel$y,fitted(MLogReg))
     ##  Hosmer and Lemeshow goodness of fit (GOF) test
     ## 
     ## data:  MLogReg$finalModel$y, fitted(MLogReg)
-    ## X-squared = 12, df = 8, p-value = 0.1
+    ## X-squared = 7.9, df = 8, p-value = 0.4
 
 ``` r
 # Predicting
-MLogReg.pred.train = predict(MLogReg, train)
-MLogReg.pred.test = predict(MLogReg, test)
+MLogReg.pred.train = predict(MLogReg, train, type = 'prob')
+MLogReg.pred.test = predict(MLogReg, test, type = 'prob')
 
-#Confusion Matrix for manual
-confusionMatrix(table(MLogReg.pred.train,train$fracture))
+AUC = auc(test$fracture, MLogReg.pred.test$Yes)
+```
+
+    ## Setting levels: control = No, case = Yes
+
+    ## Setting direction: controls < cases
+
+``` r
+print(paste("Area Under the Cuve: ", AUC))
+```
+
+    ## [1] "Area Under the Cuve:  0.872727272727273"
+
+``` r
+################ Manual ROC Curve ######################################
+manual.roc<-roc(response=test$fracture,predictor=MLogReg.pred.test$Yes,levels=c("No","Yes"))
+```
+
+    ## Setting direction: controls < cases
+
+``` r
+plot(manual.roc,print.thres="best")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/manual%20selection%20prediction-2.png)<!-- -->
+
+``` r
+cutoff.manual = 0.231
+
+#Confusion Matrix for manual model
+class.manual.train<-ifelse(MLogReg.pred.train$Yes > cutoff.manual,"Yes","No")
+class.manual.train<-factor(class.manual.train)
+
+class.manual.test<-ifelse(MLogReg.pred.test$Yes > cutoff.manual,"Yes","No")
+class.manual.test<-factor(class.manual.test)
+
+confusionMatrix(table(class.manual.train,train$fracture), positive = "Yes")
 ```
 
     ## Confusion Matrix and Statistics
     ## 
     ##                   
-    ## MLogReg.pred.train  No Yes
-    ##                No  311  98
-    ##                Yes   9   7
-    ##                                              
-    ##                Accuracy : 0.748              
-    ##                  95% CI : (0.704, 0.789)     
-    ##     No Information Rate : 0.753              
-    ##     P-Value [Acc > NIR] : 0.614              
-    ##                                              
-    ##                   Kappa : 0.054              
-    ##                                              
-    ##  Mcnemar's Test P-Value : <0.0000000000000002
-    ##                                              
-    ##             Sensitivity : 0.9719             
-    ##             Specificity : 0.0667             
-    ##          Pos Pred Value : 0.7604             
-    ##          Neg Pred Value : 0.4375             
-    ##              Prevalence : 0.7529             
-    ##          Detection Rate : 0.7318             
-    ##    Detection Prevalence : 0.9624             
-    ##       Balanced Accuracy : 0.5193             
-    ##                                              
-    ##        'Positive' Class : No                 
+    ## class.manual.train  No Yes
+    ##                No  196  45
+    ##                Yes 124  60
+    ##                                         
+    ##                Accuracy : 0.602         
+    ##                  95% CI : (0.554, 0.649)
+    ##     No Information Rate : 0.753         
+    ##     P-Value [Acc > NIR] : 1             
+    ##                                         
+    ##                   Kappa : 0.147         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.00000000197 
+    ##                                         
+    ##             Sensitivity : 0.571         
+    ##             Specificity : 0.613         
+    ##          Pos Pred Value : 0.326         
+    ##          Neg Pred Value : 0.813         
+    ##              Prevalence : 0.247         
+    ##          Detection Rate : 0.141         
+    ##    Detection Prevalence : 0.433         
+    ##       Balanced Accuracy : 0.592         
+    ##                                         
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
-confusionMatrix(table(MLogReg.pred.test,test$fracture))
+confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")
 ```
 
     ## Confusion Matrix and Statistics
     ## 
     ##                  
-    ## MLogReg.pred.test No Yes
-    ##               No  54  16
-    ##               Yes  1   4
+    ## class.manual.test No Yes
+    ##               No  42   2
+    ##               Yes 13  18
     ##                                         
-    ##                Accuracy : 0.773         
-    ##                  95% CI : (0.662, 0.862)
+    ##                Accuracy : 0.8           
+    ##                  95% CI : (0.692, 0.884)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.260910      
+    ##     P-Value [Acc > NIR] : 0.11810       
     ##                                         
-    ##                   Kappa : 0.239         
+    ##                   Kappa : 0.565         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.000685      
+    ##  Mcnemar's Test P-Value : 0.00982       
     ##                                         
-    ##             Sensitivity : 0.982         
-    ##             Specificity : 0.200         
-    ##          Pos Pred Value : 0.771         
-    ##          Neg Pred Value : 0.800         
-    ##              Prevalence : 0.733         
-    ##          Detection Rate : 0.720         
-    ##    Detection Prevalence : 0.933         
-    ##       Balanced Accuracy : 0.591         
+    ##             Sensitivity : 0.900         
+    ##             Specificity : 0.764         
+    ##          Pos Pred Value : 0.581         
+    ##          Neg Pred Value : 0.955         
+    ##              Prevalence : 0.267         
+    ##          Detection Rate : 0.240         
+    ##    Detection Prevalence : 0.413         
+    ##       Balanced Accuracy : 0.832         
     ##                                         
-    ##        'Positive' Class : No            
+    ##        'Positive' Class : Yes           
     ## 
-
-``` r
-################ Misclassification rate train ######################################
-cross.table.manual.train = table(MLogReg.pred.train,train$fracture)
-MCR_manual.train = (cross.table.manual.train[2]+cross.table.manual.train[3])/dim(train)[1]
-print(paste('Misclassification Rate for manual selection on training set: ', MCR_manual.train))
-```
-
-    ## [1] "Misclassification Rate for manual selection on training set:  0.251764705882353"
-
-``` r
-################ Misclassification rate test ######################################
-cross.table.manual.test = table(MLogReg.pred.test,test$fracture)
-MCR_manual.test = (cross.table.manual.test[2]+cross.table.manual.test[3])/dim(test)[1]
-print(paste('Misclassification Rate for manual selection on test set: ', MCR_manual.test))
-```
-
-    ## [1] "Misclassification Rate for manual selection on test set:  0.226666666666667"
-
-``` r
-################ Manual ROC Curve ######################################
-#library(ROCR)
-#manual.roc.test = prediction(as.numeric(MLogReg.pred.test), as.numeric(test$fracture), label.ordering=c("No","Yes"))
-#roc.manual.test = performance(manual.roc.test, measure = "tpr", x.measure = "fpr")
-#plot(roc.manual.test,colorize = TRUE)
-#abline(a=0, b= 1)
-```
 
 ##################################################################################### 
 
@@ -2512,71 +2541,201 @@ print(paste('Misclassification Rate for manual selection on test set: ', MCR_man
 ##################################################################################### 
 
 ``` r
-cutoff.manual = 0.5
-LogReg.Interaction<-glm(fracture~age + height + bmi + priorfrac, family=binomial(link='logit'))
-LogReg.Interaction.pred.train <- predict(LogReg.Interaction, newdata = train, type = "response")
+cv.ii <- trainControl(
+  method = "repeatedcv", 
+  number = 5,
+  repeats = 10,
+  savePredictions = TRUE,
+  summaryFunction=mnLogLoss,
+  classProbs = TRUE
+)
 
-Anova(LogReg.Interaction,type=3)
+MLogReg.ii = train(
+  fracture ~  age + height + bonemed_fu + bonetreat + bmi*bonemed_fu + bmi*bonemed,
+  data = train,
+  method = "glm",
+  family = "binomial",
+  trControl = cv,
+  metric = "logLoss")
+
+### Hypothesis testing
+summary(MLogReg.ii$finalModel)
 ```
 
-    ## Analysis of Deviance Table (Type III tests)
     ## 
-    ## Response: fracture
-    ##           LR Chisq Df Pr(>Chisq)    
-    ## age          10.19  1     0.0014 ** 
-    ## height        4.28  1     0.0386 *  
-    ## bmi           1.30  1     0.2543    
-    ## priorfrac    11.50  1     0.0007 ***
+    ## Call:
+    ## NULL
+    ## 
+    ## Deviance Residuals: 
+    ##    Min      1Q  Median      3Q     Max  
+    ## -1.894  -0.731  -0.613  -0.409   2.054  
+    ## 
+    ## Coefficients:
+    ##                     Estimate Std. Error z value Pr(>|z|)   
+    ## (Intercept)          0.15522    3.53992    0.04   0.9650   
+    ## age                  0.03668    0.01385    2.65   0.0081 **
+    ## height              -0.02488    0.01957   -1.27   0.2037   
+    ## bonemed_fuYes       -3.04383    2.24137   -1.36   0.1745   
+    ## bonetreatYes        -2.27217    0.90139   -2.52   0.0117 * 
+    ## bmi                 -0.00136    0.02476   -0.06   0.9561   
+    ## bonemedYes           2.89443    2.37116    1.22   0.2222   
+    ## `bonemed_fuYes:bmi`  0.16850    0.08058    2.09   0.0365 * 
+    ## `bmi:bonemedYes`    -0.05558    0.07861   -0.71   0.4796   
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 475.22  on 424  degrees of freedom
+    ## Residual deviance: 440.36  on 416  degrees of freedom
+    ## AIC: 458.4
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
+anova(MLogReg.ii$finalModel, test="Chisq")
+```
+
+    ## Analysis of Deviance Table
+    ## 
+    ## Model: binomial, link: logit
+    ## 
+    ## Response: .outcome
+    ## 
+    ## Terms added sequentially (first to last)
+    ## 
+    ## 
+    ##                     Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
+    ## NULL                                  424        475             
+    ## age                  1    11.30       423        464  0.00078 ***
+    ## height               1     2.13       422        462  0.14471    
+    ## bonemed_fuYes        1     5.03       421        457  0.02485 *  
+    ## bonetreatYes         1     5.21       420        452  0.02247 *  
+    ## bmi                  1     1.06       419        450  0.30350    
+    ## bonemedYes           1     3.58       418        447  0.05836 .  
+    ## `bonemed_fuYes:bmi`  1     6.02       417        441  0.01413 *  
+    ## `bmi:bonemedYes`     1     0.53       416        440  0.46726    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ``` r
-# Confusion matrix
-class.LogReg.Interaction.train<-factor(ifelse(LogReg.Interaction.pred.train>cutoff.manual,"Yes","No"),levels=c("No","Yes"))
-
-#Confusion Matrix for interaction
-print("Confusion matrix for Interaction TRAINING with 0.5 cutoff")
+library(ResourceSelection) 
+hoslem.test(MLogReg.ii$finalModel$y,fitted(MLogReg.ii))
 ```
 
-    ## [1] "Confusion matrix for Interaction TRAINING with 0.5 cutoff"
+    ## 
+    ##  Hosmer and Lemeshow goodness of fit (GOF) test
+    ## 
+    ## data:  MLogReg.ii$finalModel$y, fitted(MLogReg.ii)
+    ## X-squared = 12, df = 8, p-value = 0.1
 
 ``` r
-confusionMatrix(table(class.LogReg.Interaction.train,train$fracture))
+# Predicting
+MLogReg.ii.pred.train = predict(MLogReg.ii, train, type = 'prob')
+MLogReg.ii.pred.test = predict(MLogReg.ii, test, type = 'prob')
+
+AUC = auc(test$fracture, MLogReg.ii.pred.test$Yes)
+```
+
+    ## Setting levels: control = No, case = Yes
+
+    ## Setting direction: controls < cases
+
+``` r
+print(paste("Area Under the Cuve: ", AUC))
+```
+
+    ## [1] "Area Under the Cuve:  0.883636363636364"
+
+``` r
+################ Manual ROC Curve ######################################
+manual.roc<-roc(response=test$fracture,predictor=MLogReg.ii.pred.test$Yes,levels=c("No","Yes"))
+```
+
+    ## Setting direction: controls < cases
+
+``` r
+plot(manual.roc,print.thres="best")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/interaction-1.png)<!-- -->
+
+``` r
+cutoff.manual = 0.229
+
+#Confusion Matrix for manual model
+class.manual.train.ii<-ifelse(MLogReg.ii.pred.train$Yes > cutoff.manual,"Yes","No")
+class.manual.train.ii<-factor(class.manual.train)
+
+class.manual.test.ii<-ifelse(MLogReg.ii.pred.test$Yes > cutoff.manual,"Yes","No")
+class.manual.test.ii<-factor(class.manual.test)
+
+confusionMatrix(table(class.manual.train.ii,train$fracture), positive = "Yes")
 ```
 
     ## Confusion Matrix and Statistics
     ## 
-    ##                               
-    ## class.LogReg.Interaction.train  No Yes
-    ##                            No  305  96
-    ##                            Yes  15   9
-    ##                                             
-    ##                Accuracy : 0.739             
-    ##                  95% CI : (0.694, 0.78)     
-    ##     No Information Rate : 0.753             
-    ##     P-Value [Acc > NIR] : 0.769             
-    ##                                             
-    ##                   Kappa : 0.052             
-    ##                                             
-    ##  Mcnemar's Test P-Value : 0.0000000000000312
-    ##                                             
-    ##             Sensitivity : 0.9531            
-    ##             Specificity : 0.0857            
-    ##          Pos Pred Value : 0.7606            
-    ##          Neg Pred Value : 0.3750            
-    ##              Prevalence : 0.7529            
-    ##          Detection Rate : 0.7176            
-    ##    Detection Prevalence : 0.9435            
-    ##       Balanced Accuracy : 0.5194            
-    ##                                             
-    ##        'Positive' Class : No                
+    ##                      
+    ## class.manual.train.ii  No Yes
+    ##                   No  196  45
+    ##                   Yes 124  60
+    ##                                         
+    ##                Accuracy : 0.602         
+    ##                  95% CI : (0.554, 0.649)
+    ##     No Information Rate : 0.753         
+    ##     P-Value [Acc > NIR] : 1             
+    ##                                         
+    ##                   Kappa : 0.147         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.00000000197 
+    ##                                         
+    ##             Sensitivity : 0.571         
+    ##             Specificity : 0.613         
+    ##          Pos Pred Value : 0.326         
+    ##          Neg Pred Value : 0.813         
+    ##              Prevalence : 0.247         
+    ##          Detection Rate : 0.141         
+    ##    Detection Prevalence : 0.433         
+    ##       Balanced Accuracy : 0.592         
+    ##                                         
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
-################ Misclassification rate train ######################################
-cross.table.interaction.train = table(class.LogReg.Interaction.train,train$fracture)
-MCR_interaction.train = (cross.table.interaction.train[2]+cross.table.interaction.train[3])/dim(train)[1]
-print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_interaction.train))
+confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
 ```
 
-    ## [1] "Misclassification Rate for stepwise selection on training set:  0.261176470588235"
+    ## Confusion Matrix and Statistics
+    ## 
+    ##                     
+    ## class.manual.test.ii No Yes
+    ##                  No  42   2
+    ##                  Yes 13  18
+    ##                                         
+    ##                Accuracy : 0.8           
+    ##                  95% CI : (0.692, 0.884)
+    ##     No Information Rate : 0.733         
+    ##     P-Value [Acc > NIR] : 0.11810       
+    ##                                         
+    ##                   Kappa : 0.565         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.00982       
+    ##                                         
+    ##             Sensitivity : 0.900         
+    ##             Specificity : 0.764         
+    ##          Pos Pred Value : 0.581         
+    ##          Neg Pred Value : 0.955         
+    ##              Prevalence : 0.267         
+    ##          Detection Rate : 0.240         
+    ##    Detection Prevalence : 0.413         
+    ##       Balanced Accuracy : 0.832         
+    ##                                         
+    ##        'Positive' Class : Yes           
+    ## 
+
+``` r
+### Visualize VIF
+#MLogReg_ii_VIF = vif(MLogReg.ii$finalModel)
+#barplot(MLogReg_ii_VIF, main = 'VIF Values (Custom Logistic Regression with interactions', horiz = TRUE, col="blue", xlim = c(0,12))
+#abline(v=10, col="red")
+```

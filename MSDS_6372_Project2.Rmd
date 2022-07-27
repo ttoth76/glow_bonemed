@@ -42,8 +42,10 @@ library(car)
 library(caret)
 library(glmnet)
 library(ROCR)
+library(pROC)
 #Dasta set
 library(aplore3)
+library(ResourceSelection)
 
 # Other useful libraries
 library(dplyr)
@@ -54,7 +56,7 @@ library(gplots)
 #library(tidyr)
 #library(plyr)
 #library(ggthemes)
-#library(e1071)
+library(e1071)
 #library(class)
 #library(stringr)
 #library(sjPlot)
@@ -534,34 +536,8 @@ multi_var.log.sum$coefficients
 ```
 
 
-### Check VIF
-```{r, vif orig}
-vif(multi_var.log)
-```
-
-
-### Remove the multicollinearity
-```{r, all variables manual wo multicollinearity}
-multi_var.log.vif<-glm(fracture~priorfrac+age+weight+height+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+
-                     bonemed_fu+bonetreat,family=binomial(link='logit'),data=train)
-multi_var.log.vif.sum = summary(multi_var.log.vif)
-multi_var.log.vif.sum$coefficients
-```
-
-### re-Check VIF
-```{r, vif}
-vif(multi_var.log.vif)
-```
-
-
 ### Observations:
-* Fitting all variables to the logistic regression model, it shows that only 'bonmed', 'bonemed_fu' and 'bonetreat' are statistically significant. 
-* We observed multicollinearity between 'weight' and 'bmi'. We removed the 'bmi' variable and re-run the logistic regression model.
-* As a result the following variables are statistically significant:
-1. height
-2. bonemed
-3. bonemed_fu
-4. bonetreat
+* Fitting all variables to the logistic regression model, it shows that only 'rateriskGreater', 'bonmed', 'bonemed_fu' and 'bonetreat' are statistically significant. 
 
 Let's test other feature selection methods as well.
 
@@ -697,18 +673,36 @@ y <- train$fracture.num
 ```
 
 ```{r, lasso feature selection}
-grid=10^seq(10,-2, length =100)
-lasso.mod = glmnet(x, y, family = binomial(link='logit'), alpha=1, lambda=grid)
-cv.out=cv.glmnet(x,y,family = "binomial", alpha=1)
-plot(cv.out)
+# 5-fold cross validation
+cv.lasso <- trainControl(
+  method = "repeatedcv", 
+  number = 5,
+  repeats = 10,
+  savePredictions = TRUE,
+  summaryFunction=mnLogLoss,
+  classProbs = TRUE
+)
 
-bestlambda = cv.out$lambda.min
-coef(lasso.mod,s=bestlambda)
+lasso.logreg.mod = train(
+  fracture ~  priorfrac+age+weight+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+bonemed_fu+bonetreat,
+  data = train,
+  method = "glmnet",
+  family = "binomial",
+  trControl = cv.lasso,
+  metric = "logLoss")
 
-# Final LASSO model
-lasso.mod.final=glmnet(x,y,family = binomial(link='logit'), alpha=1, type.measure = "class", lambda=bestlambda)
+plot(lasso.logreg.mod)
+coef(lasso.logreg.mod$finalModel,lasso.logreg.mod$finalModel$lambdaOpt)
+
+# Final LASSO model refit with glm
+lasso.mod.final=glm(fracture ~  priorfrac+age+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+bonemed_fu+bonetreat, 
+                    family = binomial(link='logit'), data = train)
+
+# ODD ratios for interpretation
+exp(cbind("Odds ratio" = coef(lasso.mod.final), confint.default(lasso.mod.final, level = 0.95)))
 ```
 
+## Observations and interpretations of the LASSO coeffficients:
 
 #####################################################################################
 #                                       Predictions                                 #
@@ -732,16 +726,38 @@ y.test = model.matrix(fracture~., test)[,-c(1,17)]
 #                                       LASSO                                       #
 #####################################################################################
 ```{r, LASSO Predict}
-cutoff.lasso<-0.43
-# Predicting on the final LASSO model TRAINing data
-lasso.mod.final.pred.train <- predict(lasso.mod.final, newx = x, type = "response")
 
-# Confusion matrix
-class.lasso.final.train<-factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
+# Predicting on the final LASSO model TRAINing data
+lasso.mod.final.pred.train <- predict(lasso.mod.final, newdata = train, type = "response")
+
+# Predicting on the final LASSO model TEST data
+lasso.mod.final.pred.test <- predict(lasso.mod.final, newdata = test, type = "response")
+
+################ LASSO ROC Curve ######################################
+
+lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
+roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
+plot(roc.lasso.test,colorize = TRUE)
+abline(a=0, b= 1)
+
+AUC = auc(test$fracture, lasso.mod.final.pred.test)
+print(paste("Area Under the Cuve: ", AUC))
+print(paste("LASSO AIC Score: ", AIC(lasso.mod.final)))
+
+#alternative approach
+lasso.roc<-roc(response=test$fracture,predictor=lasso.mod.final.pred.test,levels=c("No","Yes"))
+plot(lasso.roc,print.thres="best") #This graph is nice because the x axis is plotted in terms of specificity rather than FPR
+auc(lasso.roc)
+
+cutoff.lasso = 0.212
+
+# Confusion matrix train
+class.lasso.final.train = factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
 
 #Confusion Matrix for LASSO
-print("Confusion matrix for LASSO TRAINING with 0.5 cutoff")
-confusionMatrix(table(class.lasso.final.train,train$fracture))
+print("Confusion matrix for LASSO TRAINING")
+confusionMatrix(table(class.lasso.final.train,train$fracture), positive = "Yes")
+
 
 ################ Misclassification rate train ######################################
 #cross.table.lasso.train = table(table(class.lasso.final.train,train$fracture))
@@ -749,15 +765,13 @@ confusionMatrix(table(class.lasso.final.train,train$fracture))
 misClasificError.lasso.train = mean(class.lasso.final.train != train$fracture)
 print(paste('Misclassification Rate for lasso on training set: ', misClasificError.lasso.train))
 #####################################################################################################
-# Predicting on the final LASSO model TEST data
-lasso.mod.final.pred.test <- predict(lasso.mod.final, newx = y.test, type = "response")
 
-# Confusion matrix
+# Confusion matrix test
 class.lasso.final.test<-factor(ifelse(lasso.mod.final.pred.test>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
 
 #Confusion Matrix for LASSO
 print("Confusion matrix for LASSO TEST with 0.5 cutoff")
-confusionMatrix(table(class.lasso.final.test,test$fracture))
+confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")
 
 ################ Misclassification rate test ######################################
 #cross.table.lasso.test = table(class.lasso.final.test,test$fracture)
@@ -765,13 +779,6 @@ confusionMatrix(table(class.lasso.final.test,test$fracture))
 #print(paste('Misclassification Rate for LASSO selection on test set: ', MCR_lasso.test))
 misClasificError.lasso.test = mean(class.lasso.final.test != test$fracture)
 print(paste('Misclassification Rate for lasso on test set: ', misClasificError.lasso.test))
-
-################ LASSO ROC Curve ######################################
-library(ROCR)
-lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
-roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
-plot(roc.lasso.test,colorize = TRUE)
-abline(a=0, b= 1)
 ```
 
 ## Assumprions
@@ -806,6 +813,9 @@ abline(a=0, b= 1)
 * __Outliers__: The largest Cooks D value is 0.015 which indicates that there is no extreme outlier
 * __The Sample Size is Sufficiently Large__: ?
 
+* Sensitivity: The probability that the model predicts a positive outcome for an observation when indeed the outcome is positive. This is also called the “true positive rate.”
+* Specificity: The probability that the model predicts a negative outcome for an observation when indeed the outcome is negative. This is also called the “true negative rate.”
+
 
 ## Model scoring
 ```{r model scoring lasso}
@@ -816,50 +826,12 @@ abline(a=0, b= 1)
 #                                       Stepwise                                    #
 #####################################################################################
 ```{r, Stepwise Predict}
-cutoff.step = 0.42
+
 # Predicting on the final Stepwise model TRAINing data
 stepwise.mod.final.pred.train <- predict(step.log, newdata = train, type = "response")
 
-# Confusion matrix
-class.stepwise.final.train<-factor(ifelse(stepwise.mod.final.pred.train>cutoff.step,"Yes","No"),levels=c("No","Yes"))
-
-#Confusion Matrix for Stepwise
-print("Confusion matrix for Stepwise TRAINING with 0.5 cutoff")
-confusionMatrix(table(class.stepwise.final.train,train$fracture))
-
-################ Misclassification rate train ######################################
-#cross.table.stepwise.train = table(class.stepwise.final.train,train$fracture)
-#MCR_stepwise.train = (cross.table.stepwise.train[2]+cross.table.stepwise.train[3])/dim(train)[1]
-#print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_stepwise.train))
-
-misClasificError.stepwise.train = mean(class.stepwise.final.train != train$fracture)
-print(paste('Misclassification Rate for stepwise on train set: ', misClasificError.stepwise.train))
-
-#####################################################################################################
 # Predicting on the final Stepwise model TEST data
 stepwise.mod.final.pred.test <- predict(step.log, newdata = test, type = "response")
-
-# Confusion matrix
-class.stepwise.final.test<-factor(ifelse(stepwise.mod.final.pred.test>cutoff.step,"Yes","No"),levels=c("No","Yes"))
-
-#Confusion Matrix for Stepwise
-print("Confusion matrix for Stepwise TEST with 0.5 cutoff")
-confusionMatrix(table(class.stepwise.final.test,test$fracture))
-
-
-################ Misclassification rate test ######################################
-#cross.table.stepwise.test = table(class.stepwise.final.test,test$fracture)
-#MCR_stepwise.test = (cross.table.stepwise.test[2]+cross.table.stepwise.test[3])/dim(test)[1]
-#print(paste('Misclassification Rate for stepwise selection on test set: ', MCR_stepwise.test))
-
-misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
-print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
-
-
-# ODD ratios for interpretation
-summary(step.log)
-exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
-
 
 ################ Stepwise ROC Curve ######################################
 library(ROCR)
@@ -867,6 +839,46 @@ stepwise.roc.test = prediction(stepwise.mod.final.pred.test, test$fracture,label
 roc.stepwise.test = performance(stepwise.roc.test, measure = "tpr", x.measure = "fpr")
 plot(roc.stepwise.test,colorize = TRUE)
 abline(a=0, b= 1)
+
+AUC = auc(test$fracture, stepwise.mod.final.pred.test)
+print(paste("Area Under the Cuve: ", AUC))
+print(paste("Stepwise AIC Score: ", AIC(step.log)))
+
+
+#alternative approach
+step.roc<-roc(response=test$fracture,predictor=stepwise.mod.final.pred.test,levels=c("No","Yes"))
+plot(step.roc,print.thres="best") #This graph is nice because the x axis is plotted in terms of specificity rather than FPR
+
+cutoff.step = 0.159
+
+# Confusion matrix stepwise train
+class.stepwise.final.train<-factor(ifelse(stepwise.mod.final.pred.train>cutoff.step,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for Stepwise train
+print("Confusion matrix for Stepwise TRAINING with 0.5 cutoff")
+confusionMatrix(table(class.stepwise.final.train,train$fracture), positive = "Yes")
+
+#####################################################################################################
+
+# Confusion matrix
+class.stepwise.final.test<-factor(ifelse(stepwise.mod.final.pred.test>cutoff.step,"Yes","No"),levels=c("No","Yes"))
+
+#Confusion Matrix for Stepwise
+print("Confusion matrix for Stepwise TEST with 0.5 cutoff")
+confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")
+
+
+
+#misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
+#print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
+
+
+# ODD ratios for interpretation
+summary(step.log)
+exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
+
+
+
 ```
 
 
@@ -886,7 +898,7 @@ cv <- trainControl(
 )
 
 MLogReg = train(
-  fracture ~ age + height + bmi + priorfrac,
+  fracture ~  age + bonemed + bonemed_fu + bonetreat,
   data = train,
   method = "glm",
   family = "binomial",
@@ -907,31 +919,30 @@ library(ResourceSelection)
 hoslem.test(MLogReg$finalModel$y,fitted(MLogReg))
 
 # Predicting
-MLogReg.pred.train = predict(MLogReg, train)
-MLogReg.pred.test = predict(MLogReg, test)
+MLogReg.pred.train = predict(MLogReg, train, type = 'prob')
+MLogReg.pred.test = predict(MLogReg, test, type = 'prob')
 
-#Confusion Matrix for manual
-confusionMatrix(table(MLogReg.pred.train,train$fracture))
-confusionMatrix(table(MLogReg.pred.test,test$fracture))
+AUC = auc(test$fracture, MLogReg.pred.test$Yes)
+print(paste("Area Under the Cuve: ", AUC))
+print(paste("Manual model AIC Score: ", MLogReg$finalModel$aic))
 
-################ Misclassification rate train ######################################
-cross.table.manual.train = table(MLogReg.pred.train,train$fracture)
-MCR_manual.train = (cross.table.manual.train[2]+cross.table.manual.train[3])/dim(train)[1]
-print(paste('Misclassification Rate for manual selection on training set: ', MCR_manual.train))
-
-
-
-################ Misclassification rate test ######################################
-cross.table.manual.test = table(MLogReg.pred.test,test$fracture)
-MCR_manual.test = (cross.table.manual.test[2]+cross.table.manual.test[3])/dim(test)[1]
-print(paste('Misclassification Rate for manual selection on test set: ', MCR_manual.test))
 
 ################ Manual ROC Curve ######################################
-#library(ROCR)
-#manual.roc.test = prediction(as.numeric(MLogReg.pred.test), as.numeric(test$fracture), label.ordering=c("No","Yes"))
-#roc.manual.test = performance(manual.roc.test, measure = "tpr", x.measure = "fpr")
-#plot(roc.manual.test,colorize = TRUE)
-#abline(a=0, b= 1)
+manual.roc<-roc(response=test$fracture,predictor=MLogReg.pred.test$Yes,levels=c("No","Yes"))
+plot(manual.roc,print.thres="best")
+
+cutoff.manual = 0.231
+
+#Confusion Matrix for manual model
+class.manual.train<-ifelse(MLogReg.pred.train$Yes > cutoff.manual,"Yes","No")
+class.manual.train<-factor(class.manual.train)
+
+class.manual.test<-ifelse(MLogReg.pred.test$Yes > cutoff.manual,"Yes","No")
+class.manual.test<-factor(class.manual.test)
+
+confusionMatrix(table(class.manual.train,train$fracture), positive = "Yes")
+confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")
+
 ```
 
 
@@ -940,24 +951,61 @@ print(paste('Misclassification Rate for manual selection on test set: ', MCR_man
 #####################################################################################
 
 ```{r, interaction}
-cutoff.manual = 0.5
-LogReg.Interaction<-glm(fracture~age + height + bmi + priorfrac, family=binomial(link='logit'))
-LogReg.Interaction.pred.train <- predict(LogReg.Interaction, newdata = train, type = "response")
+cv.ii <- trainControl(
+  method = "repeatedcv", 
+  number = 5,
+  repeats = 10,
+  savePredictions = TRUE,
+  summaryFunction=mnLogLoss,
+  classProbs = TRUE
+)
 
-Anova(LogReg.Interaction,type=3)
+MLogReg.ii = train(
+  fracture ~  age + height + bonemed_fu + bonetreat + bmi*bonemed_fu + bmi*bonemed + I(age^2) + I(height^3),
+  data = train,
+  method = "glm",
+  family = "binomial",
+  trControl = cv,
+  metric = "logLoss")
 
-# Confusion matrix
-class.LogReg.Interaction.train<-factor(ifelse(LogReg.Interaction.pred.train>cutoff.manual,"Yes","No"),levels=c("No","Yes"))
+### Hypothesis testing
+summary(MLogReg.ii$finalModel)
 
-#Confusion Matrix for interaction
-print("Confusion matrix for Interaction TRAINING with 0.5 cutoff")
-confusionMatrix(table(class.LogReg.Interaction.train,train$fracture))
+anova(MLogReg.ii$finalModel, test="Chisq")
 
-################ Misclassification rate train ######################################
-cross.table.interaction.train = table(class.LogReg.Interaction.train,train$fracture)
-MCR_interaction.train = (cross.table.interaction.train[2]+cross.table.interaction.train[3])/dim(train)[1]
-print(paste('Misclassification Rate for stepwise selection on training set: ', MCR_interaction.train))
-# to be worked on
+
+hoslem.test(MLogReg.ii$finalModel$y,fitted(MLogReg.ii))
+
+# Predicting
+MLogReg.ii.pred.train = predict(MLogReg.ii, train, type = 'prob')
+MLogReg.ii.pred.test = predict(MLogReg.ii, test, type = 'prob')
+
+AUC = auc(test$fracture, MLogReg.ii.pred.test$Yes)
+print(paste("Area Under the Cuve: ", AUC))
+print(paste("Manual model with interactions and polynomial terms AIC Score: ", MLogReg.ii$finalModel$aic))
+
+
+################ Manual ROC Curve ######################################
+manual.roc<-roc(response=test$fracture,predictor=MLogReg.ii.pred.test$Yes,levels=c("No","Yes"))
+plot(manual.roc,print.thres="best")
+
+cutoff.manual = 0.23
+
+#Confusion Matrix for manual model
+class.manual.train.ii<-ifelse(MLogReg.ii.pred.train$Yes > cutoff.manual,"Yes","No")
+class.manual.train.ii<-factor(class.manual.train)
+
+class.manual.test.ii<-ifelse(MLogReg.ii.pred.test$Yes > cutoff.manual,"Yes","No")
+class.manual.test.ii<-factor(class.manual.test)
+
+confusionMatrix(table(class.manual.train.ii,train$fracture), positive = "Yes")
+confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
+
+### Visualize VIF
+#MLogReg_ii_VIF = vif(MLogReg.ii$finalModel)
+#barplot(MLogReg_ii_VIF, main = 'VIF Values (Custom Logistic Regression with interactions', horiz = TRUE, col="blue", xlim = c(0,12))
+#abline(v=10, col="red")
+
 ```
 
 
