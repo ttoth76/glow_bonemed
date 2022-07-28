@@ -43,6 +43,9 @@ library(caret)
 library(glmnet)
 library(ROCR)
 library(pROC)
+library(rpart)
+library(rpart.plot)
+library(rattle)
 #Dasta set
 library(aplore3)
 library(ResourceSelection)
@@ -1006,6 +1009,125 @@ confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
 #barplot(MLogReg_ii_VIF, main = 'VIF Values (Custom Logistic Regression with interactions', horiz = TRUE, col="blue", xlim = c(0,12))
 #abline(v=10, col="red")
 
+```
+
+#####################################################################################
+#                                        LDA/QDA                                    #
+#####################################################################################
+```{r, LDA QDA}
+# LDA
+lda.train = train[,-16]
+lda.test = test[,-16]
+
+lda.model = lda(fracture ~age+weight+height+bmi+fracscore, prior = c(.75, .25), data = lda.train)
+plot(lda.model)
+
+lda.model.pred.train = predict(lda.model, lda.train)
+lda.model.pred.test = predict(lda.model, lda.test)
+
+# LDA ROC cuve
+lda.roc<-roc(response=lda.test$fracture,predictor=lda.model.pred.test$posterior[,2],levels=c("No","Yes"))
+plot(lda.roc,print.thres="best")
+
+cutoff.lda = 0.291
+lda.pred.adj.train = ifelse(lda.model.pred.train$posterior[,2] > cutoff.lda, "Yes", "No")
+lda.pred.adj.test = ifelse(lda.model.pred.test$posterior[,2] > cutoff.lda, "Yes", "No")
+
+# LDA Confusion matrix
+confusionMatrix(table(lda.pred.adj.train,lda.train$fracture), positive = "Yes")
+confusionMatrix(table(lda.pred.adj.test,lda.test$fracture), positive = "Yes")
+
+#Scoring
+lda.prob.test = predict(lda.model, lda.test, type = "prob")
+AUC = auc(lda.test$fracture, lda.prob.test$posterior[,2])
+print(paste("Area Under the Cuve: ", AUC))
+
+
+# QDA
+qda.train = train[,-16]
+qda.test = test[,-16]
+
+qda.model = qda(fracture ~age+weight+height+bmi+fracscore, prior = c(.75, .25), data = qda.train)
+plot(lda.model)
+
+qda.model.pred.train = predict(qda.model, qda.train)
+qda.model.pred.test = predict(qda.model, qda.test)
+
+# QDA ROC cuve
+qda.roc<-roc(response=qda.test$fracture,predictor=qda.model.pred.test$posterior[,2],levels=c("No","Yes"))
+plot(qda.roc,print.thres="best")
+
+cutoff.qda = 0.377
+qda.pred.adj.train = ifelse(qda.model.pred.train$posterior[,2] > cutoff.qda, "Yes", "No")
+qda.pred.adj.test = ifelse(qda.model.pred.test$posterior[,2] > cutoff.qda, "Yes", "No")
+
+# QDA Confusion matrix
+confusionMatrix(table(qda.pred.adj.train,qda.train$fracture), positive = "Yes")
+confusionMatrix(table(qda.pred.adj.test,qda.test$fracture), positive = "Yes")
+
+#Scoring
+qda.prob.test = predict(qda.model, qda.test, type = "prob")
+AUC = auc(qda.test$fracture, qda.prob.test$posterior[,2])
+print(paste("Area Under the Cuve: ", AUC))
+
+```
+
+
+
+#####################################################################################
+#                                   Decision Tree                                   #
+#####################################################################################
+```{r, decision tree}
+
+dt.train = train[,-16]
+dt.test = test[,-16]
+#dt.train.dummy = model.matrix(fracture~., dt.train)
+
+cv.dtree <- trainControl(
+  method = "cv", 
+  number = 5,
+  savePredictions = TRUE,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary
+)
+
+dtree.model = train(
+  fracture ~ ., 
+  data = dt.train, 
+  method = "rpart",
+  metric = "ROC",
+  tuneGrid = expand.grid(cp=0.0048),
+  trControl=cv.dtree,
+  tuneLength = 100
+  )
+
+
+# print the tree
+fancyRpartPlot(dtree.model$finalModel)
+bestcp = dtree.model$finalModel$cptable[which.min(dtree.model$finalModel$cptable[,"rel error"]),"CP"]
+print(paste("Best complexity score: ", bestcp))
+
+# Predicting
+dtree.model.pred.train = predict(dtree.model, dt.train, type = "prob")
+dtree.model.pred.test = predict(dtree.model, dt.test, type = "prob")
+
+# ROC Curve 
+dtree.roc<-roc(response=qda.test$fracture,predictor=dtree.model.pred.test$Yes,levels=c("No","Yes"))
+plot(dtree.roc,print.thres="best")
+
+cutoff.dtree = 0.138
+dtree.pred.adj.train = ifelse(dtree.model.pred.train$Yes > cutoff.dtree, "Yes", "No")
+dtree.pred.adj.test = ifelse(dtree.model.pred.test$Yes > cutoff.dtree, "Yes", "No")
+
+
+# Confusion matrix
+confusionMatrix(table(dtree.pred.adj.train,dt.train$fracture), positive = "Yes")
+confusionMatrix(table(dtree.pred.adj.test,dt.test$fracture), positive = "Yes")
+
+#Scoring
+dt.prob.test = predict(dtree.model, dt.test, type = "prob")
+AUC = auc(dt.test$fracture, dt.prob.test$Yes)
+print(paste("Area Under the Cuve: ", AUC))
 ```
 
 
