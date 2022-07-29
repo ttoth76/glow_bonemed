@@ -87,11 +87,16 @@ options(scipen = 100, digits = 4)
 
 1. Understand the data
 2. EDA
-3. Feature Selection (Penalized Logistic Regression, Stepwise/forward/backward, Manual)
+3. Feature Selection (Penalized Logistic Regression, Stepwise/forward/backward, Manual, PCA)
 4. Split the data to Training and Test set
-5. Fit Logistic Regression model
-6. Interpret the model, including hypothesis testing and confidence intervals
-7. Conclusion
+5. Fit Logistic Regression models
+6. Interpret the models, including hypothesis testing and confidence intervals
+7. Conclusion of Obejtive I.
+8. Fit a complex model
+9. Fit LDA and QDA models
+10. Fit Random Forrest and Decision tree models
+12. Summary table
+11 Final model recommendation
 
 #### Read the data
 ```{r,fig.align='center',out.extra='angle=90', message = FALSE}
@@ -556,11 +561,10 @@ step.log = step.full.log %>% stepAIC(trace=FALSE)
 ```{r}
 summary(step.log)
 exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
-vif(step.log)
 ```
 
 ## Obseravtions:
-* Running a stepwise selection to identify the predictors the process is selecting:
+* Running a stepwise selection to identify the predictors the process has selected 10 out of the 18 variables to be included into the model:
 * priorfrac
 * age
 * weight
@@ -571,6 +575,23 @@ vif(step.log)
 * bonemed
 * bonemed_fu
 * bonetreat
+* Based on the summary statistics result the priorfracYes, weight, bmi, rateriskGreater, bonemed_fuYes and bonetreatYes are statistically significant.
+* Let's interpret the statistically significant variables:
+
+* __Holding all other variables constant, the odds of a patient having fracture in the first year with a greater rate risk is 1.93647 times higher than the odds for those whose rate risk is less or the same of other patients.__ 
+
+* ____Holding all other variables constant, the odds of a patient having fracture in the first year with a 1 kg of increase in weight is 0.95677 times higher than the odds for those with lower weight.__ 
+
+* ____Holding all other variables constant, the odds of a patient having fracture in the first year with a one unit increase in BMI is 1.12946 times higher than the odds for those with lower BMI.__ 
+
+* __Holding all other variables constant, the odds of a patient having fracture in the first year with a greater rate risk is 1.98272 times higher than the odds for those whose rate risk is less.__ 
+
+* __Holding all other variables constant, the odds of a patient having fracture in the first year who took bone medication at the follow-up visits is 3.58715 times higher than the odds for those whose did not take the medication at the time of follow-up visits.__ Again, this is counter intuitive as we would expect that someone who takes bone medication will have a lower or equal changes of fracture then those who don't. This indicates that there is a confounding variable that is impacted the treatment in the study.
+
+* __Holding all other variables constant, the odds of a patient having fracture in the first year who took bone medication at both  enrollment and at the follow-up visits is 0.09230 times higher than the odds for those whose did not take the medication at the time of enrollment and follow-up visits.__ 
+
+
+
 
 ## PCA
 ```{r, PCA}
@@ -644,7 +665,7 @@ cumulative.prop = cumsum(eigenvals/sum(eigenvals))
 plot(1:5,cumulative.prop,type="l",main="Cumulative proportion",ylim=c(0,1))
 ```
 
-```{r, loess for PCI}
+```{r, loess for PCA}
 for (i in colnames(pc.scores))
 {
 loess_pca = pc.scores %>% 
@@ -701,11 +722,23 @@ coef(lasso.logreg.mod$finalModel,lasso.logreg.mod$finalModel$lambdaOpt)
 lasso.mod.final=glm(fracture ~  priorfrac+age+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+bonemed_fu+bonetreat, 
                     family = binomial(link='logit'), data = train)
 
+summary(lasso.mod.final)
+
 # ODD ratios for interpretation
 exp(cbind("Odds ratio" = coef(lasso.mod.final), confint.default(lasso.mod.final, level = 0.95)))
+
+exp(0.74893)
 ```
 
 ## Observations and interpretations of the LASSO coeffficients:
+* The LASSO penalized regression model has selected 15 variables out of the 18 to be included into the logistic regression model.
+* Based on the summary statistics at alpha = 0.05 only rateriskGreater, bonemedYes, bonemed_fuYes and bonetreatYes variables are statistically significant.
+* Interpret the statistically significant variables:
+* __Holding all other variables constant, the odds of a patient having fracture in the first year with a greater rate risk is 1.93647 times higher than the odds for those whose rate risk is less.__ 
+* __Holding all other variables constant, the odds of a patient having fracture in the first year who took bone medication at enrollment is 3.84105 times higher than the odds for those whose did not take the medication prior to enrollment.__ This is counter intuitive as we would expect that someone who takes bone medication will have a lower or equal changes of fracture then those who don't. This indicates that there is a confoundinding variable that is impacted the treatment in the study.
+* __Holding all other variables constant, the odds of a patient having fracture in the first year who took bone medication at the follow-up visits is 3.63421 times higher than the odds for those whose did not take the medication at the time of follow-up visits.__ Again, this is counter intuitive as we would expect that someone who takes bone medication will have a lower or equal changes of fracture then those who don't. This indicates that there is a confounding variable that is impacted the treatment in the study.
+* __Holding all other variables constant, the odds of a patient having fracture in the first year who took bone medication at both  enrollment and at the follow-up visits is 0.09057 times higher than the odds for those whose did not take the medication at the time of enrollment and follow-up visits.__ 
+
 
 #####################################################################################
 #                                       Predictions                                 #
@@ -916,8 +949,8 @@ MLogReg = train(
 
 ### Hypothesis testing
 summary(MLogReg$finalModel)
-
 anova(MLogReg$finalModel, test="Chisq")
+exp(cbind("Odds ratio" = coef(MLogReg$finalModel), confint.default(MLogReg$finalModel, level = 0.95)))
 
 library(ResourceSelection) 
 hoslem.test(MLogReg$finalModel$y,fitted(MLogReg))
@@ -935,7 +968,7 @@ print(paste("Manual model AIC Score: ", MLogReg$finalModel$aic))
 manual.roc<-roc(response=test$fracture,predictor=MLogReg.pred.test$Yes,levels=c("No","Yes"))
 plot(manual.roc,print.thres="best")
 
-cutoff.manual = 0.231
+cutoff.manual = 0.238
 
 #Confusion Matrix for manual model
 class.manual.train<-ifelse(MLogReg.pred.train$Yes > cutoff.manual,"Yes","No")
@@ -980,6 +1013,17 @@ abline(v=10, col="red")
 * __The Sample Size is Sufficiently Large__: ?
 
 
+## Observations and interpretations of the Manual model coeffficients:
+* Based on the summary statistics at alpha = 0.05 only age, bonemed_fuYes and bonetreatYes variables are statistically significant.
+* Interpret the statistically significant variables:
+
+* ____Holding all other variables constant, the odds of a patient having fracture in the first year with a 10 year of increase in age is 10.3594 times higher than the odds for those with lower age.__ 
+
+* __Holding all other variables constant, the odds of a patient having fracture in the first year who took bone medication at the follow-up visits is 3.63421 times higher than the odds for those whose did not take the medication at the time of follow-up visits.__ Again, this is counter intuitive as we would expect that someone who takes bone medication will have a lower or equal changes of fracture then those who don't. This indicates that there is a confounding variable that is impacted the treatment in the study.
+
+* __Holding all other variables constant, the odds of a patient having fracture in the first year who took bone medication at both  enrollment and at the follow-up visits is 0.09057 times higher than the odds for those whose did not take the medication at the time of enrollment and follow-up visits.__ 
+
+
 
 #####################################################################################
 #                                       Objective II                                #
@@ -1000,7 +1044,7 @@ MLogReg.ii = train(
   data = train,
   method = "glm",
   family = "binomial",
-  trControl = cv,
+  trControl = cv.ii,
   metric = "logLoss")
 
 ### Hypothesis testing
@@ -1021,17 +1065,17 @@ print(paste("Manual model with interactions and polynomial terms AIC Score: ", M
 
 
 ################ Manual ROC Curve ######################################
-manual.roc<-roc(response=test$fracture,predictor=MLogReg.ii.pred.test$Yes,levels=c("No","Yes"))
-plot(manual.roc,print.thres="best")
+manual.roc.ii<-roc(response=test$fracture,predictor=MLogReg.ii.pred.test$Yes,levels=c("No","Yes"))
+plot(manual.roc.ii,print.thres="best")
 
-cutoff.manual = 0.23
+cutoff.manual.ii = 0.234
 
 #Confusion Matrix for manual model
-class.manual.train.ii<-ifelse(MLogReg.ii.pred.train$Yes > cutoff.manual,"Yes","No")
+class.manual.train.ii<-ifelse(MLogReg.ii.pred.train$Yes > cutoff.manual.ii,"Yes","No")
 class.manual.train.ii<-factor(class.manual.train)
 
-class.manual.test.ii<-ifelse(MLogReg.ii.pred.test$Yes > cutoff.manual,"Yes","No")
-class.manual.test.ii<-factor(class.manual.test)
+class.manual.test.ii<-ifelse(MLogReg.ii.pred.test$Yes > cutoff.manual.ii,"Yes","No")
+class.manual.test.ii<-factor(class.manual.test.ii)
 
 confusionMatrix(table(class.manual.train.ii,train$fracture), positive = "Yes")
 confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
@@ -1047,7 +1091,7 @@ Test_Accuracy  = c(Test_Accuracy, MLogReg.ii.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, MLogReg.ii.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, MLogReg.ii.final.test.specificity)
 AIC  = c(AIC, MLogReg.ii$finalModel$aic)
-Threshold = c(Threshold, cutoff.manual)
+Threshold = c(Threshold, cutoff.manual.ii)
 
 ### Visualize VIF
 #MLogReg_ii_VIF = vif(MLogReg.ii$finalModel)
@@ -1085,6 +1129,7 @@ lda.test = test[,-16]
 lda.model = lda(fracture ~age+weight+height, prior = c(.75, .25), data = lda.train)
 plot(lda.model)
 
+
 lda.model.pred.train = predict(lda.model, lda.train)
 lda.model.pred.test = predict(lda.model, lda.test)
 
@@ -1092,7 +1137,7 @@ lda.model.pred.test = predict(lda.model, lda.test)
 lda.roc<-roc(response=lda.test$fracture,predictor=lda.model.pred.test$posterior[,2],levels=c("No","Yes"))
 plot(lda.roc,print.thres="best")
 
-cutoff.lda = 0.291
+cutoff.lda = 0.343
 lda.pred.adj.train = ifelse(lda.model.pred.train$posterior[,2] > cutoff.lda, "Yes", "No")
 lda.pred.adj.test = ifelse(lda.model.pred.test$posterior[,2] > cutoff.lda, "Yes", "No")
 
@@ -1115,7 +1160,7 @@ AUC_score = c(AUC_score, AUC)
 Test_Accuracy  = c(Test_Accuracy, lda.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, lda.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, lda.final.test.specificity)
-AIC  = c(AIC, 'N/A')
+AIC  = c(AIC, 'NA')
 Threshold = c(Threshold, cutoff.lda)
 
 
@@ -1133,7 +1178,7 @@ qda.model.pred.test = predict(qda.model, qda.test)
 qda.roc<-roc(response=qda.test$fracture,predictor=qda.model.pred.test$posterior[,2],levels=c("No","Yes"))
 plot(qda.roc,print.thres="best")
 
-cutoff.qda = 0.377
+cutoff.qda = 0.289
 qda.pred.adj.train = ifelse(qda.model.pred.train$posterior[,2] > cutoff.qda, "Yes", "No")
 qda.pred.adj.test = ifelse(qda.model.pred.test$posterior[,2] > cutoff.qda, "Yes", "No")
 
@@ -1157,17 +1202,20 @@ AUC_score = c(AUC_score, AUC)
 Test_Accuracy  = c(Test_Accuracy, qda.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, qda.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, qda.final.test.specificity)
-AIC  = c(AIC, 'N/A')
+AIC  = c(AIC, 'NA')
 Threshold = c(Threshold, cutoff.qda)
 
 ```
 
 ## LDA/QDA Assumptions
 ```{r, lda qda assumptions}
-### Visualize VIF
-MLogReg.ii_VIF = vif(MLogReg.ii$finalModel)
-barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
-abline(v=10, col="red")
+# contour plot to test Multivariate normality
+# LDA
+
+
+
+
+
 ```
 
 
@@ -1244,7 +1292,7 @@ AUC_score = c(AUC_score, AUC)
 Test_Accuracy  = c(Test_Accuracy, dtree.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, dtree.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, dtree.final.test.specificity)
-AIC  = c(AIC, 'N/A')
+AIC  = c(AIC, 'NA')
 Threshold = c(Threshold, cutoff.dtree)
 
 ```
@@ -1252,8 +1300,11 @@ Threshold = c(Threshold, cutoff.dtree)
 ```{r, model summary}
 # model summary
 model.sum.df = data.frame()
-model.sum.df = data.frame(Model_name, AUC_score, Test_Accuracy, Test_Sensitivity, Test_Specificity, AIC, Threshold)
-model.sum.df
-
+model.sum.df = data.frame(Model_name, AUC_score, AIC, Test_Accuracy, Test_Sensitivity, Test_Specificity, Threshold)
+model.sum.df$AIC = format(round(as.numeric(model.sum.df$AIC), 4), nsmall = 4)
+ordered.model.sum.df = model.sum.df[order(-AUC_score),]
+rownames(ordered.model.sum.df) = 1:nrow(ordered.model.sum.df)
+knitr::kable(ordered.model.sum.df, "html")
+ordered.model.sum.df
 ```
 

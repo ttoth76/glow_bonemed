@@ -67,12 +67,16 @@ options(scipen = 100, digits = 4)
 1.  Understand the data
 2.  EDA
 3.  Feature Selection (Penalized Logistic Regression,
-    Stepwise/forward/backward, Manual)
+    Stepwise/forward/backward, Manual, PCA)
 4.  Split the data to Training and Test set
-5.  Fit Logistic Regression model
-6.  Interpret the model, including hypothesis testing and confidence
+5.  Fit Logistic Regression models
+6.  Interpret the models, including hypothesis testing and confidence
     intervals
-7.  Conclusion
+7.  Conclusion of Obejtive I.
+8.  Fit a complex model
+9.  Fit LDA and QDA models
+10. Fit Random Forrest and Decision tree models
+11. Summary table 11 Final model recommendation
 
 #### Read the data
 
@@ -146,31 +150,31 @@ bonetreat
 <tbody>
 <tr>
 <td style="text-align:right;">
-44
+303
 </td>
 <td style="text-align:right;">
-2
+5
 </td>
 <td style="text-align:right;">
-62
+296
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-64
+80
 </td>
 <td style="text-align:right;">
-74.4
+59.0
 </td>
 <td style="text-align:right;">
-171
+158
 </td>
 <td style="text-align:right;">
-25.44
+23.63
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
 No
@@ -185,7 +189,7 @@ No
 Same
 </td>
 <td style="text-align:right;">
-1
+5
 </td>
 <td style="text-align:left;">
 No
@@ -194,92 +198,54 @@ No
 Yes
 </td>
 <td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-275
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-53
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:right;">
-83
-</td>
-<td style="text-align:right;">
-90.7
-</td>
-<td style="text-align:right;">
-166
-</td>
-<td style="text-align:right;">
-32.91
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 Yes
 </td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Less
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
 </tr>
 <tr>
 <td style="text-align:right;">
-138
+433
 </td>
 <td style="text-align:right;">
 5
 </td>
 <td style="text-align:right;">
-304
+301
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+50.8
+</td>
+<td style="text-align:right;">
+152
+</td>
+<td style="text-align:right;">
+21.99
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
 </td>
 <td style="text-align:left;">
 Yes
 </td>
-<td style="text-align:right;">
-67
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Same
 </td>
 <td style="text-align:right;">
-68.0
-</td>
-<td style="text-align:right;">
-157
-</td>
-<td style="text-align:right;">
-27.59
+8
 </td>
 <td style="text-align:left;">
 Yes
@@ -289,6 +255,44 @@ No
 </td>
 <td style="text-align:left;">
 No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+225
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+287
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+119.7
+</td>
+<td style="text-align:right;">
+165
+</td>
+<td style="text-align:right;">
+43.97
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -297,7 +301,7 @@ No
 Less
 </td>
 <td style="text-align:right;">
-3
+2
 </td>
 <td style="text-align:left;">
 No
@@ -314,34 +318,34 @@ No
 </tr>
 <tr>
 <td style="text-align:right;">
-347
+235
 </td>
 <td style="text-align:right;">
 3
 </td>
 <td style="text-align:right;">
-143
+112
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-56
+62
 </td>
 <td style="text-align:right;">
-58.5
+64.9
 </td>
 <td style="text-align:right;">
-160
+173
 </td>
 <td style="text-align:right;">
-22.85
+21.68
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -353,45 +357,48 @@ No
 Greater
 </td>
 <td style="text-align:right;">
-0
+2
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-15
+390
 </td>
 <td style="text-align:right;">
-1
+3
 </td>
 <td style="text-align:right;">
-23
+149
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-64
+75
 </td>
 <td style="text-align:right;">
-61.2
+76.7
 </td>
 <td style="text-align:right;">
-160
+163
 </td>
 <td style="text-align:right;">
-23.91
+28.87
+</td>
+<td style="text-align:left;">
+No
 </td>
 <td style="text-align:left;">
 Yes
@@ -403,16 +410,13 @@ No
 No
 </td>
 <td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Same
+Greater
 </td>
 <td style="text-align:right;">
-1
+5
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -1626,36 +1630,70 @@ exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)
     ## bonemed_fuYes      3.58715 1.292440  9.9561
     ## bonetreatYes       0.09230 0.016492  0.5166
 
-``` r
-vif(step.log)
-```
-
-    ##              GVIF Df GVIF^(1/(2*Df))
-    ## priorfrac   1.129  1           1.062
-    ## age         1.351  1           1.162
-    ## weight      9.658  1           3.108
-    ## bmi         9.252  1           3.042
-    ## momfrac     1.042  1           1.021
-    ## armassist   1.282  1           1.132
-    ## raterisk    1.229  2           1.053
-    ## bonemed     6.924  1           2.631
-    ## bonemed_fu  4.155  1           2.038
-    ## bonetreat  10.550  1           3.248
-
 ## Obseravtions:
 
 -   Running a stepwise selection to identify the predictors the process
-    is selecting:
+    has selected 10 out of the 18 variables to be included into the
+    model:
+
 -   priorfrac
+
 -   age
+
 -   weight
+
 -   bmi
+
 -   momfrac
+
 -   armassist
+
 -   raterisk
+
 -   bonemed
+
 -   bonemed_fu
+
 -   bonetreat
+
+-   Based on the summary statistics result the priorfracYes, weight,
+    bmi, rateriskGreater, bonemed_fuYes and bonetreatYes are
+    statistically significant.
+
+-   Let’s interpret the statistically significant variables:
+
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year with a greater rate risk is 1.93647 times
+    higher than the odds for those whose rate risk is less or the same
+    of other patients.**
+
+-   \_\_\_\_Holding all other variables constant, the odds of a patient
+    having fracture in the first year with a 1 kg of increase in weight
+    is 0.95677 times higher than the odds for those with lower
+    weight.\_\_
+
+-   \_\_\_\_Holding all other variables constant, the odds of a patient
+    having fracture in the first year with a one unit increase in BMI is
+    1.12946 times higher than the odds for those with lower BMI.\_\_
+
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year with a greater rate risk is 1.98272 times
+    higher than the odds for those whose rate risk is less.**
+
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year who took bone medication at the follow-up
+    visits is 3.58715 times higher than the odds for those whose did not
+    take the medication at the time of follow-up visits.** Again, this
+    is counter intuitive as we would expect that someone who takes bone
+    medication will have a lower or equal changes of fracture then those
+    who don’t. This indicates that there is a confounding variable that
+    is impacted the treatment in the study.
+
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year who took bone medication at both
+    enrollment and at the follow-up visits is 0.09230 times higher than
+    the odds for those whose did not take the medication at the time of
+    enrollment and follow-up visits.**
 
 ## PCA
 
@@ -1785,7 +1823,7 @@ egg::ggarrange(loess_pca, ncol=2)
 }
 ```
 
-![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-1.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-2.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-3.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-4.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-5.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCI-6.png)<!-- -->
+![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCA-1.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCA-2.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCA-3.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCA-4.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCA-5.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/loess%20for%20PCA-6.png)<!-- -->
 
 ## Observations:
 
@@ -1863,6 +1901,49 @@ coef(lasso.logreg.mod$finalModel,lasso.logreg.mod$finalModel$lambdaOpt)
 lasso.mod.final=glm(fracture ~  priorfrac+age+height+bmi+premeno+momfrac+armassist+smoke+raterisk+fracscore+bonemed+bonemed_fu+bonetreat, 
                     family = binomial(link='logit'), data = train)
 
+summary(lasso.mod.final)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = fracture ~ priorfrac + age + height + bmi + premeno + 
+    ##     momfrac + armassist + smoke + raterisk + fracscore + bonemed + 
+    ##     bonemed_fu + bonetreat, family = binomial(link = "logit"), 
+    ##     data = train)
+    ## 
+    ## Deviance Residuals: 
+    ##    Min      1Q  Median      3Q     Max  
+    ## -1.658  -0.729  -0.549  -0.342   2.237  
+    ## 
+    ## Coefficients:
+    ##                 Estimate Std. Error z value Pr(>|z|)   
+    ## (Intercept)      0.47205    4.33594    0.11    0.913   
+    ## priorfracYes     0.74893    0.43352    1.73    0.084 . 
+    ## age              0.04095    0.06065    0.68    0.500   
+    ## height          -0.03358    0.02100   -1.60    0.110   
+    ## bmi              0.00531    0.02562    0.21    0.836   
+    ## premenoYes       0.29685    0.30451    0.97    0.330   
+    ## momfracYes       0.69462    0.45911    1.51    0.130   
+    ## armassistYes     0.57746    0.66110    0.87    0.382   
+    ## smokeYes        -0.11603    0.57818   -0.20    0.841   
+    ## rateriskSame     0.34341    0.31419    1.09    0.274   
+    ## rateriskGreater  0.66087    0.33583    1.97    0.049 * 
+    ## fracscore       -0.07367    0.30179   -0.24    0.807   
+    ## bonemedYes       1.34575    0.68381    1.97    0.049 * 
+    ## bonemed_fuYes    1.29039    0.52484    2.46    0.014 * 
+    ## bonetreatYes    -2.40163    0.87480   -2.75    0.006 **
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 475.22  on 424  degrees of freedom
+    ## Residual deviance: 423.84  on 410  degrees of freedom
+    ## AIC: 453.8
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
 # ODD ratios for interpretation
 exp(cbind("Odds ratio" = coef(lasso.mod.final), confint.default(lasso.mod.final, level = 0.95)))
 ```
@@ -1884,7 +1965,44 @@ exp(cbind("Odds ratio" = coef(lasso.mod.final), confint.default(lasso.mod.final,
     ## bonemed_fuYes      3.63421 1.2991604   10.1662
     ## bonetreatYes       0.09057 0.0163061    0.5031
 
+``` r
+exp(0.74893)
+```
+
+    ## [1] 2.115
+
 ## Observations and interpretations of the LASSO coeffficients:
+
+-   The LASSO penalized regression model has selected 15 variables out
+    of the 18 to be included into the logistic regression model.
+-   Based on the summary statistics at alpha = 0.05 only
+    rateriskGreater, bonemedYes, bonemed_fuYes and bonetreatYes
+    variables are statistically significant.
+-   Interpret the statistically significant variables:
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year with a greater rate risk is 1.93647 times
+    higher than the odds for those whose rate risk is less.**
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year who took bone medication at enrollment is
+    3.84105 times higher than the odds for those whose did not take the
+    medication prior to enrollment.** This is counter intuitive as we
+    would expect that someone who takes bone medication will have a
+    lower or equal changes of fracture then those who don’t. This
+    indicates that there is a confoundinding variable that is impacted
+    the treatment in the study.
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year who took bone medication at the follow-up
+    visits is 3.63421 times higher than the odds for those whose did not
+    take the medication at the time of follow-up visits.** Again, this
+    is counter intuitive as we would expect that someone who takes bone
+    medication will have a lower or equal changes of fracture then those
+    who don’t. This indicates that there is a confounding variable that
+    is impacted the treatment in the study.
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year who took bone medication at both
+    enrollment and at the follow-up visits is 0.09057 times higher than
+    the odds for those whose did not take the medication at the time of
+    enrollment and follow-up visits.**
 
 ##################################################################################### 
 
@@ -2509,6 +2627,17 @@ anova(MLogReg$finalModel, test="Chisq")
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ``` r
+exp(cbind("Odds ratio" = coef(MLogReg$finalModel), confint.default(MLogReg$finalModel, level = 0.95)))
+```
+
+    ##               Odds ratio    2.5 %  97.5 %
+    ## (Intercept)      0.02226 0.003684  0.1345
+    ## age              1.03594 1.009603  1.0630
+    ## bonemedYes       3.49625 0.955278 12.7960
+    ## bonemed_fuYes    4.94477 1.882109 12.9912
+    ## bonetreatYes     0.09077 0.017477  0.4715
+
+``` r
 library(ResourceSelection) 
 hoslem.test(MLogReg$finalModel$y,fitted(MLogReg))
 ```
@@ -2557,7 +2686,7 @@ plot(manual.roc,print.thres="best")
 ![](MSDS_6372_Project2_files/figure-gfm/manual%20selection%20prediction-1.png)<!-- -->
 
 ``` r
-cutoff.manual = 0.231
+cutoff.manual = 0.238
 
 #Confusion Matrix for manual model
 class.manual.train<-ifelse(MLogReg.pred.train$Yes > cutoff.manual,"Yes","No")
@@ -2573,28 +2702,28 @@ confusionMatrix(table(class.manual.train,train$fracture), positive = "Yes")
     ## 
     ##                   
     ## class.manual.train  No Yes
-    ##                No  189  43
-    ##                Yes 131  62
-    ##                                          
-    ##                Accuracy : 0.591          
-    ##                  95% CI : (0.542, 0.638) 
-    ##     No Information Rate : 0.753          
-    ##     P-Value [Acc > NIR] : 1              
-    ##                                          
-    ##                   Kappa : 0.141          
-    ##                                          
-    ##  Mcnemar's Test P-Value : 0.0000000000424
-    ##                                          
-    ##             Sensitivity : 0.590          
-    ##             Specificity : 0.591          
-    ##          Pos Pred Value : 0.321          
-    ##          Neg Pred Value : 0.815          
-    ##              Prevalence : 0.247          
-    ##          Detection Rate : 0.146          
-    ##    Detection Prevalence : 0.454          
-    ##       Balanced Accuracy : 0.591          
-    ##                                          
-    ##        'Positive' Class : Yes            
+    ##                No  201  49
+    ##                Yes 119  56
+    ##                                         
+    ##                Accuracy : 0.605         
+    ##                  95% CI : (0.556, 0.651)
+    ##     No Information Rate : 0.753         
+    ##     P-Value [Acc > NIR] : 1             
+    ##                                         
+    ##                   Kappa : 0.132         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.000000102   
+    ##                                         
+    ##             Sensitivity : 0.533         
+    ##             Specificity : 0.628         
+    ##          Pos Pred Value : 0.320         
+    ##          Neg Pred Value : 0.804         
+    ##              Prevalence : 0.247         
+    ##          Detection Rate : 0.132         
+    ##    Detection Prevalence : 0.412         
+    ##       Balanced Accuracy : 0.581         
+    ##                                         
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
@@ -2605,26 +2734,26 @@ confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")
     ## 
     ##                  
     ## class.manual.test No Yes
-    ##               No  38   1
-    ##               Yes 17  19
+    ##               No  40   1
+    ##               Yes 15  19
     ##                                         
-    ##                Accuracy : 0.76          
-    ##                  95% CI : (0.647, 0.851)
+    ##                Accuracy : 0.787         
+    ##                  95% CI : (0.677, 0.873)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.354267      
+    ##     P-Value [Acc > NIR] : 0.18124       
     ##                                         
-    ##                   Kappa : 0.511         
+    ##                   Kappa : 0.554         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.000407      
+    ##  Mcnemar's Test P-Value : 0.00115       
     ##                                         
     ##             Sensitivity : 0.950         
-    ##             Specificity : 0.691         
-    ##          Pos Pred Value : 0.528         
-    ##          Neg Pred Value : 0.974         
+    ##             Specificity : 0.727         
+    ##          Pos Pred Value : 0.559         
+    ##          Neg Pred Value : 0.976         
     ##              Prevalence : 0.267         
     ##          Detection Rate : 0.253         
-    ##    Detection Prevalence : 0.480         
-    ##       Balanced Accuracy : 0.820         
+    ##    Detection Prevalence : 0.453         
+    ##       Balanced Accuracy : 0.839         
     ##                                         
     ##        'Positive' Class : Yes           
     ## 
@@ -2669,6 +2798,33 @@ abline(v=10, col="red")
     there is no extreme outlier
 -   **The Sample Size is Sufficiently Large**: ?
 
+## Observations and interpretations of the Manual model coeffficients:
+
+-   Based on the summary statistics at alpha = 0.05 only age,
+    bonemed_fuYes and bonetreatYes variables are statistically
+    significant.
+
+-   Interpret the statistically significant variables:
+
+-   \_\_\_\_Holding all other variables constant, the odds of a patient
+    having fracture in the first year with a 10 year of increase in age
+    is 10.3594 times higher than the odds for those with lower age.\_\_
+
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year who took bone medication at the follow-up
+    visits is 3.63421 times higher than the odds for those whose did not
+    take the medication at the time of follow-up visits.** Again, this
+    is counter intuitive as we would expect that someone who takes bone
+    medication will have a lower or equal changes of fracture then those
+    who don’t. This indicates that there is a confounding variable that
+    is impacted the treatment in the study.
+
+-   **Holding all other variables constant, the odds of a patient having
+    fracture in the first year who took bone medication at both
+    enrollment and at the follow-up visits is 0.09057 times higher than
+    the odds for those whose did not take the medication at the time of
+    enrollment and follow-up visits.**
+
 ##################################################################################### 
 
 # Objective II
@@ -2690,7 +2846,7 @@ MLogReg.ii = train(
   data = train,
   method = "glm",
   family = "binomial",
-  trControl = cv,
+  trControl = cv.ii,
   metric = "logLoss")
 
 ### Hypothesis testing
@@ -2793,26 +2949,26 @@ print(paste("Manual model with interactions and polynomial terms AIC Score: ", M
 
 ``` r
 ################ Manual ROC Curve ######################################
-manual.roc<-roc(response=test$fracture,predictor=MLogReg.ii.pred.test$Yes,levels=c("No","Yes"))
+manual.roc.ii<-roc(response=test$fracture,predictor=MLogReg.ii.pred.test$Yes,levels=c("No","Yes"))
 ```
 
     ## Setting direction: controls < cases
 
 ``` r
-plot(manual.roc,print.thres="best")
+plot(manual.roc.ii,print.thres="best")
 ```
 
 ![](MSDS_6372_Project2_files/figure-gfm/interaction-1.png)<!-- -->
 
 ``` r
-cutoff.manual = 0.23
+cutoff.manual.ii = 0.234
 
 #Confusion Matrix for manual model
-class.manual.train.ii<-ifelse(MLogReg.ii.pred.train$Yes > cutoff.manual,"Yes","No")
+class.manual.train.ii<-ifelse(MLogReg.ii.pred.train$Yes > cutoff.manual.ii,"Yes","No")
 class.manual.train.ii<-factor(class.manual.train)
 
-class.manual.test.ii<-ifelse(MLogReg.ii.pred.test$Yes > cutoff.manual,"Yes","No")
-class.manual.test.ii<-factor(class.manual.test)
+class.manual.test.ii<-ifelse(MLogReg.ii.pred.test$Yes > cutoff.manual.ii,"Yes","No")
+class.manual.test.ii<-factor(class.manual.test.ii)
 
 confusionMatrix(table(class.manual.train.ii,train$fracture), positive = "Yes")
 ```
@@ -2821,28 +2977,28 @@ confusionMatrix(table(class.manual.train.ii,train$fracture), positive = "Yes")
     ## 
     ##                      
     ## class.manual.train.ii  No Yes
-    ##                   No  189  43
-    ##                   Yes 131  62
-    ##                                          
-    ##                Accuracy : 0.591          
-    ##                  95% CI : (0.542, 0.638) 
-    ##     No Information Rate : 0.753          
-    ##     P-Value [Acc > NIR] : 1              
-    ##                                          
-    ##                   Kappa : 0.141          
-    ##                                          
-    ##  Mcnemar's Test P-Value : 0.0000000000424
-    ##                                          
-    ##             Sensitivity : 0.590          
-    ##             Specificity : 0.591          
-    ##          Pos Pred Value : 0.321          
-    ##          Neg Pred Value : 0.815          
-    ##              Prevalence : 0.247          
-    ##          Detection Rate : 0.146          
-    ##    Detection Prevalence : 0.454          
-    ##       Balanced Accuracy : 0.591          
-    ##                                          
-    ##        'Positive' Class : Yes            
+    ##                   No  201  49
+    ##                   Yes 119  56
+    ##                                         
+    ##                Accuracy : 0.605         
+    ##                  95% CI : (0.556, 0.651)
+    ##     No Information Rate : 0.753         
+    ##     P-Value [Acc > NIR] : 1             
+    ##                                         
+    ##                   Kappa : 0.132         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.000000102   
+    ##                                         
+    ##             Sensitivity : 0.533         
+    ##             Specificity : 0.628         
+    ##          Pos Pred Value : 0.320         
+    ##          Neg Pred Value : 0.804         
+    ##              Prevalence : 0.247         
+    ##          Detection Rate : 0.132         
+    ##    Detection Prevalence : 0.412         
+    ##       Balanced Accuracy : 0.581         
+    ##                                         
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
@@ -2853,26 +3009,26 @@ confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
     ## 
     ##                     
     ## class.manual.test.ii No Yes
-    ##                  No  38   1
-    ##                  Yes 17  19
+    ##                  No  44   3
+    ##                  Yes 11  17
     ##                                         
-    ##                Accuracy : 0.76          
-    ##                  95% CI : (0.647, 0.851)
+    ##                Accuracy : 0.813         
+    ##                  95% CI : (0.707, 0.894)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.354267      
+    ##     P-Value [Acc > NIR] : 0.0718        
     ##                                         
-    ##                   Kappa : 0.511         
+    ##                   Kappa : 0.577         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.000407      
+    ##  Mcnemar's Test P-Value : 0.0614        
     ##                                         
-    ##             Sensitivity : 0.950         
-    ##             Specificity : 0.691         
-    ##          Pos Pred Value : 0.528         
-    ##          Neg Pred Value : 0.974         
+    ##             Sensitivity : 0.850         
+    ##             Specificity : 0.800         
+    ##          Pos Pred Value : 0.607         
+    ##          Neg Pred Value : 0.936         
     ##              Prevalence : 0.267         
-    ##          Detection Rate : 0.253         
-    ##    Detection Prevalence : 0.480         
-    ##       Balanced Accuracy : 0.820         
+    ##          Detection Rate : 0.227         
+    ##    Detection Prevalence : 0.373         
+    ##       Balanced Accuracy : 0.825         
     ##                                         
     ##        'Positive' Class : Yes           
     ## 
@@ -2889,7 +3045,7 @@ Test_Accuracy  = c(Test_Accuracy, MLogReg.ii.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, MLogReg.ii.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, MLogReg.ii.final.test.specificity)
 AIC  = c(AIC, MLogReg.ii$finalModel$aic)
-Threshold = c(Threshold, cutoff.manual)
+Threshold = c(Threshold, cutoff.manual.ii)
 
 ### Visualize VIF
 #MLogReg_ii_VIF = vif(MLogReg.ii$finalModel)
@@ -2956,7 +3112,7 @@ plot(lda.roc,print.thres="best")
 ![](MSDS_6372_Project2_files/figure-gfm/LDA%20QDA-2.png)<!-- -->
 
 ``` r
-cutoff.lda = 0.291
+cutoff.lda = 0.343
 lda.pred.adj.train = ifelse(lda.model.pred.train$posterior[,2] > cutoff.lda, "Yes", "No")
 lda.pred.adj.test = ifelse(lda.model.pred.test$posterior[,2] > cutoff.lda, "Yes", "No")
 
@@ -2968,26 +3124,26 @@ confusionMatrix(table(lda.pred.adj.train,lda.train$fracture), positive = "Yes")
     ## 
     ##                   
     ## lda.pred.adj.train  No Yes
-    ##                No  245  63
-    ##                Yes  75  42
+    ##                No  281  78
+    ##                Yes  39  27
     ##                                        
-    ##                Accuracy : 0.675        
-    ##                  95% CI : (0.628, 0.72)
+    ##                Accuracy : 0.725        
+    ##                  95% CI : (0.68, 0.767)
     ##     No Information Rate : 0.753        
-    ##     P-Value [Acc > NIR] : 1.000        
+    ##     P-Value [Acc > NIR] : 0.918839     
     ##                                        
-    ##                   Kappa : 0.16         
+    ##                   Kappa : 0.155        
     ##                                        
-    ##  Mcnemar's Test P-Value : 0.349        
+    ##  Mcnemar's Test P-Value : 0.000443     
     ##                                        
-    ##             Sensitivity : 0.4000       
-    ##             Specificity : 0.7656       
-    ##          Pos Pred Value : 0.3590       
-    ##          Neg Pred Value : 0.7955       
+    ##             Sensitivity : 0.2571       
+    ##             Specificity : 0.8781       
+    ##          Pos Pred Value : 0.4091       
+    ##          Neg Pred Value : 0.7827       
     ##              Prevalence : 0.2471       
-    ##          Detection Rate : 0.0988       
-    ##    Detection Prevalence : 0.2753       
-    ##       Balanced Accuracy : 0.5828       
+    ##          Detection Rate : 0.0635       
+    ##    Detection Prevalence : 0.1553       
+    ##       Balanced Accuracy : 0.5676       
     ##                                        
     ##        'Positive' Class : Yes          
     ## 
@@ -3000,26 +3156,26 @@ confusionMatrix(table(lda.pred.adj.test,lda.test$fracture), positive = "Yes")
     ## 
     ##                  
     ## lda.pred.adj.test No Yes
-    ##               No  46   7
-    ##               Yes  9  13
+    ##               No  52   9
+    ##               Yes  3  11
     ##                                         
-    ##                Accuracy : 0.787         
-    ##                  95% CI : (0.677, 0.873)
+    ##                Accuracy : 0.84          
+    ##                  95% CI : (0.737, 0.914)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.181         
+    ##     P-Value [Acc > NIR] : 0.0211        
     ##                                         
-    ##                   Kappa : 0.471         
+    ##                   Kappa : 0.548         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.803         
+    ##  Mcnemar's Test P-Value : 0.1489        
     ##                                         
-    ##             Sensitivity : 0.650         
-    ##             Specificity : 0.836         
-    ##          Pos Pred Value : 0.591         
-    ##          Neg Pred Value : 0.868         
+    ##             Sensitivity : 0.550         
+    ##             Specificity : 0.945         
+    ##          Pos Pred Value : 0.786         
+    ##          Neg Pred Value : 0.852         
     ##              Prevalence : 0.267         
-    ##          Detection Rate : 0.173         
-    ##    Detection Prevalence : 0.293         
-    ##       Balanced Accuracy : 0.743         
+    ##          Detection Rate : 0.147         
+    ##    Detection Prevalence : 0.187         
+    ##       Balanced Accuracy : 0.748         
     ##                                         
     ##        'Positive' Class : Yes           
     ## 
@@ -3050,7 +3206,7 @@ AUC_score = c(AUC_score, AUC)
 Test_Accuracy  = c(Test_Accuracy, lda.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, lda.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, lda.final.test.specificity)
-AIC  = c(AIC, 'N/A')
+AIC  = c(AIC, 'NA')
 Threshold = c(Threshold, cutoff.lda)
 
 
@@ -3081,7 +3237,7 @@ plot(qda.roc,print.thres="best")
 ![](MSDS_6372_Project2_files/figure-gfm/LDA%20QDA-4.png)<!-- -->
 
 ``` r
-cutoff.qda = 0.377
+cutoff.qda = 0.289
 qda.pred.adj.train = ifelse(qda.model.pred.train$posterior[,2] > cutoff.qda, "Yes", "No")
 qda.pred.adj.test = ifelse(qda.model.pred.test$posterior[,2] > cutoff.qda, "Yes", "No")
 
@@ -3093,28 +3249,28 @@ confusionMatrix(table(qda.pred.adj.train,qda.train$fracture), positive = "Yes")
     ## 
     ##                   
     ## qda.pred.adj.train  No Yes
-    ##                No  292  83
-    ##                Yes  28  22
-    ##                                        
-    ##                Accuracy : 0.739        
-    ##                  95% CI : (0.694, 0.78)
-    ##     No Information Rate : 0.753        
-    ##     P-Value [Acc > NIR] : 0.769        
-    ##                                        
-    ##                   Kappa : 0.148        
-    ##                                        
-    ##  Mcnemar's Test P-Value : 0.000000297  
-    ##                                        
-    ##             Sensitivity : 0.2095       
-    ##             Specificity : 0.9125       
-    ##          Pos Pred Value : 0.4400       
-    ##          Neg Pred Value : 0.7787       
-    ##              Prevalence : 0.2471       
-    ##          Detection Rate : 0.0518       
-    ##    Detection Prevalence : 0.1176       
-    ##       Balanced Accuracy : 0.5610       
-    ##                                        
-    ##        'Positive' Class : Yes          
+    ##                No  244  63
+    ##                Yes  76  42
+    ##                                         
+    ##                Accuracy : 0.673         
+    ##                  95% CI : (0.626, 0.717)
+    ##     No Information Rate : 0.753         
+    ##     P-Value [Acc > NIR] : 1.000         
+    ##                                         
+    ##                   Kappa : 0.156         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.309         
+    ##                                         
+    ##             Sensitivity : 0.4000        
+    ##             Specificity : 0.7625        
+    ##          Pos Pred Value : 0.3559        
+    ##          Neg Pred Value : 0.7948        
+    ##              Prevalence : 0.2471        
+    ##          Detection Rate : 0.0988        
+    ##    Detection Prevalence : 0.2776        
+    ##       Balanced Accuracy : 0.5813        
+    ##                                         
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
@@ -3125,26 +3281,26 @@ confusionMatrix(table(qda.pred.adj.test,qda.test$fracture), positive = "Yes")
     ## 
     ##                  
     ## qda.pred.adj.test No Yes
-    ##               No  52  11
-    ##               Yes  3   9
+    ##               No  46   7
+    ##               Yes  9  13
     ##                                         
-    ##                Accuracy : 0.813         
-    ##                  95% CI : (0.707, 0.894)
+    ##                Accuracy : 0.787         
+    ##                  95% CI : (0.677, 0.873)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.0718        
+    ##     P-Value [Acc > NIR] : 0.181         
     ##                                         
-    ##                   Kappa : 0.453         
+    ##                   Kappa : 0.471         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.0614        
+    ##  Mcnemar's Test P-Value : 0.803         
     ##                                         
-    ##             Sensitivity : 0.450         
-    ##             Specificity : 0.945         
-    ##          Pos Pred Value : 0.750         
-    ##          Neg Pred Value : 0.825         
+    ##             Sensitivity : 0.650         
+    ##             Specificity : 0.836         
+    ##          Pos Pred Value : 0.591         
+    ##          Neg Pred Value : 0.868         
     ##              Prevalence : 0.267         
-    ##          Detection Rate : 0.120         
-    ##    Detection Prevalence : 0.160         
-    ##       Balanced Accuracy : 0.698         
+    ##          Detection Rate : 0.173         
+    ##    Detection Prevalence : 0.293         
+    ##       Balanced Accuracy : 0.743         
     ##                                         
     ##        'Positive' Class : Yes           
     ## 
@@ -3175,20 +3331,16 @@ AUC_score = c(AUC_score, AUC)
 Test_Accuracy  = c(Test_Accuracy, qda.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, qda.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, qda.final.test.specificity)
-AIC  = c(AIC, 'N/A')
+AIC  = c(AIC, 'NA')
 Threshold = c(Threshold, cutoff.qda)
 ```
 
 ## LDA/QDA Assumptions
 
 ``` r
-### Visualize VIF
-MLogReg.ii_VIF = vif(MLogReg.ii$finalModel)
-barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
-abline(v=10, col="red")
+# contour plot to test Multivariate normality
+# LDA
 ```
-
-![](MSDS_6372_Project2_files/figure-gfm/lda%20qda%20assumptions-1.png)<!-- -->
 
 ## Observations:
 
@@ -3351,30 +3503,234 @@ AUC_score = c(AUC_score, AUC)
 Test_Accuracy  = c(Test_Accuracy, dtree.final.test.accuracy)
 Test_Sensitivity  = c(Test_Sensitivity, dtree.final.test.sensitivity)
 Test_Specificity  = c(Test_Specificity, dtree.final.test.specificity)
-AIC  = c(AIC, 'N/A')
+AIC  = c(AIC, 'NA')
 Threshold = c(Threshold, cutoff.dtree)
 ```
 
 ``` r
 # model summary
 model.sum.df = data.frame()
-model.sum.df = data.frame(Model_name, AUC_score, Test_Accuracy, Test_Sensitivity, Test_Specificity, AIC, Threshold)
-model.sum.df
+model.sum.df = data.frame(Model_name, AUC_score, AIC, Test_Accuracy, Test_Sensitivity, Test_Specificity, Threshold)
+model.sum.df$AIC = format(round(as.numeric(model.sum.df$AIC), 4), nsmall = 4)
 ```
 
-    ##               Model_name AUC_score Test_Accuracy Test_Sensitivity
-    ## 1                  LASSO    0.8300        0.7333             0.85
-    ## 2               Stepwise    0.8300        0.6800             1.00
-    ## 3 Manual/Intuition model    0.8777        0.7600             0.95
-    ## 4          Complex model    0.8918        0.7600             0.95
-    ## 5                    LDA    0.8155        0.7867             0.65
-    ## 6                    QDA    0.7927        0.8133             0.45
-    ## 7          Decision Tree    0.7377        0.6800             0.85
-    ##   Test_Specificity              AIC Threshold
-    ## 1           0.6909 453.841706324798     0.212
-    ## 2           0.5636 447.788567925943     0.159
-    ## 3           0.6909 459.804019178582     0.231
-    ## 4           0.6909 462.139620534403     0.230
-    ## 5           0.8364              N/A     0.291
-    ## 6           0.9455              N/A     0.377
-    ## 7           0.6182              N/A     0.138
+    ## Warning in format(round(as.numeric(model.sum.df$AIC), 4), nsmall = 4): NAs
+    ## introduced by coercion
+
+``` r
+ordered.model.sum.df = model.sum.df[order(-AUC_score),]
+rownames(ordered.model.sum.df) = 1:nrow(ordered.model.sum.df)
+knitr::kable(ordered.model.sum.df, "html")
+```
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Model_name
+</th>
+<th style="text-align:right;">
+AUC_score
+</th>
+<th style="text-align:left;">
+AIC
+</th>
+<th style="text-align:right;">
+Test_Accuracy
+</th>
+<th style="text-align:right;">
+Test_Sensitivity
+</th>
+<th style="text-align:right;">
+Test_Specificity
+</th>
+<th style="text-align:right;">
+Threshold
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Complex model
+</td>
+<td style="text-align:right;">
+0.8918
+</td>
+<td style="text-align:left;">
+462.1396
+</td>
+<td style="text-align:right;">
+0.8133
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.8000
+</td>
+<td style="text-align:right;">
+0.234
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Manual/Intuition model
+</td>
+<td style="text-align:right;">
+0.8777
+</td>
+<td style="text-align:left;">
+459.8040
+</td>
+<td style="text-align:right;">
+0.7867
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+<td style="text-align:right;">
+0.7273
+</td>
+<td style="text-align:right;">
+0.238
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LASSO
+</td>
+<td style="text-align:right;">
+0.8300
+</td>
+<td style="text-align:left;">
+453.8417
+</td>
+<td style="text-align:right;">
+0.7333
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.6909
+</td>
+<td style="text-align:right;">
+0.212
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Stepwise
+</td>
+<td style="text-align:right;">
+0.8300
+</td>
+<td style="text-align:left;">
+447.7886
+</td>
+<td style="text-align:right;">
+0.6800
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.5636
+</td>
+<td style="text-align:right;">
+0.159
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LDA
+</td>
+<td style="text-align:right;">
+0.8155
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.8400
+</td>
+<td style="text-align:right;">
+0.55
+</td>
+<td style="text-align:right;">
+0.9455
+</td>
+<td style="text-align:right;">
+0.343
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+QDA
+</td>
+<td style="text-align:right;">
+0.7927
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.7867
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:right;">
+0.8364
+</td>
+<td style="text-align:right;">
+0.289
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Decision Tree
+</td>
+<td style="text-align:right;">
+0.7377
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.6800
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.6182
+</td>
+<td style="text-align:right;">
+0.138
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+ordered.model.sum.df
+```
+
+    ##               Model_name AUC_score      AIC Test_Accuracy Test_Sensitivity
+    ## 1          Complex model    0.8918 462.1396        0.8133             0.85
+    ## 2 Manual/Intuition model    0.8777 459.8040        0.7867             0.95
+    ## 3                  LASSO    0.8300 453.8417        0.7333             0.85
+    ## 4               Stepwise    0.8300 447.7886        0.6800             1.00
+    ## 5                    LDA    0.8155       NA        0.8400             0.55
+    ## 6                    QDA    0.7927       NA        0.7867             0.65
+    ## 7          Decision Tree    0.7377       NA        0.6800             0.85
+    ##   Test_Specificity Threshold
+    ## 1           0.8000     0.234
+    ## 2           0.7273     0.238
+    ## 3           0.6909     0.212
+    ## 4           0.5636     0.159
+    ## 5           0.9455     0.343
+    ## 6           0.8364     0.289
+    ## 7           0.6182     0.138
