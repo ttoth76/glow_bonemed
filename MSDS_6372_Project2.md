@@ -1,7 +1,7 @@
 MSDS_6372_Project2
 ================
 Tamas Toth
-2022-07-27
+2022-07-28
 
 #### Loading the necessary R libraries for the analysis
 
@@ -146,143 +146,31 @@ bonetreat
 <tbody>
 <tr>
 <td style="text-align:right;">
-244
+44
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:left;">
-No
+2
 </td>
 <td style="text-align:right;">
 62
 </td>
-<td style="text-align:right;">
-74.8
-</td>
-<td style="text-align:right;">
-168
-</td>
-<td style="text-align:right;">
-26.50
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Less
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-72
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-313
-</td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-69
+64
 </td>
 <td style="text-align:right;">
-54.4
+74.4
 </td>
 <td style="text-align:right;">
-158
+171
 </td>
 <td style="text-align:right;">
-21.79
+25.44
 </td>
 <td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-Greater
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-172
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-322
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:right;">
-60
-</td>
-<td style="text-align:right;">
-81.6
-</td>
-<td style="text-align:right;">
-166
-</td>
-<td style="text-align:right;">
-29.61
-</td>
-<td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -303,7 +191,7 @@ Same
 No
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -314,28 +202,28 @@ No
 </tr>
 <tr>
 <td style="text-align:right;">
-287
+275
 </td>
 <td style="text-align:right;">
-5
+2
 </td>
 <td style="text-align:right;">
-301
+53
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-61
+83
 </td>
 <td style="text-align:right;">
-99.8
+90.7
 </td>
 <td style="text-align:right;">
-158
+166
 </td>
 <td style="text-align:right;">
-39.98
+32.91
 </td>
 <td style="text-align:left;">
 No
@@ -353,13 +241,13 @@ No
 Less
 </td>
 <td style="text-align:right;">
-3
+7
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:left;">
-Yes
+No
 </td>
 <td style="text-align:left;">
 No
@@ -370,28 +258,31 @@ No
 </tr>
 <tr>
 <td style="text-align:right;">
-134
+138
 </td>
 <td style="text-align:right;">
-1
+5
 </td>
 <td style="text-align:right;">
-39
+304
 </td>
 <td style="text-align:left;">
 Yes
 </td>
 <td style="text-align:right;">
-76
+67
 </td>
 <td style="text-align:right;">
-95.3
+68.0
 </td>
 <td style="text-align:right;">
-165
+157
 </td>
 <td style="text-align:right;">
-35.00
+27.59
+</td>
+<td style="text-align:left;">
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -400,7 +291,60 @@ No
 No
 </td>
 <td style="text-align:left;">
-Yes
+No
+</td>
+<td style="text-align:left;">
+Less
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+347
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+143
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+58.5
+</td>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+22.85
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
 </td>
 <td style="text-align:left;">
 No
@@ -409,7 +353,63 @@ No
 Greater
 </td>
 <td style="text-align:right;">
-7
+0
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+61.2
+</td>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+23.91
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Same
+</td>
+<td style="text-align:right;">
+1
 </td>
 <td style="text-align:left;">
 No
@@ -1896,10 +1896,25 @@ exp(cbind("Odds ratio" = coef(lasso.mod.final), confint.default(lasso.mod.final,
 # VIF score function
 vif_score = function(model_name)
 {
+  print(model_name)
   vif_values = vif(model_name)[,3]
   barplot(vif_values, main = 'VIF Values', horiz = TRUE, col="blue", xlim = c(0,12))
   abline(v=10, col="red")
   return (vif_values)
+}
+```
+
+``` r
+# Assumptions function
+assumptions = function(model_name)
+{
+  outliers = influenceIndexPlot(model_name)
+
+# Influential point analysis and residual plots
+  residual_plot = residualPlots(model_name)
+
+  studentized = influencePlot(model_name)
+  return ()
 }
 ```
 
@@ -1921,21 +1936,23 @@ lasso.mod.final.pred.train <- predict(lasso.mod.final, newdata = train, type = "
 lasso.mod.final.pred.test <- predict(lasso.mod.final, newdata = test, type = "response")
 
 ################ LASSO ROC Curve ######################################
+lasso.roc<-roc(response=test$fracture,predictor=lasso.mod.final.pred.test,levels=c("No","Yes"))
+```
 
-lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
-roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
-plot(roc.lasso.test,colorize = TRUE)
-abline(a=0, b= 1)
+    ## Setting direction: controls < cases
+
+``` r
+plot(lasso.roc,print.thres="best", main='LASSO ROC curve')
 ```
 
 ![](MSDS_6372_Project2_files/figure-gfm/LASSO%20Predict-1.png)<!-- -->
 
 ``` r
+# Calculate Area Under the Curve and AIC score
 AUC = auc(test$fracture, lasso.mod.final.pred.test)
 ```
 
     ## Setting levels: control = No, case = Yes
-
     ## Setting direction: controls < cases
 
 ``` r
@@ -1951,31 +1968,13 @@ print(paste("LASSO AIC Score: ", AIC(lasso.mod.final)))
     ## [1] "LASSO AIC Score:  453.841706324798"
 
 ``` r
-#alternative approach
-lasso.roc<-roc(response=test$fracture,predictor=lasso.mod.final.pred.test,levels=c("No","Yes"))
-```
-
-    ## Setting direction: controls < cases
-
-``` r
-plot(lasso.roc,print.thres="best") #This graph is nice because the x axis is plotted in terms of specificity rather than FPR
-```
-
-![](MSDS_6372_Project2_files/figure-gfm/LASSO%20Predict-2.png)<!-- -->
-
-``` r
-auc(lasso.roc)
-```
-
-    ## Area under the curve: 0.83
-
-``` r
+#Set cut off value for labels
 cutoff.lasso = 0.212
 
 # Confusion matrix train
 class.lasso.final.train = factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
 
-#Confusion Matrix for LASSO
+#Confusion Matrix for LASSO - Train
 print("Confusion matrix for LASSO TRAINING")
 ```
 
@@ -2014,28 +2013,14 @@ confusionMatrix(table(class.lasso.final.train,train$fracture), positive = "Yes")
     ## 
 
 ``` r
-################ Misclassification rate train ######################################
-#cross.table.lasso.train = table(table(class.lasso.final.train,train$fracture))
-#MCR_lasso.train = (cross.table.lasso.train[2]+cross.table.lasso.train[3])/dim(train)[1]
-misClasificError.lasso.train = mean(class.lasso.final.train != train$fracture)
-print(paste('Misclassification Rate for lasso on training set: ', misClasificError.lasso.train))
+#Confusion Matrix for LASSO - Test
+print("Confusion matrix for LASSO TEST")
 ```
 
-    ## [1] "Misclassification Rate for lasso on training set:  0.392941176470588"
+    ## [1] "Confusion matrix for LASSO TEST"
 
 ``` r
-#####################################################################################################
-
-# Confusion matrix test
 class.lasso.final.test<-factor(ifelse(lasso.mod.final.pred.test>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
-
-#Confusion Matrix for LASSO
-print("Confusion matrix for LASSO TEST with 0.5 cutoff")
-```
-
-    ## [1] "Confusion matrix for LASSO TEST with 0.5 cutoff"
-
-``` r
 confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")
 ```
 
@@ -2068,39 +2053,79 @@ confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")
     ## 
 
 ``` r
-################ Misclassification rate test ######################################
-#cross.table.lasso.test = table(class.lasso.final.test,test$fracture)
-#MCR_lasso.test = (cross.table.lasso.test[2]+cross.table.lasso.test[3])/dim(test)[1]
-#print(paste('Misclassification Rate for LASSO selection on test set: ', MCR_lasso.test))
-misClasificError.lasso.test = mean(class.lasso.final.test != test$fracture)
-print(paste('Misclassification Rate for lasso on test set: ', misClasificError.lasso.test))
+# Create variables to store metrics
+lasso.final.test.accuracy = confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")$overall[1]
+lasso.final.test.sensitivity = confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")$byClass[1]
+lasso.final.test.specificity = confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")$byClass[2]
+
+##### Store model results for comparison ####
+  Model_name = c('LASSO')
+  AUC_score = c(AUC)
+  Test_Accuracy  = c(lasso.final.test.accuracy)
+  Test_Sensitivity  = c(lasso.final.test.sensitivity)
+  Test_Specificity  = c(lasso.final.test.specificity)
+  AIC  = c(AIC(lasso.mod.final))
+  Threshold = c(cutoff.lasso)
 ```
 
-    ## [1] "Misclassification Rate for lasso on test set:  0.266666666666667"
-
-## Assumprions
+## Logistic Regression Assumptions
 
 ``` r
 # Checking logistic regression model assumptions
-
-# The Observations are Independent
-# We can assume that the observations are not coming from repeated measures
-
-#There is No Multicollinearity Among Explanatory Variables
-### Visualize VIF
-#vif_score(lasso.mod)
-
-
-# There are No Extreme Outliers (cooks D)
-#influenceIndexPlot(lasso.mod)
-
-# There is a Linear Relationship Between Explanatory Variables and the Logit of the Response Variable
-
-# Influential point analysis and residual plots
-#residualPlots(lasso.mod)
-#influenceIndexPlot(lasso.mod)
-#influencePlot(lasso.mod)
+vif_score(lasso.mod.final)
 ```
+
+    ## 
+    ## Call:  glm(formula = fracture ~ priorfrac + age + height + bmi + premeno + 
+    ##     momfrac + armassist + smoke + raterisk + fracscore + bonemed + 
+    ##     bonemed_fu + bonetreat, family = binomial(link = "logit"), 
+    ##     data = train)
+    ## 
+    ## Coefficients:
+    ##     (Intercept)     priorfracYes              age           height  
+    ##         0.47205          0.74893          0.04095         -0.03358  
+    ##             bmi       premenoYes       momfracYes     armassistYes  
+    ##         0.00531          0.29685          0.69462          0.57746  
+    ##        smokeYes     rateriskSame  rateriskGreater        fracscore  
+    ##        -0.11603          0.34341          0.66087         -0.07367  
+    ##      bonemedYes    bonemed_fuYes     bonetreatYes  
+    ##         1.34575          1.29039         -2.40163  
+    ## 
+    ## Degrees of Freedom: 424 Total (i.e. Null);  410 Residual
+    ## Null Deviance:       475 
+    ## Residual Deviance: 424   AIC: 454
+
+![](MSDS_6372_Project2_files/figure-gfm/assumtion%20logreg-1.png)<!-- -->
+
+    ##  priorfrac        age     height        bmi    premeno    momfrac  armassist 
+    ##      1.694      4.529      1.088      1.276      1.059      1.344      2.732 
+    ##      smoke   raterisk  fracscore    bonemed bonemed_fu  bonetreat 
+    ##      1.229      1.055      6.097      2.617      2.054      3.235
+
+``` r
+assumptions(lasso.mod.final)
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/assumtion%20logreg-2.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/assumtion%20logreg-3.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/assumtion%20logreg-4.png)<!-- -->
+
+    ##            Test stat Pr(>|Test stat|)
+    ## priorfrac                            
+    ## age             0.02             0.89
+    ## height          0.10             0.75
+    ## bmi             1.77             0.18
+    ## premeno                              
+    ## momfrac                              
+    ## armassist                            
+    ## smoke                                
+    ## raterisk                             
+    ## fracscore       0.35             0.56
+    ## bonemed                              
+    ## bonemed_fu                           
+    ## bonetreat
+
+![](MSDS_6372_Project2_files/figure-gfm/assumtion%20logreg-5.png)<!-- -->
+
+    ## NULL
 
 ## Observations:
 
@@ -2108,31 +2133,13 @@ print(paste('Misclassification Rate for lasso on test set: ', misClasificError.l
 
 -   **The Response Variable is Binary**: ‘Fracture’ as a response
     variable is a factor with binary levels (Yes/No)
-
 -   **Independence**: We can assume that the observations are
     independent
-
 -   **Multicolliearity**: The is no multicollinearity among the
     explanatory variables (VIF values show no multicollinearity)
-
--   **Outliers**: The largest Cooks D value is 0.015 which indicates
-    that there is no extreme outlier
-
+-   **Outliers**: The largest Cooks D value is 0.02 which indicates that
+    there is no extreme outlier
 -   **The Sample Size is Sufficiently Large**: ?
-
--   Sensitivity: The probability that the model predicts a positive
-    outcome for an observation when indeed the outcome is positive. This
-    is also called the “true positive rate.”
-
--   Specificity: The probability that the model predicts a negative
-    outcome for an observation when indeed the outcome is negative. This
-    is also called the “true negative rate.”
-
-## Model scoring
-
-``` r
-## Add misclassification rate
-```
 
 ##################################################################################### 
 
@@ -2279,6 +2286,11 @@ confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes"
     ## 
 
 ``` r
+# Create variables to store metrics
+step.final.test.accuracy = confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")$overall[1]
+step.final.test.sensitivity = confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")$byClass[1]
+step.final.test.specificity = confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")$byClass[2]
+
 #misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
 #print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
 
@@ -2340,6 +2352,85 @@ exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)
     ## bonemed_fuYes      3.58715 1.292440  9.9561
     ## bonetreatYes       0.09230 0.016492  0.5166
 
+``` r
+Model_name = c(Model_name, 'Stepwise')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, step.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, step.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, step.final.test.specificity)
+AIC  = c(AIC, AIC(step.log))
+Threshold = c(Threshold, cutoff.step)
+```
+
+## Logistic Regression Assumptions
+
+``` r
+# Checking logistic regression model assumptions
+vif_score(step.log)
+```
+
+    ## 
+    ## Call:  glm(formula = fracture ~ priorfrac + age + weight + bmi + momfrac + 
+    ##     armassist + raterisk + bonemed + bonemed_fu + bonetreat, 
+    ##     family = binomial(link = "logit"), data = bonemed_df.step)
+    ## 
+    ## Coefficients:
+    ##     (Intercept)     priorfracYes              age           weight  
+    ##         -3.9663           0.6735           0.0238          -0.0442  
+    ##             bmi       momfracYes     armassistYes     rateriskSame  
+    ##          0.1217           0.6283           0.4734           0.3758  
+    ## rateriskGreater       bonemedYes    bonemed_fuYes     bonetreatYes  
+    ##          0.6845           1.3057           1.2774          -2.3827  
+    ## 
+    ## Degrees of Freedom: 424 Total (i.e. Null);  413 Residual
+    ## Null Deviance:       475 
+    ## Residual Deviance: 424   AIC: 448
+
+![](MSDS_6372_Project2_files/figure-gfm/fit%20after%20feature%20selection2-1.png)<!-- -->
+
+    ##  priorfrac        age     weight        bmi    momfrac  armassist   raterisk 
+    ##      1.062      1.162      3.108      3.042      1.021      1.132      1.053 
+    ##    bonemed bonemed_fu  bonetreat 
+    ##      2.631      2.038      3.248
+
+``` r
+assumptions(step.log)
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/fit%20after%20feature%20selection2-2.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/fit%20after%20feature%20selection2-3.png)<!-- -->![](MSDS_6372_Project2_files/figure-gfm/fit%20after%20feature%20selection2-4.png)<!-- -->
+
+    ##            Test stat Pr(>|Test stat|)  
+    ## priorfrac                              
+    ## age             0.13            0.722  
+    ## weight          2.81            0.094 .
+    ## bmi             2.10            0.148  
+    ## momfrac                                
+    ## armassist                              
+    ## raterisk                               
+    ## bonemed                                
+    ## bonemed_fu                             
+    ## bonetreat                              
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+![](MSDS_6372_Project2_files/figure-gfm/fit%20after%20feature%20selection2-5.png)<!-- -->
+
+    ## NULL
+
+## Observations:
+
+## All assumptions are met:
+
+-   **The Response Variable is Binary**: ‘Fracture’ as a response
+    variable is a factor with binary levels (Yes/No)
+-   **Independence**: We can assume that the observations are
+    independent
+-   **Multicolliearity**: The is no multicollinearity among the
+    explanatory variables (VIF values show no multicollinearity)
+-   **Outliers**: The largest Cooks D value is 0.025 which indicates
+    that there is no extreme outlier
+-   **The Sample Size is Sufficiently Large**: ?
+
 ##################################################################################### 
 
 # Manual/Intuition
@@ -2365,15 +2456,6 @@ MLogReg = train(
   trControl = cv,
   metric = "logLoss")
 
-### Visualize VIF
-MLogReg_VIF = vif(MLogReg$finalModel)
-barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
-abline(v=10, col="red")
-```
-
-![](MSDS_6372_Project2_files/figure-gfm/manual%20selection%20prediction-1.png)<!-- -->
-
-``` r
 ### Hypothesis testing
 summary(MLogReg$finalModel)
 ```
@@ -2472,7 +2554,7 @@ manual.roc<-roc(response=test$fracture,predictor=MLogReg.pred.test$Yes,levels=c(
 plot(manual.roc,print.thres="best")
 ```
 
-![](MSDS_6372_Project2_files/figure-gfm/manual%20selection%20prediction-2.png)<!-- -->
+![](MSDS_6372_Project2_files/figure-gfm/manual%20selection%20prediction-1.png)<!-- -->
 
 ``` r
 cutoff.manual = 0.231
@@ -2546,6 +2628,46 @@ confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")
     ##                                         
     ##        'Positive' Class : Yes           
     ## 
+
+``` r
+# Create variables to store metrics
+manual.final.test.accuracy = confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")$overall[1]
+manual.final.test.sensitivity = confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")$byClass[1]
+manual.final.test.specificity = confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'Manual/Intuition model')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, manual.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, manual.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, manual.final.test.specificity)
+AIC  = c(AIC, MLogReg$finalModel$aic)
+Threshold = c(Threshold, cutoff.manual)
+```
+
+## Logistic Regression Assumptions
+
+``` r
+### Visualize VIF
+MLogReg_VIF = vif(MLogReg$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/assumption%20logreg-1.png)<!-- -->
+
+## Observations:
+
+## All assumptions are met:
+
+-   **The Response Variable is Binary**: ‘Fracture’ as a response
+    variable is a factor with binary levels (Yes/No)
+-   **Independence**: We can assume that the observations are
+    independent
+-   **Multicolliearity**: The is no multicollinearity among the
+    explanatory variables (VIF values show no multicollinearity)
+-   **Outliers**: The largest Cooks D value is 0.02 which indicates that
+    there is no extreme outlier
+-   **The Sample Size is Sufficiently Large**: ?
 
 ##################################################################################### 
 
@@ -2756,11 +2878,49 @@ confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
     ## 
 
 ``` r
+# Create variables to store metrics
+MLogReg.ii.final.test.accuracy = confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")$overall[1]
+MLogReg.ii.final.test.sensitivity = confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")$byClass[1]
+MLogReg.ii.final.test.specificity = confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'Complex model')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, MLogReg.ii.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, MLogReg.ii.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, MLogReg.ii.final.test.specificity)
+AIC  = c(AIC, MLogReg.ii$finalModel$aic)
+Threshold = c(Threshold, cutoff.manual)
+
 ### Visualize VIF
 #MLogReg_ii_VIF = vif(MLogReg.ii$finalModel)
 #barplot(MLogReg_ii_VIF, main = 'VIF Values (Custom Logistic Regression with interactions', horiz = TRUE, col="blue", xlim = c(0,12))
 #abline(v=10, col="red")
 ```
+
+## Logistic Regression Assumptions
+
+``` r
+### Visualize VIF
+MLogReg.ii_VIF = vif(MLogReg.ii$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/assumptions-1.png)<!-- -->
+
+## Observations:
+
+## All assumptions are met:
+
+-   **The Response Variable is Binary**: ‘Fracture’ as a response
+    variable is a factor with binary levels (Yes/No)
+-   **Independence**: We can assume that the observations are
+    independent
+-   **Multicolliearity**: The is no multicollinearity among the
+    explanatory variables (VIF values show no multicollinearity)
+-   **Outliers**: The largest Cooks D value is 0.02 which indicates that
+    there is no extreme outlier
+-   **The Sample Size is Sufficiently Large**: ?
 
 ##################################################################################### 
 
@@ -2773,7 +2933,7 @@ confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
 lda.train = train[,-16]
 lda.test = test[,-16]
 
-lda.model = lda(fracture ~age+weight+height+bmi+fracscore, prior = c(.75, .25), data = lda.train)
+lda.model = lda(fracture ~age+weight+height, prior = c(.75, .25), data = lda.train)
 plot(lda.model)
 ```
 
@@ -2808,28 +2968,28 @@ confusionMatrix(table(lda.pred.adj.train,lda.train$fracture), positive = "Yes")
     ## 
     ##                   
     ## lda.pred.adj.train  No Yes
-    ##                No  243  47
-    ##                Yes  77  58
-    ##                                         
-    ##                Accuracy : 0.708         
-    ##                  95% CI : (0.662, 0.751)
-    ##     No Information Rate : 0.753         
-    ##     P-Value [Acc > NIR] : 0.98463       
-    ##                                         
-    ##                   Kappa : 0.284         
-    ##                                         
-    ##  Mcnemar's Test P-Value : 0.00921       
-    ##                                         
-    ##             Sensitivity : 0.552         
-    ##             Specificity : 0.759         
-    ##          Pos Pred Value : 0.430         
-    ##          Neg Pred Value : 0.838         
-    ##              Prevalence : 0.247         
-    ##          Detection Rate : 0.136         
-    ##    Detection Prevalence : 0.318         
-    ##       Balanced Accuracy : 0.656         
-    ##                                         
-    ##        'Positive' Class : Yes           
+    ##                No  245  63
+    ##                Yes  75  42
+    ##                                        
+    ##                Accuracy : 0.675        
+    ##                  95% CI : (0.628, 0.72)
+    ##     No Information Rate : 0.753        
+    ##     P-Value [Acc > NIR] : 1.000        
+    ##                                        
+    ##                   Kappa : 0.16         
+    ##                                        
+    ##  Mcnemar's Test P-Value : 0.349        
+    ##                                        
+    ##             Sensitivity : 0.4000       
+    ##             Specificity : 0.7656       
+    ##          Pos Pred Value : 0.3590       
+    ##          Neg Pred Value : 0.7955       
+    ##              Prevalence : 0.2471       
+    ##          Detection Rate : 0.0988       
+    ##    Detection Prevalence : 0.2753       
+    ##       Balanced Accuracy : 0.5828       
+    ##                                        
+    ##        'Positive' Class : Yes          
     ## 
 
 ``` r
@@ -2840,28 +3000,28 @@ confusionMatrix(table(lda.pred.adj.test,lda.test$fracture), positive = "Yes")
     ## 
     ##                  
     ## lda.pred.adj.test No Yes
-    ##               No  43   7
-    ##               Yes 12  13
-    ##                                        
-    ##                Accuracy : 0.747        
-    ##                  95% CI : (0.633, 0.84)
-    ##     No Information Rate : 0.733        
-    ##     P-Value [Acc > NIR] : 0.456        
-    ##                                        
-    ##                   Kappa : 0.4          
-    ##                                        
-    ##  Mcnemar's Test P-Value : 0.359        
-    ##                                        
-    ##             Sensitivity : 0.650        
-    ##             Specificity : 0.782        
-    ##          Pos Pred Value : 0.520        
-    ##          Neg Pred Value : 0.860        
-    ##              Prevalence : 0.267        
-    ##          Detection Rate : 0.173        
-    ##    Detection Prevalence : 0.333        
-    ##       Balanced Accuracy : 0.716        
-    ##                                        
-    ##        'Positive' Class : Yes          
+    ##               No  46   7
+    ##               Yes  9  13
+    ##                                         
+    ##                Accuracy : 0.787         
+    ##                  95% CI : (0.677, 0.873)
+    ##     No Information Rate : 0.733         
+    ##     P-Value [Acc > NIR] : 0.181         
+    ##                                         
+    ##                   Kappa : 0.471         
+    ##                                         
+    ##  Mcnemar's Test P-Value : 0.803         
+    ##                                         
+    ##             Sensitivity : 0.650         
+    ##             Specificity : 0.836         
+    ##          Pos Pred Value : 0.591         
+    ##          Neg Pred Value : 0.868         
+    ##              Prevalence : 0.267         
+    ##          Detection Rate : 0.173         
+    ##    Detection Prevalence : 0.293         
+    ##       Balanced Accuracy : 0.743         
+    ##                                         
+    ##        'Positive' Class : Yes           
     ## 
 
 ``` r
@@ -2877,14 +3037,28 @@ AUC = auc(lda.test$fracture, lda.prob.test$posterior[,2])
 print(paste("Area Under the Cuve: ", AUC))
 ```
 
-    ## [1] "Area Under the Cuve:  0.778181818181818"
+    ## [1] "Area Under the Cuve:  0.815454545454545"
 
 ``` r
+# Create variables to store metrics
+lda.final.test.accuracy = confusionMatrix(table(lda.pred.adj.test,test$fracture), positive = "Yes")$overall[1]
+lda.final.test.sensitivity = confusionMatrix(table(lda.pred.adj.test,test$fracture), positive = "Yes")$byClass[1]
+lda.final.test.specificity = confusionMatrix(table(lda.pred.adj.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'LDA')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, lda.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, lda.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, lda.final.test.specificity)
+AIC  = c(AIC, 'N/A')
+Threshold = c(Threshold, cutoff.lda)
+
+
 # QDA
 qda.train = train[,-16]
 qda.test = test[,-16]
 
-qda.model = qda(fracture ~age+weight+height+bmi+fracscore, prior = c(.75, .25), data = qda.train)
+qda.model = qda(fracture ~age+weight+height, prior = c(.75, .25), data = qda.train)
 plot(lda.model)
 ```
 
@@ -2919,28 +3093,28 @@ confusionMatrix(table(qda.pred.adj.train,qda.train$fracture), positive = "Yes")
     ## 
     ##                   
     ## qda.pred.adj.train  No Yes
-    ##                No  279  77
-    ##                Yes  41  28
-    ##                                         
-    ##                Accuracy : 0.722         
-    ##                  95% CI : (0.677, 0.764)
-    ##     No Information Rate : 0.753         
-    ##     P-Value [Acc > NIR] : 0.93408       
-    ##                                         
-    ##                   Kappa : 0.157         
-    ##                                         
-    ##  Mcnemar's Test P-Value : 0.00127       
-    ##                                         
-    ##             Sensitivity : 0.2667        
-    ##             Specificity : 0.8719        
-    ##          Pos Pred Value : 0.4058        
-    ##          Neg Pred Value : 0.7837        
-    ##              Prevalence : 0.2471        
-    ##          Detection Rate : 0.0659        
-    ##    Detection Prevalence : 0.1624        
-    ##       Balanced Accuracy : 0.5693        
-    ##                                         
-    ##        'Positive' Class : Yes           
+    ##                No  292  83
+    ##                Yes  28  22
+    ##                                        
+    ##                Accuracy : 0.739        
+    ##                  95% CI : (0.694, 0.78)
+    ##     No Information Rate : 0.753        
+    ##     P-Value [Acc > NIR] : 0.769        
+    ##                                        
+    ##                   Kappa : 0.148        
+    ##                                        
+    ##  Mcnemar's Test P-Value : 0.000000297  
+    ##                                        
+    ##             Sensitivity : 0.2095       
+    ##             Specificity : 0.9125       
+    ##          Pos Pred Value : 0.4400       
+    ##          Neg Pred Value : 0.7787       
+    ##              Prevalence : 0.2471       
+    ##          Detection Rate : 0.0518       
+    ##    Detection Prevalence : 0.1176       
+    ##       Balanced Accuracy : 0.5610       
+    ##                                        
+    ##        'Positive' Class : Yes          
     ## 
 
 ``` r
@@ -2951,26 +3125,26 @@ confusionMatrix(table(qda.pred.adj.test,qda.test$fracture), positive = "Yes")
     ## 
     ##                  
     ## qda.pred.adj.test No Yes
-    ##               No  48  10
-    ##               Yes  7  10
+    ##               No  52  11
+    ##               Yes  3   9
     ##                                         
-    ##                Accuracy : 0.773         
-    ##                  95% CI : (0.662, 0.862)
+    ##                Accuracy : 0.813         
+    ##                  95% CI : (0.707, 0.894)
     ##     No Information Rate : 0.733         
-    ##     P-Value [Acc > NIR] : 0.261         
+    ##     P-Value [Acc > NIR] : 0.0718        
     ##                                         
-    ##                   Kappa : 0.391         
+    ##                   Kappa : 0.453         
     ##                                         
-    ##  Mcnemar's Test P-Value : 0.628         
+    ##  Mcnemar's Test P-Value : 0.0614        
     ##                                         
-    ##             Sensitivity : 0.500         
-    ##             Specificity : 0.873         
-    ##          Pos Pred Value : 0.588         
-    ##          Neg Pred Value : 0.828         
+    ##             Sensitivity : 0.450         
+    ##             Specificity : 0.945         
+    ##          Pos Pred Value : 0.750         
+    ##          Neg Pred Value : 0.825         
     ##              Prevalence : 0.267         
-    ##          Detection Rate : 0.133         
-    ##    Detection Prevalence : 0.227         
-    ##       Balanced Accuracy : 0.686         
+    ##          Detection Rate : 0.120         
+    ##    Detection Prevalence : 0.160         
+    ##       Balanced Accuracy : 0.698         
     ##                                         
     ##        'Positive' Class : Yes           
     ## 
@@ -2988,7 +3162,38 @@ AUC = auc(qda.test$fracture, qda.prob.test$posterior[,2])
 print(paste("Area Under the Cuve: ", AUC))
 ```
 
-    ## [1] "Area Under the Cuve:  0.712727272727273"
+    ## [1] "Area Under the Cuve:  0.792727272727273"
+
+``` r
+# Create variables to store metrics
+qda.final.test.accuracy = confusionMatrix(table(qda.pred.adj.test,test$fracture), positive = "Yes")$overall[1]
+qda.final.test.sensitivity = confusionMatrix(table(qda.pred.adj.test,test$fracture), positive = "Yes")$byClass[1]
+qda.final.test.specificity = confusionMatrix(table(qda.pred.adj.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'QDA')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, qda.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, qda.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, qda.final.test.specificity)
+AIC  = c(AIC, 'N/A')
+Threshold = c(Threshold, cutoff.qda)
+```
+
+## LDA/QDA Assumptions
+
+``` r
+### Visualize VIF
+MLogReg.ii_VIF = vif(MLogReg.ii$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+```
+
+![](MSDS_6372_Project2_files/figure-gfm/lda%20qda%20assumptions-1.png)<!-- -->
+
+## Observations:
+
+-   **Multivariate normality**:
+-   **Equal covariance matrices**:
 
 ##################################################################################### 
 
@@ -3134,3 +3339,42 @@ print(paste("Area Under the Cuve: ", AUC))
 ```
 
     ## [1] "Area Under the Cuve:  0.737727272727273"
+
+``` r
+# Create variables to store metrics
+dtree.final.test.accuracy = confusionMatrix(table(dtree.pred.adj.test,test$fracture), positive = "Yes")$overall[1]
+dtree.final.test.sensitivity = confusionMatrix(table(dtree.pred.adj.test,test$fracture), positive = "Yes")$byClass[1]
+dtree.final.test.specificity = confusionMatrix(table(dtree.pred.adj.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'Decision Tree')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, dtree.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, dtree.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, dtree.final.test.specificity)
+AIC  = c(AIC, 'N/A')
+Threshold = c(Threshold, cutoff.dtree)
+```
+
+``` r
+# model summary
+model.sum.df = data.frame()
+model.sum.df = data.frame(Model_name, AUC_score, Test_Accuracy, Test_Sensitivity, Test_Specificity, AIC, Threshold)
+model.sum.df
+```
+
+    ##               Model_name AUC_score Test_Accuracy Test_Sensitivity
+    ## 1                  LASSO    0.8300        0.7333             0.85
+    ## 2               Stepwise    0.8300        0.6800             1.00
+    ## 3 Manual/Intuition model    0.8777        0.7600             0.95
+    ## 4          Complex model    0.8918        0.7600             0.95
+    ## 5                    LDA    0.8155        0.7867             0.65
+    ## 6                    QDA    0.7927        0.8133             0.45
+    ## 7          Decision Tree    0.7377        0.6800             0.85
+    ##   Test_Specificity              AIC Threshold
+    ## 1           0.6909 453.841706324798     0.212
+    ## 2           0.5636 447.788567925943     0.159
+    ## 3           0.6909 459.804019178582     0.231
+    ## 4           0.6909 462.139620534403     0.230
+    ## 5           0.8364              N/A     0.291
+    ## 6           0.9455              N/A     0.377
+    ## 7           0.6182              N/A     0.138

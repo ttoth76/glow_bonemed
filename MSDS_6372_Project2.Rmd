@@ -715,10 +715,25 @@ exp(cbind("Odds ratio" = coef(lasso.mod.final), confint.default(lasso.mod.final,
 # VIF score function
 vif_score = function(model_name)
 {
+  print(model_name)
   vif_values = vif(model_name)[,3]
   barplot(vif_values, main = 'VIF Values', horiz = TRUE, col="blue", xlim = c(0,12))
   abline(v=10, col="red")
   return (vif_values)
+}
+```
+
+```{r, assumptions function}
+# Assumptions function
+assumptions = function(model_name)
+{
+  outliers = influenceIndexPlot(model_name)
+
+# Influential point analysis and residual plots
+  residual_plot = residualPlots(model_name)
+
+  studentized = influencePlot(model_name)
+  return ()
 }
 ```
 
@@ -737,74 +752,50 @@ lasso.mod.final.pred.train <- predict(lasso.mod.final, newdata = train, type = "
 lasso.mod.final.pred.test <- predict(lasso.mod.final, newdata = test, type = "response")
 
 ################ LASSO ROC Curve ######################################
+lasso.roc<-roc(response=test$fracture,predictor=lasso.mod.final.pred.test,levels=c("No","Yes"))
+plot(lasso.roc,print.thres="best", main='LASSO ROC curve')
 
-lasso.roc.test = prediction(lasso.mod.final.pred.test, test$fracture,label.ordering=c("No","Yes"))
-roc.lasso.test = performance(lasso.roc.test, measure = "tpr", x.measure = "fpr")
-plot(roc.lasso.test,colorize = TRUE)
-abline(a=0, b= 1)
-
+# Calculate Area Under the Curve and AIC score
 AUC = auc(test$fracture, lasso.mod.final.pred.test)
 print(paste("Area Under the Cuve: ", AUC))
 print(paste("LASSO AIC Score: ", AIC(lasso.mod.final)))
 
-#alternative approach
-lasso.roc<-roc(response=test$fracture,predictor=lasso.mod.final.pred.test,levels=c("No","Yes"))
-plot(lasso.roc,print.thres="best") #This graph is nice because the x axis is plotted in terms of specificity rather than FPR
-auc(lasso.roc)
-
+#Set cut off value for labels
 cutoff.lasso = 0.212
 
 # Confusion matrix train
 class.lasso.final.train = factor(ifelse(lasso.mod.final.pred.train>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
 
-#Confusion Matrix for LASSO
+#Confusion Matrix for LASSO - Train
 print("Confusion matrix for LASSO TRAINING")
 confusionMatrix(table(class.lasso.final.train,train$fracture), positive = "Yes")
 
 
-################ Misclassification rate train ######################################
-#cross.table.lasso.train = table(table(class.lasso.final.train,train$fracture))
-#MCR_lasso.train = (cross.table.lasso.train[2]+cross.table.lasso.train[3])/dim(train)[1]
-misClasificError.lasso.train = mean(class.lasso.final.train != train$fracture)
-print(paste('Misclassification Rate for lasso on training set: ', misClasificError.lasso.train))
-#####################################################################################################
-
-# Confusion matrix test
+#Confusion Matrix for LASSO - Test
+print("Confusion matrix for LASSO TEST")
 class.lasso.final.test<-factor(ifelse(lasso.mod.final.pred.test>cutoff.lasso,"Yes","No"),levels=c("No","Yes"))
-
-#Confusion Matrix for LASSO
-print("Confusion matrix for LASSO TEST with 0.5 cutoff")
 confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")
 
-################ Misclassification rate test ######################################
-#cross.table.lasso.test = table(class.lasso.final.test,test$fracture)
-#MCR_lasso.test = (cross.table.lasso.test[2]+cross.table.lasso.test[3])/dim(test)[1]
-#print(paste('Misclassification Rate for LASSO selection on test set: ', MCR_lasso.test))
-misClasificError.lasso.test = mean(class.lasso.final.test != test$fracture)
-print(paste('Misclassification Rate for lasso on test set: ', misClasificError.lasso.test))
+# Create variables to store metrics
+lasso.final.test.accuracy = confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")$overall[1]
+lasso.final.test.sensitivity = confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")$byClass[1]
+lasso.final.test.specificity = confusionMatrix(table(class.lasso.final.test,test$fracture), positive = "Yes")$byClass[2]
+
+##### Store model results for comparison ####
+  Model_name = c('LASSO')
+  AUC_score = c(AUC)
+  Test_Accuracy  = c(lasso.final.test.accuracy)
+  Test_Sensitivity  = c(lasso.final.test.sensitivity)
+  Test_Specificity  = c(lasso.final.test.specificity)
+  AIC  = c(AIC(lasso.mod.final))
+  Threshold = c(cutoff.lasso)
 ```
 
-## Assumprions
-```{r, fit after feature selection2}
+## Logistic Regression Assumptions
+```{r, assumtion logreg}
 # Checking logistic regression model assumptions
-
-# The Observations are Independent
-# We can assume that the observations are not coming from repeated measures
-
-#There is No Multicollinearity Among Explanatory Variables
-### Visualize VIF
-#vif_score(lasso.mod)
-
-
-# There are No Extreme Outliers (cooks D)
-#influenceIndexPlot(lasso.mod)
-
-# There is a Linear Relationship Between Explanatory Variables and the Logit of the Response Variable
-
-# Influential point analysis and residual plots
-#residualPlots(lasso.mod)
-#influenceIndexPlot(lasso.mod)
-#influencePlot(lasso.mod)
+vif_score(lasso.mod.final)
+assumptions(lasso.mod.final)
 ```
 
 
@@ -813,17 +804,8 @@ print(paste('Misclassification Rate for lasso on test set: ', misClasificError.l
 * __The Response Variable is Binary__: 'Fracture' as a response variable is a factor with binary levels (Yes/No)
 * __Independence__: We can assume that the observations are independent
 * __Multicolliearity__: The is no multicollinearity among the explanatory variables (VIF values show no multicollinearity)
-* __Outliers__: The largest Cooks D value is 0.015 which indicates that there is no extreme outlier
+* __Outliers__: The largest Cooks D value is 0.02 which indicates that there is no extreme outlier
 * __The Sample Size is Sufficiently Large__: ?
-
-* Sensitivity: The probability that the model predicts a positive outcome for an observation when indeed the outcome is positive. This is also called the “true positive rate.”
-* Specificity: The probability that the model predicts a negative outcome for an observation when indeed the outcome is negative. This is also called the “true negative rate.”
-
-
-## Model scoring
-```{r model scoring lasso}
-## Add misclassification rate
-```
 
 #####################################################################################
 #                                       Stepwise                                    #
@@ -871,6 +853,10 @@ print("Confusion matrix for Stepwise TEST with 0.5 cutoff")
 confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")
 
 
+# Create variables to store metrics
+step.final.test.accuracy = confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")$overall[1]
+step.final.test.sensitivity = confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")$byClass[1]
+step.final.test.specificity = confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes")$byClass[2]
 
 #misClasificError.stepwise.test = mean(class.stepwise.final.test != test$fracture)
 #print(paste('Misclassification Rate for stepwise on test set: ', misClasificError.stepwise.test))
@@ -880,10 +866,30 @@ confusionMatrix(table(class.stepwise.final.test,test$fracture), positive = "Yes"
 summary(step.log)
 exp(cbind("Odds ratio" = coef(step.log), confint.default(step.log, level = 0.95)))
 
-
-
+Model_name = c(Model_name, 'Stepwise')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, step.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, step.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, step.final.test.specificity)
+AIC  = c(AIC, AIC(step.log))
+Threshold = c(Threshold, cutoff.step)
 ```
 
+## Logistic Regression Assumptions
+```{r, fit after feature selection2}
+# Checking logistic regression model assumptions
+vif_score(step.log)
+assumptions(step.log)
+```
+
+
+## Observations:
+## All assumptions are met:
+* __The Response Variable is Binary__: 'Fracture' as a response variable is a factor with binary levels (Yes/No)
+* __Independence__: We can assume that the observations are independent
+* __Multicolliearity__: The is no multicollinearity among the explanatory variables (VIF values show no multicollinearity)
+* __Outliers__: The largest Cooks D value is 0.025 which indicates that there is no extreme outlier
+* __The Sample Size is Sufficiently Large__: ?
 
 #####################################################################################
 #                                       Manual/Intuition                            #
@@ -907,11 +913,6 @@ MLogReg = train(
   family = "binomial",
   trControl = cv,
   metric = "logLoss")
-
-### Visualize VIF
-MLogReg_VIF = vif(MLogReg$finalModel)
-barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
-abline(v=10, col="red")
 
 ### Hypothesis testing
 summary(MLogReg$finalModel)
@@ -946,7 +947,38 @@ class.manual.test<-factor(class.manual.test)
 confusionMatrix(table(class.manual.train,train$fracture), positive = "Yes")
 confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")
 
+
+# Create variables to store metrics
+manual.final.test.accuracy = confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")$overall[1]
+manual.final.test.sensitivity = confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")$byClass[1]
+manual.final.test.specificity = confusionMatrix(table(class.manual.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'Manual/Intuition model')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, manual.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, manual.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, manual.final.test.specificity)
+AIC  = c(AIC, MLogReg$finalModel$aic)
+Threshold = c(Threshold, cutoff.manual)
 ```
+
+## Logistic Regression Assumptions
+```{r, assumption logreg}
+### Visualize VIF
+MLogReg_VIF = vif(MLogReg$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+```
+
+
+## Observations:
+## All assumptions are met:
+* __The Response Variable is Binary__: 'Fracture' as a response variable is a factor with binary levels (Yes/No)
+* __Independence__: We can assume that the observations are independent
+* __Multicolliearity__: The is no multicollinearity among the explanatory variables (VIF values show no multicollinearity)
+* __Outliers__: The largest Cooks D value is 0.02 which indicates that there is no extreme outlier
+* __The Sample Size is Sufficiently Large__: ?
+
 
 
 #####################################################################################
@@ -1004,12 +1036,43 @@ class.manual.test.ii<-factor(class.manual.test)
 confusionMatrix(table(class.manual.train.ii,train$fracture), positive = "Yes")
 confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
 
+# Create variables to store metrics
+MLogReg.ii.final.test.accuracy = confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")$overall[1]
+MLogReg.ii.final.test.sensitivity = confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")$byClass[1]
+MLogReg.ii.final.test.specificity = confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'Complex model')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, MLogReg.ii.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, MLogReg.ii.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, MLogReg.ii.final.test.specificity)
+AIC  = c(AIC, MLogReg.ii$finalModel$aic)
+Threshold = c(Threshold, cutoff.manual)
+
 ### Visualize VIF
 #MLogReg_ii_VIF = vif(MLogReg.ii$finalModel)
 #barplot(MLogReg_ii_VIF, main = 'VIF Values (Custom Logistic Regression with interactions', horiz = TRUE, col="blue", xlim = c(0,12))
 #abline(v=10, col="red")
 
 ```
+## Logistic Regression Assumptions
+```{r, assumptions}
+### Visualize VIF
+MLogReg.ii_VIF = vif(MLogReg.ii$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+```
+
+
+## Observations:
+## All assumptions are met:
+* __The Response Variable is Binary__: 'Fracture' as a response variable is a factor with binary levels (Yes/No)
+* __Independence__: We can assume that the observations are independent
+* __Multicolliearity__: The is no multicollinearity among the explanatory variables (VIF values show no multicollinearity)
+* __Outliers__: The largest Cooks D value is 0.02 which indicates that there is no extreme outlier
+* __The Sample Size is Sufficiently Large__: ?
+
+
 
 #####################################################################################
 #                                        LDA/QDA                                    #
@@ -1019,7 +1082,7 @@ confusionMatrix(table(class.manual.test.ii,test$fracture), positive = "Yes")
 lda.train = train[,-16]
 lda.test = test[,-16]
 
-lda.model = lda(fracture ~age+weight+height+bmi+fracscore, prior = c(.75, .25), data = lda.train)
+lda.model = lda(fracture ~age+weight+height, prior = c(.75, .25), data = lda.train)
 plot(lda.model)
 
 lda.model.pred.train = predict(lda.model, lda.train)
@@ -1042,12 +1105,25 @@ lda.prob.test = predict(lda.model, lda.test, type = "prob")
 AUC = auc(lda.test$fracture, lda.prob.test$posterior[,2])
 print(paste("Area Under the Cuve: ", AUC))
 
+# Create variables to store metrics
+lda.final.test.accuracy = confusionMatrix(table(lda.pred.adj.test,test$fracture), positive = "Yes")$overall[1]
+lda.final.test.sensitivity = confusionMatrix(table(lda.pred.adj.test,test$fracture), positive = "Yes")$byClass[1]
+lda.final.test.specificity = confusionMatrix(table(lda.pred.adj.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'LDA')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, lda.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, lda.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, lda.final.test.specificity)
+AIC  = c(AIC, 'N/A')
+Threshold = c(Threshold, cutoff.lda)
+
 
 # QDA
 qda.train = train[,-16]
 qda.test = test[,-16]
 
-qda.model = qda(fracture ~age+weight+height+bmi+fracscore, prior = c(.75, .25), data = qda.train)
+qda.model = qda(fracture ~age+weight+height, prior = c(.75, .25), data = qda.train)
 plot(lda.model)
 
 qda.model.pred.train = predict(qda.model, qda.train)
@@ -1070,7 +1146,35 @@ qda.prob.test = predict(qda.model, qda.test, type = "prob")
 AUC = auc(qda.test$fracture, qda.prob.test$posterior[,2])
 print(paste("Area Under the Cuve: ", AUC))
 
+
+# Create variables to store metrics
+qda.final.test.accuracy = confusionMatrix(table(qda.pred.adj.test,test$fracture), positive = "Yes")$overall[1]
+qda.final.test.sensitivity = confusionMatrix(table(qda.pred.adj.test,test$fracture), positive = "Yes")$byClass[1]
+qda.final.test.specificity = confusionMatrix(table(qda.pred.adj.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'QDA')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, qda.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, qda.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, qda.final.test.specificity)
+AIC  = c(AIC, 'N/A')
+Threshold = c(Threshold, cutoff.qda)
+
 ```
+
+## LDA/QDA Assumptions
+```{r, lda qda assumptions}
+### Visualize VIF
+MLogReg.ii_VIF = vif(MLogReg.ii$finalModel)
+barplot(MLogReg_VIF, main = 'VIF Values (Custom Logistic Regression', horiz = TRUE, col="blue", xlim = c(0,12))
+abline(v=10, col="red")
+```
+
+
+## Observations:
+* __Multivariate normality__: 
+* __Equal covariance matrices__: 
+
 
 
 
@@ -1128,7 +1232,28 @@ confusionMatrix(table(dtree.pred.adj.test,dt.test$fracture), positive = "Yes")
 dt.prob.test = predict(dtree.model, dt.test, type = "prob")
 AUC = auc(dt.test$fracture, dt.prob.test$Yes)
 print(paste("Area Under the Cuve: ", AUC))
+
+
+# Create variables to store metrics
+dtree.final.test.accuracy = confusionMatrix(table(dtree.pred.adj.test,test$fracture), positive = "Yes")$overall[1]
+dtree.final.test.sensitivity = confusionMatrix(table(dtree.pred.adj.test,test$fracture), positive = "Yes")$byClass[1]
+dtree.final.test.specificity = confusionMatrix(table(dtree.pred.adj.test,test$fracture), positive = "Yes")$byClass[2]
+
+Model_name = c(Model_name, 'Decision Tree')
+AUC_score = c(AUC_score, AUC)
+Test_Accuracy  = c(Test_Accuracy, dtree.final.test.accuracy)
+Test_Sensitivity  = c(Test_Sensitivity, dtree.final.test.sensitivity)
+Test_Specificity  = c(Test_Specificity, dtree.final.test.specificity)
+AIC  = c(AIC, 'N/A')
+Threshold = c(Threshold, cutoff.dtree)
+
 ```
 
+```{r, model summary}
+# model summary
+model.sum.df = data.frame()
+model.sum.df = data.frame(Model_name, AUC_score, Test_Accuracy, Test_Sensitivity, Test_Specificity, AIC, Threshold)
+model.sum.df
 
+```
 
